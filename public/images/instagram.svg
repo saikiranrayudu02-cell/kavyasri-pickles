@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <radialGradient id="igGlow" cx="25%" cy="105%" r="105%">
+      <stop offset="0%" stop-color="#fdf497"/>
+      <stop offset="10%" stop-color="#fdf497"/>
+      <stop offset="50%" stop-color="#fd5949"/>
+      <stop offset="68%" stop-color="#d6249f"/>
+      <stop offset="100%" stop-color="#285AEB"/>
+    </radialGradient>
+  </defs>
+  <!-- Instagram Gradient Squircle (Zero White Background) -->
+  <rect width="100" height="100" rx="22" fill="url(#igGlow)"/>
+  <!-- Camera Outline -->
+  <rect x="22" y="22" width="56" height="56" rx="16" fill="none" stroke="#FFFFFF" stroke-width="6.5"/>
+  <circle cx="50" cy="50" r="14" fill="none" stroke="#FFFFFF" stroke-width="6.5"/>
+  <circle cx="66" cy="34" r="3.8" fill="#FFFFFF"/>
+</svg>
