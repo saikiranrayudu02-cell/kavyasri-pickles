@@ -69,44 +69,44 @@ export default function HomePage() {
                   <span>Handmade in Small Batches • Zero Preservatives</span>
                 </div>
 
-                <h1 className="animate-fade-in-up stagger-1 font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1c1917] tracking-tight leading-[1.15]">
+                <h1 className="animate-fade-in-up stagger-1 font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#1c1917] tracking-tight leading-[1.15]">
                   Traditional Taste.{' '}
                   <span className="text-[#9e1b1e] block mt-1">Homemade Love.</span>
                 </h1>
 
-                <p className="animate-fade-in-up stagger-2 text-stone-600 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <p className="animate-fade-in-up stagger-2 text-stone-600 text-sm sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
                   Authentic homemade pickles crafted with 70-year-old traditional family recipes, pure cold-pressed oils, sun-cured spices, and carefully selected hand-cut ingredients.
                 </p>
 
-                <div className="animate-fade-in-up stagger-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                <div className="animate-fade-in-up stagger-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
                   <Link
                     href="/shop"
-                    className="w-full sm:w-auto px-8 py-4 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-bold rounded-2xl shadow-lg shadow-red-900/25 flex items-center justify-center gap-2 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] btn-press"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-bold rounded-2xl shadow-lg shadow-red-900/25 flex items-center justify-center gap-2 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] btn-press text-sm sm:text-base"
                   >
                     <span>Shop All Pickles</span>
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Link>
                   <Link
                     href="/shop?category=cat-combos"
-                    className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-stone-50 text-stone-900 font-bold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-sm"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-white hover:bg-stone-50 text-stone-900 font-bold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-xs text-sm sm:text-base"
                   >
                     <span>Explore Gift Combos</span>
                   </Link>
                 </div>
 
                 {/* Trust Highlights */}
-                <div className="animate-fade-in-up stagger-4 grid grid-cols-3 gap-3 pt-6 border-t border-stone-200/80 max-w-md mx-auto lg:mx-0 text-left">
+                <div className="animate-fade-in-up stagger-4 grid grid-cols-3 gap-2 sm:gap-3 pt-6 border-t border-stone-200/80 max-w-md mx-auto lg:mx-0 text-left">
                   <div>
-                    <div className="text-xl font-extrabold text-[#9e1b1e]">70+ Yrs</div>
-                    <div className="text-xs text-stone-500 font-medium">Heirloom Recipe</div>
+                    <div className="text-base xs:text-xl font-extrabold text-[#9e1b1e]">70+ Yrs</div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Heirloom Recipe</div>
                   </div>
                   <div>
-                    <div className="text-xl font-extrabold text-[#d97706]">10,000+</div>
-                    <div className="text-xs text-stone-500 font-medium">Jars Shipped</div>
+                    <div className="text-base xs:text-xl font-extrabold text-[#d97706]">10,000+</div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Jars Shipped</div>
                   </div>
                   <div>
-                    <div className="text-xl font-extrabold text-emerald-700">4.9 ★</div>
-                    <div className="text-xs text-stone-500 font-medium">Customer Rating</div>
+                    <div className="text-base xs:text-xl font-extrabold text-emerald-700">4.9 ★</div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Customer Rating</div>
                   </div>
                 </div>
               </div>

@@ -184,20 +184,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs transition-all border border-stone-200/80 ${
+              className={`flex items-center justify-center gap-1.5 py-2.5 px-2 xs:px-3 rounded-xl font-bold text-[11px] xs:text-xs transition-all border border-stone-200/80 ${
                 isOutOfStock
                   ? 'bg-stone-100 text-stone-400 cursor-not-allowed border-transparent'
                   : 'bg-stone-100/90 hover:bg-stone-200/90 text-stone-800 hover:text-stone-950 active:scale-95'
               }`}
             >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Add to Cart</span>
+              <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">Add to Cart</span>
             </button>
 
             <button
               onClick={handleBuyNow}
               disabled={isOutOfStock}
-              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs text-white transition-all shadow-md active:scale-95 ${
+              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1 py-2.5 px-2 xs:px-3 rounded-xl font-bold text-[11px] xs:text-xs text-white transition-all shadow-md active:scale-95 ${
                 isOutOfStock
                   ? 'bg-stone-300 text-stone-500 cursor-not-allowed shadow-none'
                   : 'bg-linear-to-r from-[#9e1b1e] via-[#b91c1c] to-[#c2410c] hover:from-[#881316] hover:via-[#9e1b1e] hover:to-[#b91c1c] shadow-red-950/20 hover:shadow-lg hover:shadow-red-900/35 hover:-translate-y-0.5'
@@ -208,8 +208,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-out bg-linear-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
               )}
               <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300 drop-shadow-[0_0_6px_rgba(252,211,77,0.85)] group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300 shrink-0" />
-              <span className="tracking-tight">Buy Now</span>
-              <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 group-hover/btn:text-white transition-transform duration-200 shrink-0" />
+              <span className="tracking-tight whitespace-nowrap">Buy Now</span>
+              <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 group-hover/btn:text-white transition-transform duration-200 shrink-0 hidden xs:inline" />
             </button>
           </div>
         </div>

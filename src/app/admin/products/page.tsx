@@ -175,8 +175,9 @@ export default function AdminProductsPage() {
       </div>
 
       {/* Products Table */}
-      <div className="bg-white rounded-3xl border border-stone-200 shadow-2xs overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-stone-200 shadow-2xs overflow-hidden">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-stone-50 text-stone-500 font-semibold border-b border-stone-200">
               <tr>
@@ -277,6 +278,82 @@ export default function AdminProductsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Product Card List View */}
+        <div className="md:hidden divide-y divide-stone-100 p-3">
+          {filtered.map((prod) => (
+            <div key={prod.id} className="py-3 flex flex-col gap-2.5">
+              <div className="flex items-start gap-3">
+                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-stone-100 border border-stone-200 shrink-0">
+                  <Image src={prod.images[0] || '/images/pickles/hero.jpg'} alt={prod.name} fill className="object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <Link
+                    href={`/admin/products/${prod.id}`}
+                    className="font-serif font-bold text-sm text-stone-900 line-clamp-1"
+                  >
+                    {prod.name}
+                  </Link>
+                  <p className="text-[11px] text-stone-500 mt-0.5">{prod.category_name} • {prod.weight}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="font-extrabold text-xs text-stone-900">₹{prod.price}</span>
+                    {prod.mrp > prod.price && (
+                      <span className="text-[10px] text-stone-400 line-through">₹{prod.mrp}</span>
+                    )}
+                    <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
+                      {prod.spice_level}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-1 border-t border-stone-50 text-xs">
+                <div>
+                  {prod.stock_quantity <= 0 ? (
+                    <span className="bg-red-50 text-red-700 font-bold px-2 py-0.5 rounded-full text-[10px] border border-red-200">
+                      Out of Stock
+                    </span>
+                  ) : prod.stock_quantity <= 20 ? (
+                    <span className="bg-amber-50 text-amber-800 font-bold px-2 py-0.5 rounded-full text-[10px] border border-amber-200">
+                      ⚠️ {prod.stock_quantity} left
+                    </span>
+                  ) : (
+                    <span className="bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full text-[10px] border border-emerald-200">
+                      {prod.stock_quantity} in stock
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleToggleActive(prod)}
+                    className={`px-2 py-1 rounded-lg text-[10px] font-bold ${
+                      prod.is_active
+                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        : 'bg-stone-100 text-stone-500'
+                    }`}
+                  >
+                    {prod.is_active ? 'Active' : 'Hidden'}
+                  </button>
+                  <Link
+                    href={`/admin/products/${prod.id}`}
+                    className="p-1.5 text-stone-600 hover:text-[#166534] bg-stone-50 rounded-lg"
+                    title="Edit"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(prod.id, prod.name)}
+                    className="p-1.5 text-red-500 hover:text-red-700 bg-red-50 rounded-lg"
+                    title="Delete"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

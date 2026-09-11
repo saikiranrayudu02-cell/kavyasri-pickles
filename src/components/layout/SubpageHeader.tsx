@@ -14,18 +14,18 @@ export default function SubpageHeader({ title }: { title?: string }) {
   return (
     <>
       <header className="sticky top-0 z-40 bg-[#eba715]/95 backdrop-blur-xl border-b border-[#d4940f] shadow-md transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
           {/* Left: Back to Home button */}
           <Link
             href="/"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-stone-900 font-bold text-xs transition-all border border-stone-900/10 active:scale-95"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-stone-900 font-bold text-xs transition-all border border-stone-900/10 active:scale-95 shrink-0"
           >
             <ArrowLeft className="w-4 h-4 text-[#9e1b1e]" />
             <span className="hidden sm:inline">Back to Home</span>
           </Link>
 
           {/* Center: Brand Logo */}
-          <Link href="/" className="relative w-44 sm:w-52 h-10 transition-transform hover:scale-105">
+          <Link href="/" className="relative w-32 xs:w-40 sm:w-52 h-8 sm:h-10 transition-transform hover:scale-105 shrink-0">
             <Image
               src="/images/logo.svg"
               alt="Kavyasri Pickles"

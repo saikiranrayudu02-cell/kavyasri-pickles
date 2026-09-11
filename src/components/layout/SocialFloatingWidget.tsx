@@ -11,7 +11,7 @@ export default function SocialFloatingWidget() {
   return (
     <aside
       aria-label="Social Quick Connect"
-      className="fixed bottom-6 right-5 sm:right-6 z-40 flex flex-col items-center gap-3 select-none"
+      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-30 flex flex-col items-center gap-2.5 sm:gap-3 select-none"
     >
       {/* 1. Official WhatsApp Squircle (Zero White Background) */}
       <div className="relative group/wa flex items-center">
@@ -25,12 +25,12 @@ export default function SocialFloatingWidget() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative w-12 h-12 sm:w-13 sm:h-13 bg-transparent rounded-[22%] shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:shadow-emerald-500/40 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
+          className="relative w-11 h-11 sm:w-13 sm:h-13 bg-transparent rounded-[22%] shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:shadow-emerald-500/40 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
           aria-label="Chat on WhatsApp (9705222744)"
         >
           {/* Live Online Pulse Dot */}
-          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-stone-900 rounded-full z-10" />
-          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full animate-ping" />
+          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-400 border-2 border-stone-900 rounded-full z-10" />
+          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-400 rounded-full animate-ping" />
 
           <div className="relative w-full h-full overflow-hidden rounded-[22%]">
             <Image
@@ -56,7 +56,7 @@ export default function SocialFloatingWidget() {
           href={INSTAGRAM_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative w-12 h-12 sm:w-13 sm:h-13 bg-transparent rounded-[22%] shadow-xl shadow-rose-950/20 hover:shadow-2xl hover:shadow-rose-500/40 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
+          className="relative w-11 h-11 sm:w-13 sm:h-13 bg-transparent rounded-[22%] shadow-xl shadow-rose-950/20 hover:shadow-2xl hover:shadow-rose-500/40 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
           aria-label="Follow Kavyasri Pickles on Instagram (@kavyasriintiruchulu)"
         >
           <div className="relative w-full h-full overflow-hidden rounded-[22%]">

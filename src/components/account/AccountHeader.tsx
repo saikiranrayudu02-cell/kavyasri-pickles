@@ -112,50 +112,50 @@ export default function AccountHeader({
 
       {/* Profile Hero Card */}
       {user ? (
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-stone-900 via-stone-850 to-stone-900 text-white p-6 sm:p-8 shadow-xl shadow-stone-900/10 border border-stone-800">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-linear-to-br from-stone-900 via-stone-850 to-stone-900 text-white p-4.5 sm:p-8 shadow-xl shadow-stone-900/10 border border-stone-800">
           {/* Subtle Decorative Accents */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-linear-to-bl from-amber-500/15 via-emerald-600/10 to-transparent rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-linear-to-tr from-emerald-500/15 to-transparent rounded-full blur-2xl pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
             {/* Left: Avatar & Identity */}
-            <div className="flex items-center gap-4 sm:gap-6">
-              <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-linear-to-tr from-[#166534] via-[#d97706] to-[#9e1b1e] p-0.5 shadow-lg shadow-amber-900/20">
-                  <div className="w-full h-full bg-stone-900 rounded-[14px] flex items-center justify-center font-serif text-xl sm:text-2xl font-black text-amber-300">
+            <div className="flex items-center gap-3.5 sm:gap-6">
+              <div className="relative shrink-0">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-linear-to-tr from-[#166534] via-[#d97706] to-[#9e1b1e] p-0.5 shadow-lg shadow-amber-900/20">
+                  <div className="w-full h-full bg-stone-900 rounded-[14px] flex items-center justify-center font-serif text-lg sm:text-2xl font-black text-amber-300">
                     {initials}
                   </div>
                 </div>
-                <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full ring-2 ring-stone-900" title="Verified Customer">
-                  <ShieldCheck className="w-3.5 h-3.5" />
+                <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-0.5 sm:p-1 rounded-full ring-2 ring-stone-900" title="Verified Customer">
+                  <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
               </div>
 
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="font-serif text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <h1 className="font-serif text-xl sm:text-3xl font-extrabold text-white tracking-tight truncate">
                     Namaste, {user.name || 'Food Lover'}! 🙏
                   </h1>
                   {isAdmin && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                       <Sparkles className="w-3 h-3" /> Admin
                     </span>
                   )}
                 </div>
-                <p className="text-xs sm:text-sm text-stone-300 mt-1 flex items-center gap-2">
-                  <span>{user.email}</span>
+                <p className="text-xs sm:text-sm text-stone-300 mt-1 flex flex-wrap items-center gap-1 sm:gap-2 truncate">
+                  <span className="truncate">{user.email}</span>
                   {user.phone && (
                     <>
-                      <span className="text-stone-600">•</span>
-                      <span>{user.phone}</span>
+                      <span className="text-stone-600 hidden xs:inline">•</span>
+                      <span className="text-stone-400">{user.phone}</span>
                     </>
                   )}
                 </p>
-                <div className="flex items-center gap-2 mt-2.5">
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-800/50">
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-800/50">
                     🌿 Authentic Heritage Member
                   </span>
-                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-stone-800/80 text-stone-300 border border-stone-700/50 hidden sm:inline-block">
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-stone-800/80 text-stone-300 border border-stone-700/50 hidden md:inline-block">
                     Wood-Pressed Oils Only
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export default function AccountHeader({
             </div>
 
             {/* Right: Actions */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-2 md:pt-0 border-t md:border-t-0 border-stone-800">
               {isAdmin && (
                 <Link
                   href="/admin"

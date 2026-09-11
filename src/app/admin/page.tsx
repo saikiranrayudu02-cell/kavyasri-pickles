@@ -249,7 +249,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Recent Orders (7 cols) */}
-        <div className="lg:col-span-7 bg-white p-6 rounded-3xl border border-stone-200 shadow-2xs space-y-4">
+        <div className="lg:col-span-7 bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-stone-200 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-stone-100 pb-3">
             <h3 className="font-serif font-bold text-base text-stone-900">Recent Customer Orders</h3>
             <Link href="/admin/orders" className="text-xs font-bold text-[#166534] hover:underline">
@@ -257,7 +257,8 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-stone-50 text-stone-500 font-semibold border-b border-stone-100">
                 <tr>
@@ -317,6 +318,58 @@ export default function AdminDashboardPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card List View */}
+          <div className="md:hidden divide-y divide-stone-100">
+            {recentOrders.map((o) => (
+              <div key={o.id} className="py-3 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-xs text-stone-900">{o.id}</span>
+                  <span
+                    className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
+                      o.order_status === 'Delivered'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : o.order_status === 'Shipped'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-amber-100 text-amber-800'
+                    }`}
+                  >
+                    {o.order_status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <div>
+                    <p className="font-bold text-stone-800">{o.customer_name}</p>
+                    <p className="text-[11px] text-stone-400">{o.shipping_address?.city || 'India'}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-extrabold text-stone-900">₹{o.total_amount}</p>
+                    {o.order_status !== 'Delivered' ? (
+                      <button
+                        onClick={() =>
+                          handleQuickStatusChange(
+                            o.id,
+                            o.order_status === 'Pending'
+                              ? 'Confirmed'
+                              : o.order_status === 'Confirmed'
+                              ? 'Processing'
+                              : o.order_status === 'Processing'
+                              ? 'Shipped'
+                              : 'Delivered'
+                          )
+                        }
+                        className="text-[10px] font-bold text-[#166534] hover:underline"
+                      >
+                        Advance →
+                      </button>
+                    ) : (
+                      <span className="text-[10px] text-stone-400">Done</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

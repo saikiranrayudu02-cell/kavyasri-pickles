@@ -226,22 +226,22 @@ export default function CheckoutPage() {
     <div className="min-h-screen flex flex-col bg-[#faf7f2]">
       <SubpageHeader />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-12">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
+          <div className="text-center mb-6 sm:mb-8">
+            <span className="text-[11px] sm:text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
               Secure 256-Bit SSL Checkout
             </span>
-            <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 mt-1">
+            <h1 className="font-serif text-2xl xs:text-3xl sm:text-4xl font-extrabold text-stone-900 mt-1">
               Complete Your Order
             </h1>
           </div>
 
-          <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
             {/* Left Column: Details & Shipping (7 cols) */}
             <div className="lg:col-span-7 space-y-6">
               {/* Step 1: Customer Contact */}
-              <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-stone-200 shadow-2xs space-y-4">
                 <div className="flex items-center gap-2 border-b border-stone-100 pb-3">
                   <span className="w-6 h-6 rounded-full bg-[#9e1b1e] text-white text-xs font-bold flex items-center justify-center">
                     1
@@ -249,8 +249,8 @@ export default function CheckoutPage() {
                   <h3 className="font-serif font-bold text-base text-stone-900">Contact Information</h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="sm:col-span-2">
+                <div className="space-y-3">
+                  <div>
                     <label className="text-xs font-semibold text-stone-700 block mb-1">
                       Full Name *
                     </label>
@@ -259,14 +259,14 @@ export default function CheckoutPage() {
                       required
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Ananya Sharma"
+                      placeholder="e.g. Ananya Sharma"
                       className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
                     />
                   </div>
 
                   <div>
                     <label className="text-xs font-semibold text-stone-700 block mb-1">
-                      Email Address *
+                      Email Address (for invoice & tracking) *
                     </label>
                     <input
                       type="email"
@@ -295,7 +295,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 2: Delivery Address */}
-              <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-stone-200 shadow-2xs space-y-4">
                 <div className="flex items-center gap-2 border-b border-stone-100 pb-3">
                   <span className="w-6 h-6 rounded-full bg-[#9e1b1e] text-white text-xs font-bold flex items-center justify-center">
                     2
@@ -331,7 +331,7 @@ export default function CheckoutPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <label className="text-xs font-semibold text-stone-700 block mb-1">City *</label>
                       <input
@@ -340,7 +340,7 @@ export default function CheckoutPage() {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         placeholder="Hyderabad"
-                        className="w-full px-3 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
                       />
                     </div>
                     <div>
@@ -351,7 +351,7 @@ export default function CheckoutPage() {
                         value={state}
                         onChange={(e) => setState(e.target.value)}
                         placeholder="Telangana"
-                        className="w-full px-3 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
                       />
                     </div>
                     <div>
@@ -362,7 +362,7 @@ export default function CheckoutPage() {
                         value={pincode}
                         onChange={(e) => setPincode(e.target.value)}
                         placeholder="500034"
-                        className="w-full px-3 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
                       />
                     </div>
                   </div>
@@ -370,7 +370,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 3: Payment Method */}
-              <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-stone-200 shadow-2xs space-y-4">
                 <div className="flex items-center gap-2 border-b border-stone-100 pb-3">
                   <span className="w-6 h-6 rounded-full bg-[#9e1b1e] text-white text-xs font-bold flex items-center justify-center">
                     3
@@ -523,26 +523,26 @@ export default function CheckoutPage() {
 
       {/* Razorpay Interactive Sandbox Simulator Modal */}
       {showRazorpayModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-stone-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden border border-stone-200">
             {/* Modal Header */}
-            <div className="bg-[#121c2d] p-5 text-white flex items-center justify-between">
+            <div className="bg-[#121c2d] p-4 sm:p-5 text-white flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-[#2563eb] flex items-center justify-center font-black text-sm">
                   R
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">Razorpay Checkout Sandbox</h3>
+                  <h3 className="font-bold text-xs sm:text-sm">Razorpay Checkout Sandbox</h3>
                   <p className="text-[10px] text-blue-200">Kavyasri Pickles • Order #KP-TEST</p>
                 </div>
               </div>
-              <div className="text-right font-extrabold text-base text-emerald-400">
+              <div className="text-right font-extrabold text-sm sm:text-base text-emerald-400">
                 ₹{total}.00
               </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
               <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900">
                 <p className="font-bold mb-1">Simulated Payment Gateway</p>
                 <p className="text-[11px] text-blue-800">

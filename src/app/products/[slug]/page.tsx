@@ -133,18 +133,18 @@ export default function ProductDetailPage() {
     <div className="min-h-screen flex flex-col bg-[#faf7f2]">
       <SubpageHeader />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-10 pb-28 sm:pb-12">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-stone-500 mb-6">
-          <Link href="/" className="hover:text-[#166534]">Home</Link>
-          <ChevronRight className="w-3 h-3 text-stone-400" />
-          <Link href="/shop" className="hover:text-[#166534]">Shop</Link>
-          <ChevronRight className="w-3 h-3 text-stone-400" />
-          <span className="text-stone-400 truncate max-w-xs">{product.name}</span>
+        <nav className="flex items-center gap-2 text-xs text-stone-500 mb-4 sm:mb-6 overflow-x-auto no-scrollbar">
+          <Link href="/" className="hover:text-[#166534] shrink-0">Home</Link>
+          <ChevronRight className="w-3 h-3 text-stone-400 shrink-0" />
+          <Link href="/shop" className="hover:text-[#166534] shrink-0">Shop</Link>
+          <ChevronRight className="w-3 h-3 text-stone-400 shrink-0" />
+          <span className="text-stone-400 truncate max-w-40 xs:max-w-xs">{product.name}</span>
         </nav>
 
         {/* Top Product Hero: Gallery + Buying Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-stone-200 shadow-sm">
           {/* Gallery Section (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
             <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100 border border-stone-200">
@@ -383,8 +383,8 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Tabs (Description, Ingredients, Storage, Reviews) */}
-        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm">
-          <div className="flex border-b border-stone-200 gap-6 sm:gap-10 overflow-x-auto text-sm font-bold">
+        <div className="mt-8 sm:mt-12 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-stone-200 shadow-sm">
+          <div className="flex border-b border-stone-200 gap-4 sm:gap-10 overflow-x-auto no-scrollbar text-xs sm:text-sm font-bold -mx-1 px-1">
             <button
               onClick={() => setActiveTab('details')}
               className={`pb-3 border-b-2 transition-colors whitespace-nowrap ${
@@ -599,7 +599,7 @@ export default function ProductDetailPage() {
       </main>
 
       {/* Mobile Sticky Buy Now Floating Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-stone-200/90 px-4 py-3 shadow-[0_-8px_25px_rgba(0,0,0,0.08)] flex items-center justify-between gap-3">
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-stone-200/90 px-3.5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-[0_-8px_25px_rgba(0,0,0,0.08)] flex items-center justify-between gap-2.5">
         <div className="min-w-0">
           <p className="text-xs font-bold text-stone-900 truncate">{product.name}</p>
           <div className="flex items-center gap-1.5 mt-0.5">

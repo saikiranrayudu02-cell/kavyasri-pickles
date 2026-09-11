@@ -111,15 +111,15 @@ function ShopContent() {
     <div className="min-h-screen flex flex-col bg-[#faf7f2]">
       <SubpageHeader />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-12">
         {/* Page Header */}
-        <div className="border-b border-stone-200 pb-6 mb-8">
+        <div className="border-b border-stone-200 pb-5 sm:pb-6 mb-6 sm:mb-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
+              <span className="text-[11px] sm:text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
                 Artisanal Pantry
               </span>
-              <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 mt-1">
+              <h1 className="font-serif text-2xl xs:text-3xl sm:text-4xl font-extrabold text-stone-900 mt-1">
                 All Homemade Pickles
               </h1>
               <p className="text-xs sm:text-sm text-stone-500 mt-1">
@@ -128,12 +128,16 @@ function ShopContent() {
             </div>
 
             {/* Mobile Filter Toggle & Sort Dropdown */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
               <button
                 onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-                className="lg:hidden flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-stone-200 text-xs font-bold text-stone-800 shadow-2xs"
+                className={`lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-colors shadow-2xs ${
+                  hasActiveFilters
+                    ? 'bg-[#9e1b1e] text-white border-[#9e1b1e]'
+                    : 'bg-white border-stone-200 text-stone-800'
+                }`}
               >
-                <SlidersHorizontal className="w-4 h-4 text-[#9e1b1e]" />
+                <SlidersHorizontal className="w-3.5 h-3.5" />
                 <span>Filters {hasActiveFilters && '•'}</span>
               </button>
 
@@ -357,14 +361,41 @@ function ShopContent() {
               </span>
             </div>
 
+            {/* Mobile Category Quick Chips */}
+            <div className="lg:hidden mb-4 -mx-1 overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all ${
+                  selectedCategory === 'all'
+                    ? 'bg-[#9e1b1e] text-white shadow-xs'
+                    : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50'
+                }`}
+              >
+                All Pickles ({products.length})
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0 transition-all ${
+                    selectedCategory === cat.id
+                      ? 'bg-[#9e1b1e] text-white shadow-xs'
+                      : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-50'
+                  }`}
+                >
+                  {cat.name} ({products.filter((p) => p.category_id === cat.id).length})
+                </button>
+              ))}
+            </div>
+
             {isLoading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {Array.from({ length: 6 }).map((_, idx) => (
                   <ProductCardSkeleton key={idx} />
                 ))}
               </div>
             ) : filteredProducts.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-stone-200 shadow-sm animate-fade-in-up">
+              <div className="bg-white rounded-3xl p-8 sm:p-12 text-center border border-stone-200 shadow-sm animate-fade-in-up">
                 <div className="w-16 h-16 rounded-full bg-red-50 text-[#9e1b1e] flex items-center justify-center mx-auto mb-4">
                   <Filter className="w-8 h-8" />
                 </div>
@@ -382,7 +413,7 @@ function ShopContent() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {filteredProducts.map((product, idx) => (
                   <div
                     key={product.id}
@@ -396,6 +427,191 @@ function ShopContent() {
             )}
           </div>
         </div>
+
+        {/* Mobile Filter Slide-Over Drawer */}
+        {isMobileFilterOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end">
+            {/* Backdrop */}
+            <div
+              onClick={() => setIsMobileFilterOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+            />
+
+            {/* Bottom Sheet Drawer */}
+            <div className="relative bg-white rounded-t-3xl max-h-[88vh] flex flex-col shadow-2xl z-10 animate-fade-in-up">
+              {/* Handle bar */}
+              <div className="pt-3 pb-1 flex justify-center">
+                <div className="w-12 h-1.5 bg-stone-300 rounded-full" />
+              </div>
+
+              {/* Drawer Header */}
+              <div className="px-5 py-3 border-b border-stone-100 flex items-center justify-between">
+                <div>
+                  <h3 className="font-serif font-bold text-lg text-stone-900">Filters & Refine</h3>
+                  <p className="text-[11px] text-stone-400">Find your ideal traditional pickle</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  {hasActiveFilters && (
+                    <button
+                      onClick={resetFilters}
+                      className="text-xs font-bold text-[#9e1b1e] hover:underline flex items-center gap-1"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      Reset
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setIsMobileFilterOpen(false)}
+                    className="p-1.5 rounded-full text-stone-500 hover:bg-stone-100 transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable Filter Content */}
+              <div className="px-5 py-4 overflow-y-auto space-y-5 flex-1">
+                {/* Search */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase text-stone-500 tracking-wider block mb-1.5">
+                    Search Pickles
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search garlic, mango, prawns..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#9e1b1e]/20"
+                    />
+                    <Search className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase text-stone-500 tracking-wider block mb-1.5">
+                    Category
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => setSelectedCategory('all')}
+                      className={`px-3 py-2 rounded-xl text-xs font-bold text-left transition-all border ${
+                        selectedCategory === 'all'
+                          ? 'bg-[#9e1b1e] text-white border-[#9e1b1e]'
+                          : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
+                      }`}
+                    >
+                      All Pickles ({products.length})
+                    </button>
+                    {categories.map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => setSelectedCategory(cat.id)}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold text-left truncate transition-all border ${
+                          selectedCategory === cat.id
+                            ? 'bg-[#9e1b1e] text-white border-[#9e1b1e]'
+                            : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
+                        }`}
+                      >
+                        {cat.name} ({products.filter((p) => p.category_id === cat.id).length})
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Dietary Filter */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase text-stone-500 tracking-wider block mb-1.5">
+                    Dietary
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['all', 'veg', 'non-veg'] as const).map((diet) => (
+                      <button
+                        key={diet}
+                        onClick={() => setSelectedDietary(diet)}
+                        className={`py-2 px-2 rounded-xl text-xs font-bold capitalize transition-all border ${
+                          selectedDietary === diet
+                            ? 'bg-stone-900 text-white border-stone-900'
+                            : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
+                        }`}
+                      >
+                        {diet === 'all' ? 'All' : diet === 'veg' ? 'Veg 🌱' : 'Non-Veg 🍗'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Spice Level */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase text-stone-500 tracking-wider block mb-1.5">
+                    Spice Heat
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['all', 'Mild', 'Medium', 'Hot', 'Extra Hot'] as const).map((spice) => (
+                      <button
+                        key={spice}
+                        onClick={() => setSelectedSpice(spice)}
+                        className={`text-xs px-3 py-2 rounded-xl font-bold transition-all border ${
+                          selectedSpice === spice
+                            ? 'bg-[#d97706] text-white border-[#d97706]'
+                            : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
+                        }`}
+                      >
+                        {spice === 'all' ? 'Any Heat' : spice}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Price Range Slider */}
+                <div>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label className="text-[11px] font-bold uppercase text-stone-500 tracking-wider">
+                      Max Price: <span className="text-stone-900 font-extrabold text-xs">₹{maxPrice}</span>
+                    </label>
+                  </div>
+                  <input
+                    type="range"
+                    min="150"
+                    max="1500"
+                    step="50"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(Number(e.target.value))}
+                    className="w-full accent-[#9e1b1e] cursor-pointer h-2"
+                  />
+                  <div className="flex justify-between text-[10px] text-stone-400 mt-1">
+                    <span>₹150</span>
+                    <span>₹1500</span>
+                  </div>
+                </div>
+
+                {/* In Stock Only Toggle */}
+                <div className="pt-2 border-t border-stone-100">
+                  <label className="flex items-center justify-between cursor-pointer p-2.5 rounded-xl bg-stone-50 border border-stone-200">
+                    <span className="text-xs font-bold text-stone-800">Show In-Stock Only</span>
+                    <input
+                      type="checkbox"
+                      checked={inStockOnly}
+                      onChange={(e) => setInStockOnly(e.target.checked)}
+                      className="rounded accent-[#9e1b1e] w-4 h-4"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* Sticky Drawer Apply Button */}
+              <div className="p-4 border-t border-stone-100 bg-white pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+                <button
+                  onClick={() => setIsMobileFilterOpen(false)}
+                  className="w-full py-3 bg-[#9e1b1e] hover:bg-[#7f1d1d] active:scale-[0.99] text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-red-900/20"
+                >
+                  Show {filteredProducts.length} Pickles
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

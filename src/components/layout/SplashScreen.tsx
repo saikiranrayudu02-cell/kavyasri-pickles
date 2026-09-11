@@ -147,7 +147,7 @@ export default function SplashScreen() {
           {/* Ornate Plaque Frame */}
           <div className="relative p-1 rounded-3xl bg-linear-to-b from-[#fcd34d] via-[#b45309] to-[#78350f] shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(245,158,11,0.3)]">
             {/* Inner Silk/Parchment Card */}
-            <div className="relative bg-linear-to-b from-[#ffffff] via-[#fffdfa] to-[#fff6e7] px-6 py-6 sm:px-10 sm:py-8 rounded-[22px] overflow-hidden border border-amber-200/60 flex flex-col items-center">
+            <div className="relative bg-linear-to-b from-[#ffffff] via-[#fffdfa] to-[#fff6e7] px-3.5 py-5 xs:px-6 xs:py-6 sm:px-10 sm:py-8 rounded-[22px] overflow-hidden border border-amber-200/60 flex flex-col items-center">
               {/* Shimmer Light Reflection Running Across */}
               <div
                 className="absolute inset-0 bg-linear-to-r from-transparent via-amber-200/25 to-transparent pointer-events-none transform -skew-x-20 animate-shimmer"
@@ -158,7 +158,7 @@ export default function SplashScreen() {
               {/* Top-Left */}
               <svg
                 viewBox="0 0 24 24"
-                className="absolute top-2 left-2 w-5 h-5 text-amber-600/80 pointer-events-none"
+                className="absolute top-2 left-2 w-4 h-4 sm:w-5 sm:h-5 text-amber-600/80 pointer-events-none"
               >
                 <path d="M2 18V6C2 3.8 3.8 2 6 2H18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
                 <circle cx="5" cy="5" r="1.5" fill="currentColor" />
@@ -166,7 +166,7 @@ export default function SplashScreen() {
               {/* Top-Right */}
               <svg
                 viewBox="0 0 24 24"
-                className="absolute top-2 right-2 w-5 h-5 text-amber-600/80 pointer-events-none"
+                className="absolute top-2 right-2 w-4 h-4 sm:w-5 sm:h-5 text-amber-600/80 pointer-events-none"
               >
                 <path d="M22 18V6C22 3.8 20.2 2 18 2H6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
                 <circle cx="19" cy="5" r="1.5" fill="currentColor" />
@@ -174,7 +174,7 @@ export default function SplashScreen() {
               {/* Bottom-Left */}
               <svg
                 viewBox="0 0 24 24"
-                className="absolute bottom-2 left-2 w-5 h-5 text-amber-600/80 pointer-events-none"
+                className="absolute bottom-2 left-2 w-4 h-4 sm:w-5 sm:h-5 text-amber-600/80 pointer-events-none"
               >
                 <path d="M2 6V18C2 20.2 3.8 22 6 22H18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
                 <circle cx="5" cy="19" r="1.5" fill="currentColor" />
@@ -182,14 +182,14 @@ export default function SplashScreen() {
               {/* Bottom-Right */}
               <svg
                 viewBox="0 0 24 24"
-                className="absolute bottom-2 right-2 w-5 h-5 text-amber-600/80 pointer-events-none"
+                className="absolute bottom-2 right-2 w-4 h-4 sm:w-5 sm:h-5 text-amber-600/80 pointer-events-none"
               >
                 <path d="M22 6V18C22 20.2 20.2 22 18 22H6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
                 <circle cx="19" cy="19" r="1.5" fill="currentColor" />
               </svg>
 
               {/* Brand Logo with 100% Crisp Scaling */}
-              <div className="relative w-72 sm:w-88 h-18 sm:h-22 transition-transform duration-700">
+              <div className="relative w-48 xs:w-64 sm:w-88 h-12 xs:h-16 sm:h-22 transition-transform duration-700">
                 <Image
                   src="/images/logo.svg"
                   alt="Kavyasri Pickles Logo"
@@ -200,10 +200,10 @@ export default function SplashScreen() {
               </div>
 
               {/* Plaque Bottom Ribbon Accent */}
-              <div className="mt-3 sm:mt-4 pt-2.5 border-t border-amber-900/15 w-full flex items-center justify-center gap-2 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#7f1d1d]">
-                <span>Pure Wood-Pressed Oil</span>
+              <div className="mt-2.5 sm:mt-4 pt-2 border-t border-amber-900/15 w-full flex items-center justify-center gap-1.5 xs:gap-2 text-[9px] xs:text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider xs:tracking-widest text-[#7f1d1d]">
+                <span>Wood-Pressed</span>
                 <span className="text-amber-500">•</span>
-                <span>Sun-Cured Spices</span>
+                <span>Sun-Cured</span>
                 <span className="text-amber-500">•</span>
                 <span>Zero Chemicals</span>
               </div>

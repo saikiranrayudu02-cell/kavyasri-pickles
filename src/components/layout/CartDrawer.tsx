@@ -63,7 +63,7 @@ export default function CartDrawer() {
         onClick={() => setIsCartDrawerOpen(false)}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-[#faf7f2]">
@@ -171,10 +171,10 @@ export default function CartDrawer() {
 
                     {/* Quantity Stepper */}
                     <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center border border-stone-300 rounded-lg overflow-hidden bg-white">
+                      <div className="flex items-center border border-stone-300 rounded-xl overflow-hidden bg-white">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 px-2 text-stone-600 hover:bg-stone-100 transition-colors"
+                          className="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 active:bg-stone-200 transition-colors"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="w-3.5 h-3.5" />
@@ -185,7 +185,7 @@ export default function CartDrawer() {
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           disabled={item.quantity >= item.max_stock}
-                          className="p-1 px-2 text-stone-600 hover:bg-stone-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                          className="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 active:bg-stone-200 disabled:opacity-30 disabled:pointer-events-none transition-colors"
                           aria-label="Increase quantity"
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -204,7 +204,7 @@ export default function CartDrawer() {
 
           {/* Footer & Checkout Area */}
           {items.length > 0 && (
-            <div className="p-4 border-t border-stone-200 bg-[#faf7f2] space-y-3.5">
+            <div className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] border-t border-stone-200 bg-[#faf7f2] space-y-3.5">
               {/* Coupon Code Field */}
               {appliedCoupon ? (
                 <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
