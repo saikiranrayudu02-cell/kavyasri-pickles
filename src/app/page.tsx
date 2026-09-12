@@ -209,7 +209,7 @@ export default function HomePage() {
         </section>
 
         {/* WHY KAVYASRI PICKLES? (Brand USP) */}
-        <section className="py-20 bg-gradient-to-b from-[#faf7f2] via-[#f5efe4] to-[#faf7f2] border-b border-[#ede5d8] relative overflow-hidden">
+        <section className="py-20 bg-linear-to-b from-[#faf7f2] via-[#f5efe4] to-[#faf7f2] border-b border-[#ede5d8] relative overflow-hidden">
           {/* Subtle Ambient Background Glows */}
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 right-10 w-80 h-80 bg-red-200/15 rounded-full blur-3xl pointer-events-none" />
@@ -224,7 +224,7 @@ export default function HomePage() {
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight">
                 Why Our Pickles Taste Like Home
               </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#9e1b1e] to-transparent mx-auto my-4" />
+              <div className="w-16 h-0.5 bg-linear-to-r from-transparent via-[#9e1b1e] to-transparent mx-auto my-4" />
               <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
                 We refuse to cut corners. No commercial chemicals, no artificial acidity, and no shortcuts.
               </p>
@@ -234,10 +234,10 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 reveal-on-scroll">
               {/* Card 1 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#9e1b1e] group-hover:bg-[#9e1b1e] group-hover:text-white group-hover:border-[#9e1b1e] transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <Award className="w-6 h-6 stroke-[2]" />
+                    <Award className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">01</span>
                 </div>
@@ -251,10 +251,10 @@ export default function HomePage() {
 
               {/* Card 2 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#d97706] group-hover:bg-[#d97706] group-hover:text-white group-hover:border-[#d97706] transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <Leaf className="w-6 h-6 stroke-[2]" />
+                    <Leaf className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">02</span>
                 </div>
@@ -268,10 +268,10 @@ export default function HomePage() {
 
               {/* Card 3 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-rose-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-rose-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-emerald-700 group-hover:bg-emerald-700 group-hover:text-white group-hover:border-emerald-700 transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <HeartHandshake className="w-6 h-6 stroke-[2]" />
+                    <HeartHandshake className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">03</span>
                 </div>
@@ -285,10 +285,10 @@ export default function HomePage() {
 
               {/* Card 4 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <Sun className="w-6 h-6 stroke-[2]" />
+                    <Sun className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">04</span>
                 </div>
@@ -302,10 +302,10 @@ export default function HomePage() {
 
               {/* Card 5 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-sky-700 group-hover:bg-sky-700 group-hover:text-white group-hover:border-sky-700 transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <PackageCheck className="w-6 h-6 stroke-[2]" />
+                    <PackageCheck className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">05</span>
                 </div>
@@ -319,10 +319,10 @@ export default function HomePage() {
 
               {/* Card 6 */}
               <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="flex items-start justify-between mb-5">
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-purple-700 group-hover:bg-purple-700 group-hover:text-white group-hover:border-purple-700 transition-all duration-300 shadow-sm group-hover:scale-110">
-                    <Truck className="w-6 h-6 stroke-[2]" />
+                    <Truck className="w-6 h-6 stroke-2" />
                   </div>
                   <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">06</span>
                 </div>

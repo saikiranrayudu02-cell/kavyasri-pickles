@@ -365,7 +365,7 @@ export default function Navbar() {
           <>
             {/* Mobile Menu Backdrop */}
             <div
-              className="fixed inset-0 top-[57px] bg-black/60 backdrop-blur-xs z-30 lg:hidden"
+              className="fixed inset-0 top-14 bg-black/60 backdrop-blur-xs z-30 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
               onTouchMove={(e) => e.preventDefault()}
               style={{ touchAction: 'none' }}
