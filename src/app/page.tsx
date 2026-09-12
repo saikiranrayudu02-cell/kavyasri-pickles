@@ -153,9 +153,9 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   href={`/shop?category=${cat.id}`}
-                  className="group flex flex-col items-center text-center p-4 rounded-2xl bg-[#faf7f2] hover:bg-amber-50/60 border border-stone-200/80 hover:border-[#d97706] shadow-2xs hover:shadow-lg transition-all duration-300 card-hover"
+                  className="group flex flex-col items-center text-center p-3 xs:p-4 rounded-2xl bg-[#faf7f2] hover:bg-amber-50/60 border border-stone-200/80 hover:border-[#d97706] shadow-2xs hover:shadow-lg transition-all duration-300 card-hover"
                 >
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden mb-3 border-2 border-amber-200/80 group-hover:border-[#9e1b1e] transition-colors shadow-inner">
+                  <div className="relative w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden mb-2.5 sm:mb-3 border-2 border-amber-200/80 group-hover:border-[#9e1b1e] transition-colors shadow-inner shrink-0">
                     <Image
                       src={cat.image_url}
                       alt={cat.name}

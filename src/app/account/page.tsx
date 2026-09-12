@@ -118,72 +118,72 @@ export default function AccountDashboardPage() {
         />
 
         {/* 4 Stat Overview Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-10">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 xs:p-4 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider truncate">
                 Total Orders
               </span>
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#166534] flex items-center justify-center">
-                <Package className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 text-[#166534] flex items-center justify-center shrink-0">
+                <Package className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="font-serif text-2xl sm:text-3xl font-extrabold text-stone-900">
+            <div className="font-serif text-xl sm:text-3xl font-extrabold text-stone-900">
               {loading ? '...' : orders.length}
             </div>
-            <p className="text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium">
-              <Sparkles className="w-3 h-3 text-amber-500" /> Lifetime jar purchases
+            <p className="text-[10px] sm:text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium truncate">
+              <Sparkles className="w-3 h-3 text-amber-500 shrink-0" /> <span className="truncate">Lifetime orders</span>
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 xs:p-4 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider truncate">
                 In Transit
               </span>
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                <Truck className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+                <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="font-serif text-2xl sm:text-3xl font-extrabold text-stone-900">
+            <div className="font-serif text-xl sm:text-3xl font-extrabold text-stone-900">
               {loading ? '...' : activeDeliveries}
             </div>
-            <p className="text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium">
-              <Clock className="w-3 h-3 text-blue-500" /> Active shipments
+            <p className="text-[10px] sm:text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium truncate">
+              <Clock className="w-3 h-3 text-blue-500 shrink-0" /> <span className="truncate">Active shipments</span>
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
-                Delivery Places
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 xs:p-4 sm:p-6 border border-stone-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-stone-500 uppercase tracking-wider truncate">
+                Saved Places
               </span>
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
-                <MapPin className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="font-serif text-2xl sm:text-3xl font-extrabold text-stone-900">
+            <div className="font-serif text-xl sm:text-3xl font-extrabold text-stone-900">
               {loading ? '...' : addressCount}
             </div>
-            <p className="text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium">
-              Saved for 1-click checkout
+            <p className="text-[10px] sm:text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium truncate">
+              <span className="truncate">1-click checkout</span>
             </p>
           </div>
 
-          <div className="bg-linear-to-br from-amber-500/10 via-emerald-600/10 to-transparent rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-amber-300/60 shadow-xs hover:shadow-md transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-amber-900 uppercase tracking-wider">
-                Member Tier
+          <div className="bg-linear-to-br from-amber-500/10 via-emerald-600/10 to-transparent rounded-2xl sm:rounded-3xl p-3.5 xs:p-4 sm:p-6 border border-amber-300/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-amber-900 uppercase tracking-wider truncate">
+                Club Tier
               </span>
-              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
-                <Flame className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-            <div className="font-serif text-xl sm:text-2xl font-extrabold text-stone-900">
-              Pickle Connoisseur
+            <div className="font-serif text-base xs:text-lg sm:text-2xl font-extrabold text-stone-900 truncate">
+              Connoisseur
             </div>
-            <p className="text-[11px] text-stone-600 mt-1 font-medium">
-              Zero Preservatives Fan
+            <p className="text-[10px] sm:text-[11px] text-stone-600 mt-1 font-medium truncate">
+              Zero Preservatives
             </p>
           </div>
         </div>
@@ -427,45 +427,45 @@ export default function AccountDashboardPage() {
         </div>
 
         {/* Quality Commitment Ribbon */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-xs">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 mx-auto md:mx-0">
+        <div className="bg-white rounded-3xl p-5 sm:p-8 border border-stone-200/80 shadow-xs">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <div className="flex items-center gap-4 text-left p-3.5 sm:p-0 rounded-2xl bg-[#faf7f2]/80 sm:bg-transparent border sm:border-0 border-stone-200/60">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
                 <Flame className="w-6 h-6" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-serif font-bold text-sm text-stone-900">
                   Wood-Pressed Groundnut Oil
                 </h4>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                   Extracted traditionally for rich aroma & natural preservation.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0 mx-auto md:mx-0">
+            <div className="flex items-center gap-4 text-left p-3.5 sm:p-0 rounded-2xl bg-[#faf7f2]/80 sm:bg-transparent border sm:border-0 border-stone-200/60">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-serif font-bold text-sm text-stone-900">
                   Zero Preservatives & Colors
                 </h4>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                   100% clean, pure ingredients just like mom makes at home.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-800 flex items-center justify-center shrink-0 mx-auto md:mx-0">
+            <div className="flex items-center gap-4 text-left p-3.5 sm:p-0 rounded-2xl bg-[#faf7f2]/80 sm:bg-transparent border sm:border-0 border-stone-200/60">
+              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-800 flex items-center justify-center shrink-0">
                 <Truck className="w-6 h-6" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-serif font-bold text-sm text-stone-900">
                   All-India Safe Shipping
                 </h4>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">
                   Triple-layer leak-proof seal for fresh doorstep delivery.
                 </p>
               </div>
