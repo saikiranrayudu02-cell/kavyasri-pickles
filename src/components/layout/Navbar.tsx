@@ -88,54 +88,56 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Ticker Announcement Bar */}
-      <div className="bg-[#dba32b] text-stone-950 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2 truncate">
-            <span className="bg-black text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
-              Festive Offer
-            </span>
-            <span className="truncate font-bold text-stone-950">
-              Free Express Shipping on all orders above ₹499 • Authentic Handcrafted Indian Pickles
-            </span>
-          </div>
+      {/* Sticky Top Navigation Wrapper */}
+      <div className="sticky top-0 z-40 w-full">
+        {/* Top Ticker Announcement Bar */}
+        <div className="bg-[#dba32b] text-stone-950 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 truncate">
+              <span className="bg-black text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
+                Festive Offer
+              </span>
+              <span className="truncate font-bold text-stone-950">
+                Free Express Shipping on all orders above ₹499 • Authentic Handcrafted Indian Pickles
+              </span>
+            </div>
 
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
-            {isAdmin ? (
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1 text-[11px] bg-black text-white font-bold px-2.5 py-0.8 rounded-md hover:bg-stone-800 transition-colors shadow-xs"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                <span>Admin Panel</span>
-              </Link>
-            ) : user ? (
-              <Link
-                href="/account"
-                className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold truncate max-w-37.5"
-              >
-                <span className="truncate">My Account ({user.name})</span>
-              </Link>
-            ) : (
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold"
-              >
-                <span>Customer Login</span>
-              </Link>
-            )}
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
+              {isAdmin ? (
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center gap-1 text-[11px] bg-black text-white font-bold px-2.5 py-0.8 rounded-md hover:bg-stone-800 transition-colors shadow-xs"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Admin Panel</span>
+                </Link>
+              ) : user ? (
+                <Link
+                  href="/account"
+                  className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold truncate max-w-37.5"
+                >
+                  <span className="truncate">My Account ({user.name})</span>
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold"
+                >
+                  <span>Customer Login</span>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Sticky Header */}
-      <header
-        className={`sticky top-0 z-40 border-b py-2 sm:py-3 transition-[background-color,box-shadow,border-color] duration-200 ${
-          isScrolled
-            ? 'bg-[#eba715]/95 backdrop-blur-xl shadow-md shadow-amber-900/10 border-[#d97706]/40'
-            : 'bg-[#eba715] border-[#d97706]/20'
-        }`}
-      >
+        {/* Main Header */}
+        <header
+          className={`border-b py-2 sm:py-3 transition-[background-color,box-shadow,border-color] duration-200 ${
+            isScrolled
+              ? 'bg-[#eba715]/95 backdrop-blur-xl shadow-md shadow-amber-900/10 border-[#d97706]/40'
+              : 'bg-[#eba715] border-[#d97706]/20'
+          }`}
+        >
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1 sm:gap-4">
           {/* Left: Mobile Menu Toggle & Brand Logo */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -455,6 +457,7 @@ export default function Navbar() {
           </div>
         )}
       </header>
+      </div>
 
       {/* Dynamic Flash Updates Ticker Bar — strictly on home screen only */}
       {pathname === '/' && <FlashUpdateBar />}
