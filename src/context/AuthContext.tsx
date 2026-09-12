@@ -3,7 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 
-export const PRIMARY_ADMIN_EMAIL = 'admin@kavyasripickles.com';
+export const PRIMARY_ADMIN_EMAIL = 'kavya123@gmail.com';
+export const PRIMARY_ADMIN_PASSWORD = 'kavya1234';
 
 export interface UserProfile {
   id: string;
@@ -17,7 +18,7 @@ interface AuthContextType {
   user: UserProfile | null;
   isAdmin: boolean;
   isLoading: boolean;
-  login: (email: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   signup: (name: string, email: string, phone: string) => Promise<boolean>;
   logout: () => void;
   updateProfile: (data: Partial<UserProfile>) => Promise<boolean>;
@@ -51,11 +52,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     const cleanEmail = email.trim().toLowerCase();
     const isSingleAdmin = cleanEmail === PRIMARY_ADMIN_EMAIL;
     const assignedRole: 'customer' | 'admin' = isSingleAdmin ? 'admin' : 'customer';
+
+    // Validate admin password
+    if (isSingleAdmin && password !== PRIMARY_ADMIN_PASSWORD) {
+      setIsLoading(false);
+      return false;
+    }
+
+    // For regular users, just ensure a non-empty password
+    if (!password.trim()) {
+      setIsLoading(false);
+      return false;
+    }
 
     try {
       if (isSupabaseConfigured && supabase) {

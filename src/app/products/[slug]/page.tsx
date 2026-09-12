@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf7f2]">
+    <div className="min-h-screen flex flex-col bg-[#faf7f2] pb-16 sm:pb-0">
       <SubpageHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-10 pb-28 sm:pb-12">

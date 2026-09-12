@@ -337,6 +337,8 @@ function CheckoutContent() {
                     </label>
                     <input
                       type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -363,6 +365,7 @@ function CheckoutContent() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="street-address"
                       required
                       value={addressLine1}
                       onChange={(e) => setAddressLine1(e.target.value)}
@@ -389,6 +392,7 @@ function CheckoutContent() {
                       <label className="text-xs font-semibold text-stone-700 block mb-1">City *</label>
                       <input
                         type="text"
+                        autoComplete="address-level2"
                         required
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
@@ -400,6 +404,7 @@ function CheckoutContent() {
                       <label className="text-xs font-semibold text-stone-700 block mb-1">State *</label>
                       <input
                         type="text"
+                        autoComplete="address-level1"
                         required
                         value={state}
                         onChange={(e) => setState(e.target.value)}
@@ -411,6 +416,8 @@ function CheckoutContent() {
                       <label className="text-xs font-semibold text-stone-700 block mb-1">Pincode *</label>
                       <input
                         type="text"
+                        inputMode="numeric"
+                        autoComplete="postal-code"
                         required
                         value={pincode}
                         onChange={(e) => setPincode(e.target.value)}

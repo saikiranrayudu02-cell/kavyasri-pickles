@@ -207,7 +207,7 @@ export default function CartDrawer() {
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           className="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 active:bg-stone-200 transition-colors"
-                          aria-label="Decrease quantity"
+                          aria-label={`Decrease quantity for ${item.product_name}`}
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
@@ -218,7 +218,7 @@ export default function CartDrawer() {
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           disabled={item.quantity >= item.max_stock}
                           className="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 active:bg-stone-200 disabled:opacity-30 disabled:pointer-events-none transition-colors"
-                          aria-label="Increase quantity"
+                          aria-label={`Increase quantity for ${item.product_name}`}
                         >
                           <Plus className="w-3.5 h-3.5" />
                         </button>

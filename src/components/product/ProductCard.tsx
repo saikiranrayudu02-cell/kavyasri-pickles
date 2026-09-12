@@ -165,15 +165,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.variants && product.variants.length > 1 && (
             <div className="flex items-center gap-1.5 mt-3">
               <span className="text-[11px] font-medium text-stone-400">Pack:</span>
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-1.5">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.id}
                     onClick={() => setSelectedWeight(variant.weight)}
-                    className={`text-xs px-2 py-0.5 rounded-md font-semibold transition-all ${
+                    className={`text-xs px-2.5 py-1 rounded-lg font-semibold transition-all min-h-7 ${
                       selectedWeight === variant.weight
                         ? 'bg-[#9e1b1e] text-white shadow-xs'
-                        : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                        : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                     }`}
                   >
                     {variant.weight}
@@ -201,20 +201,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`flex items-center justify-center gap-1.5 py-2.5 px-2 xs:px-3 rounded-xl font-bold text-[11px] xs:text-xs transition-all border border-stone-200/80 ${
+              className={`flex items-center justify-center gap-1.5 py-3 px-2 xs:px-3 rounded-xl font-bold text-xs transition-all border border-stone-200/80 min-h-10.5 ${
                 isOutOfStock
                   ? 'bg-stone-100 text-stone-400 cursor-not-allowed border-transparent'
                   : 'bg-stone-100/90 hover:bg-stone-200/90 text-stone-800 hover:text-stone-950 active:scale-95'
               }`}
             >
-              <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+              <ShoppingBag className="w-4 h-4 shrink-0 text-[#166534]" />
               <span className="truncate">Add to Cart</span>
             </button>
 
             <button
               onClick={handleBuyNow}
               disabled={isOutOfStock}
-              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1 py-2.5 px-2 xs:px-3 rounded-xl font-bold text-[11px] xs:text-xs text-white transition-all shadow-md active:scale-95 ${
+              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1 py-3 px-2 xs:px-3 rounded-xl font-bold text-xs text-white transition-all shadow-md active:scale-95 min-h-10.5 ${
                 isOutOfStock
                   ? 'bg-stone-300 text-stone-500 cursor-not-allowed shadow-none'
                   : 'bg-linear-to-r from-[#9e1b1e] via-[#b91c1c] to-[#c2410c] hover:from-[#881316] hover:via-[#9e1b1e] hover:to-[#b91c1c] shadow-red-950/20 hover:shadow-lg hover:shadow-red-900/35 hover:-translate-y-0.5'

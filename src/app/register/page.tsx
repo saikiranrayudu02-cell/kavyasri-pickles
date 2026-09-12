@@ -112,6 +112,8 @@ function RegisterForm() {
               <div className="relative">
                 <input
                   type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}

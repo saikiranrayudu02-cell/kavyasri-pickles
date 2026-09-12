@@ -28,7 +28,7 @@ function LoginForm() {
     }
 
     setIsLoading(true);
-    const success = await login(email);
+    const success = await login(email, password);
     setIsLoading(false);
 
     if (success) {
