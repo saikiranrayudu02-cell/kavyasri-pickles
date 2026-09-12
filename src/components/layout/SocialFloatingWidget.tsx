@@ -2,8 +2,16 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export default function SocialFloatingWidget() {
+  const pathname = usePathname();
+
+  // Strictly render ONLY on Home page ('/')
+  if (pathname !== '/') {
+    return null;
+  }
+
   const WHATSAPP_NUMBER = '9705222744';
   const WHATSAPP_URL = `https://wa.me/91${WHATSAPP_NUMBER}?text=Hello%20Kavyasri%20Pickles,%20I%20would%20like%20to%20place%20an%20order!`;
   const INSTAGRAM_URL = 'https://www.instagram.com/kavyasriintiruchulu?stkn=MTR3dWllNTFhM3l0NQ==';
@@ -11,7 +19,7 @@ export default function SocialFloatingWidget() {
   return (
     <aside
       aria-label="Social Quick Connect"
-      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-30 flex flex-col items-center gap-2.5 sm:gap-3 select-none"
+      className="fixed bottom-6 right-3.5 sm:right-6 z-30 flex flex-col items-center gap-2.5 sm:gap-3 select-none"
     >
       {/* 1. Official WhatsApp Squircle (Zero White Background) */}
       <div className="relative group/wa flex items-center">

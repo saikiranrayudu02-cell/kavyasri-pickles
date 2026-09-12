@@ -34,7 +34,7 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const slug = params?.slug as string;
 
-  const { addToCart } = useCart();
+  const { addToCart, startBuyNow } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { showToast } = useToast();
 
@@ -97,8 +97,10 @@ export default function ProductDetailPage() {
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
-    addToCart(product, selectedWeight, quantity);
-    router.push('/checkout');
+    const item = startBuyNow(product, selectedWeight, quantity);
+    if (item) {
+      router.push('/checkout?mode=buynow');
+    }
   };
 
   const handleReviewSubmit = (e: React.FormEvent) => {

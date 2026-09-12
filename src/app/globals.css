@@ -39,7 +39,7 @@
 
 html {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -47,7 +47,7 @@ body {
   color: #1c1917;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   touch-action: manipulation;
@@ -328,14 +328,11 @@ h1, h2, h3, h4, .font-serif {
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity var(--duration-entrance) var(--ease-out-expo),
-              transform var(--duration-entrance) var(--ease-out-expo);
+  transition: opacity var(--duration-entrance) var(--ease-out-expo);
 }
 
 .reveal-on-scroll.revealed {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* ===================================================================

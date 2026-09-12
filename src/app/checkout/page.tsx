@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   ShieldCheck,
   CreditCard,
@@ -23,11 +23,33 @@ import { DataStore } from '@/lib/data/store';
 import { loadRazorpayScript } from '@/lib/razorpay';
 import confetti from 'canvas-confetti';
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isBuyNow = searchParams.get('mode') === 'buynow';
   const { user } = useAuth();
-  const { items, subtotal, discount, shipping, tax, total, appliedCoupon, clearCart } = useCart();
+  const {
+    items,
+    subtotal,
+    discount,
+    shipping,
+    tax,
+    total,
+    appliedCoupon,
+    clearCart,
+    buyNowItem,
+    clearBuyNow,
+  } = useCart();
   const { showToast } = useToast();
+
+  const checkoutItems = isBuyNow && buyNowItem ? [buyNowItem] : items;
+  const checkoutSubtotal = isBuyNow && buyNowItem ? buyNowItem.price * buyNowItem.quantity : subtotal;
+  const checkoutDiscount = isBuyNow ? 0 : discount;
+  const checkoutShipping = isBuyNow && buyNowItem ? (checkoutSubtotal >= 999 ? 0 : 70) : shipping;
+  const checkoutTax = isBuyNow && buyNowItem ? Math.round((checkoutSubtotal - checkoutDiscount) * 0.05) : tax;
+  const checkoutTotal = isBuyNow && buyNowItem
+    ? Math.max(0, checkoutSubtotal - checkoutDiscount + checkoutShipping + checkoutTax)
+    : total;
 
   // Contact & Address Form
   const [fullName, setFullName] = useState(user?.name || '');
@@ -70,14 +92,20 @@ export default function CheckoutPage() {
     }
   }, [user]);
 
-  if (items.length === 0) {
+  if (checkoutItems.length === 0) {
     return (
       <div className="min-h-screen flex flex-col bg-[#faf7f2]">
         <SubpageHeader />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <ShoppingBag className="w-16 h-16 text-stone-300 mb-4" />
-          <h2 className="font-serif font-bold text-2xl text-stone-900 mb-2">Your cart is empty</h2>
-          <p className="text-xs text-stone-500 mb-6">Please add items to your cart before proceeding to checkout.</p>
+          <h2 className="font-serif font-bold text-2xl text-stone-900 mb-2">
+            {isBuyNow ? 'No item selected for Buy Now' : 'Your cart is empty'}
+          </h2>
+          <p className="text-xs text-stone-500 mb-6">
+            {isBuyNow
+              ? 'Please choose a product and select "Buy Now" to proceed.'
+              : 'Please add items to your cart before proceeding to checkout.'}
+          </p>
           <Link href="/shop" className="px-6 py-2.5 bg-[#9e1b1e] text-white rounded-xl text-xs font-bold">
             Explore Pickles
           </Link>
@@ -89,7 +117,7 @@ export default function CheckoutPage() {
   // Final Order Finalization logic
   const finalizeOrder = (paymentId: string, razorpayOrderId: string) => {
     // 1. Verify stock before creating order
-    for (const item of items) {
+    for (const item of checkoutItems) {
       const liveProduct = DataStore.getProductById(item.product_id);
       if (!liveProduct || liveProduct.stock_quantity < item.quantity) {
         showToast(`Sorry, ${item.product_name} no longer has sufficient stock.`, 'error');
@@ -113,7 +141,7 @@ export default function CheckoutPage() {
         state,
         pincode,
       },
-      items: items.map((it) => ({
+      items: checkoutItems.map((it) => ({
         id: `item-${Date.now()}-${Math.random()}`,
         product_id: it.product_id,
         product_name: it.product_name,
@@ -123,12 +151,12 @@ export default function CheckoutPage() {
         quantity: it.quantity,
         total: it.price * it.quantity,
       })),
-      subtotal,
-      discount,
-      coupon_code: appliedCoupon?.code,
-      shipping_fee: shipping,
-      tax,
-      total_amount: total,
+      subtotal: checkoutSubtotal,
+      discount: checkoutDiscount,
+      coupon_code: isBuyNow ? undefined : appliedCoupon?.code,
+      shipping_fee: checkoutShipping,
+      tax: checkoutTax,
+      total_amount: checkoutTotal,
       payment_status: paymentMethod === 'cod' ? 'Pending' : 'Paid',
       payment_method: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay UPI / Cards',
       razorpay_order_id: razorpayOrderId,
@@ -136,8 +164,12 @@ export default function CheckoutPage() {
       order_status: 'Confirmed',
     });
 
-    // 3. Clear cart
-    clearCart();
+    // 3. Clear cart or buyNow
+    if (isBuyNow) {
+      clearBuyNow();
+    } else {
+      clearCart();
+    }
 
     // 4. Confetti effect
     try {
@@ -441,11 +473,11 @@ export default function CheckoutPage() {
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-5 sticky top-24">
                 <h3 className="font-serif font-bold text-lg text-stone-900 border-b border-stone-100 pb-3">
-                  Items in Order ({items.length})
+                  Items in Order ({checkoutItems.length})
                 </h3>
 
                 <div className="max-h-60 overflow-y-auto divide-y divide-stone-100 pr-1">
-                  {items.map((it) => (
+                  {checkoutItems.map((it) => (
                     <div key={it.id} className="py-3 flex items-center justify-between gap-3">
                       <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-stone-100 shrink-0 border border-stone-200">
                         <Image src={it.image} alt={it.product_name} fill className="object-cover" />
@@ -467,31 +499,31 @@ export default function CheckoutPage() {
                 <div className="space-y-2 text-xs text-stone-600 pt-3 border-t border-stone-100">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-bold text-stone-900">₹{subtotal}</span>
+                    <span className="font-bold text-stone-900">₹{checkoutSubtotal}</span>
                   </div>
-                  {discount > 0 && (
+                  {checkoutDiscount > 0 && (
                     <div className="flex justify-between text-emerald-700 font-bold">
                       <span>Coupon Discount ({appliedCoupon?.code})</span>
-                      <span>-₹{discount}</span>
+                      <span>-₹{checkoutDiscount}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
                     <span>Standard Shipping</span>
                     <span>
-                      {shipping === 0 ? (
+                      {checkoutShipping === 0 ? (
                         <strong className="text-emerald-600 font-bold">FREE</strong>
                       ) : (
-                        `₹${shipping}`
+                        `₹${checkoutShipping}`
                       )}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Estimated GST (5%)</span>
-                    <span>₹{tax}</span>
+                    <span>₹{checkoutTax}</span>
                   </div>
                   <div className="flex justify-between text-lg font-extrabold text-stone-900 pt-3 border-t border-stone-200">
                     <span>Grand Total Payable</span>
-                    <span className="text-[#9e1b1e]">₹{total}</span>
+                    <span className="text-[#9e1b1e]">₹{checkoutTotal}</span>
                   </div>
                 </div>
 
@@ -506,8 +538,8 @@ export default function CheckoutPage() {
                     {isProcessing
                       ? 'Securing Payment...'
                       : paymentMethod === 'cod'
-                      ? `Confirm Cash on Delivery Order (₹${total})`
-                      : `Pay Online ₹${total} with Razorpay`}
+                      ? `Confirm Cash on Delivery Order (₹${checkoutTotal})`
+                      : `Pay Online ₹${checkoutTotal} with Razorpay`}
                   </span>
                 </button>
 
@@ -537,7 +569,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
               <div className="text-right font-extrabold text-sm sm:text-base text-emerald-400">
-                ₹{total}.00
+                ₹{checkoutTotal}.00
               </div>
             </div>
 
@@ -570,7 +602,7 @@ export default function CheckoutPage() {
                   className="w-full py-3 bg-[#15803d] hover:bg-[#166534] text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Simulate Payment Success (Authorize ₹{total})</span>
+                  <span>Simulate Payment Success (Authorize ₹{checkoutTotal})</span>
                 </button>
 
                 <button
@@ -588,5 +620,19 @@ export default function CheckoutPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#faf7f2]">
+          <div className="w-8 h-8 border-3 border-[#9e1b1e] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <CheckoutContent />
+    </Suspense>
   );
 }

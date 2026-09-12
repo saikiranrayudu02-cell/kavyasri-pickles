@@ -48,6 +48,17 @@ function ShopContent() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (isMobileFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileFilterOpen]);
+
   // Filtering & Sorting Logic
   const filteredProducts = useMemo(() => {
     return products

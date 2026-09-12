@@ -40,6 +40,17 @@ export default function CartDrawer() {
   const [couponCode, setCouponCode] = useState('');
   const [isApplying, setIsApplying] = useState(false);
 
+  React.useEffect(() => {
+    if (isCartDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCartDrawerOpen]);
+
   if (!isCartDrawerOpen) return null;
 
   const handleApplyCoupon = (e: React.FormEvent) => {

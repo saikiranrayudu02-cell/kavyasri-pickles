@@ -24,6 +24,9 @@ interface CartContextType {
   clearCart: () => void;
   applyCoupon: (code: string) => { success: boolean; message: string };
   removeCoupon: () => void;
+  buyNowItem: CartItem | null;
+  startBuyNow: (product: Product, variantWeight?: string, quantity?: number) => CartItem | null;
+  clearBuyNow: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -31,6 +34,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
+  const [buyNowItem, setBuyNowItem] = useState<CartItem | null>(null);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -40,28 +44,49 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold || 499;
   const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee || 50;
 
-  const cartKey = user?.id ? `kp_cart_${user.id}` : 'kp_cart_guest';
-  const couponKey = user?.id ? `kp_coupon_${user.id}` : 'kp_coupon_guest';
+  // Clean versioned storage keys to isolate from any corrupt or stale legacy keys
+  const cartKey = user?.id ? `kp_cart_v2_${user.id}` : 'kp_cart_v2_guest';
+  const couponKey = user?.id ? `kp_coupon_v2_${user.id}` : 'kp_coupon_v2_guest';
 
   // Load cart from localStorage whenever user changes
   useEffect(() => {
     setHasLoaded(false);
     try {
+      // 1. Clean up any stale legacy test keys from previous versions
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('kp_cart_guest');
+        localStorage.removeItem('kp_cart_undefined');
+      }
+
+      // 2. Load legitimate user cart
       const saved = localStorage.getItem(cartKey);
       if (saved) {
-        setItems(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setItems(parsed);
+        } else {
+          setItems([]);
+        }
       } else {
         setItems([]);
       }
+
       const savedCoupon = localStorage.getItem(couponKey);
       if (savedCoupon) {
         setAppliedCoupon(JSON.parse(savedCoupon));
       } else {
         setAppliedCoupon(null);
       }
+
+      // 3. Load active Buy Now item from sessionStorage if exists
+      const savedBuyNow = sessionStorage.getItem('kp_buynow_session');
+      if (savedBuyNow) {
+        setBuyNowItem(JSON.parse(savedBuyNow));
+      }
     } catch {
       setItems([]);
       setAppliedCoupon(null);
+      setBuyNowItem(null);
     } finally {
       setHasLoaded(true);
     }
@@ -132,6 +157,56 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsCartDrawerOpen(true);
   };
 
+  /**
+   * Start Buy Now flow - completely isolated from the standard shopping cart.
+   * Does NOT add the item to `items` or increment `itemCount`.
+   */
+  const startBuyNow = (product: Product, variantWeight?: string, quantity = 1): CartItem | null => {
+    const selectedWeight = variantWeight || product.weight || '250g';
+    const variant = product.variants?.find((v) => v.weight === selectedWeight);
+    const price = variant ? variant.price : product.price;
+    const mrp = variant ? variant.mrp : product.mrp;
+    const maxStock = variant ? variant.stock_quantity : product.stock_quantity;
+
+    if (maxStock <= 0) {
+      showToast(`${product.name} is currently out of stock!`, 'error');
+      return null;
+    }
+
+    const buyItem: CartItem = {
+      id: `buynow-${product.id}-${selectedWeight}`,
+      product_id: product.id,
+      variant_id: variant?.id,
+      product_name: product.name,
+      slug: product.slug,
+      image: product.images[0] || '/images/pickles/hero.jpg',
+      weight: selectedWeight,
+      price,
+      mrp,
+      quantity: Math.min(quantity, maxStock),
+      max_stock: maxStock,
+      dietary: product.dietary,
+    };
+
+    setBuyNowItem(buyItem);
+    try {
+      sessionStorage.setItem('kp_buynow_session', JSON.stringify(buyItem));
+    } catch {
+      // ignore
+    }
+
+    return buyItem;
+  };
+
+  const clearBuyNow = () => {
+    setBuyNowItem(null);
+    try {
+      sessionStorage.removeItem('kp_buynow_session');
+    } catch {
+      // ignore
+    }
+  };
+
   const updateQuantity = (cartItemId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(cartItemId);
@@ -179,7 +254,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     showToast('Coupon removed.', 'info');
   };
 
-  // Calculations
+  // Calculations strictly based on actual added cart items
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -222,6 +297,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         applyCoupon,
         removeCoupon,
+        buyNowItem,
+        startBuyNow,
+        clearBuyNow,
       }}
     >
       {children}

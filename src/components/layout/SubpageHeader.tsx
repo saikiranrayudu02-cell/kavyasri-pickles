@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import CartDrawer from '@/components/layout/CartDrawer';
-import FlashUpdateBar from '@/components/layout/FlashUpdateBar';
 
 export default function SubpageHeader({ title }: { title?: string }) {
   const { itemCount, setIsCartDrawerOpen } = useCart();
@@ -52,7 +51,6 @@ export default function SubpageHeader({ title }: { title?: string }) {
           </div>
         </div>
       </header>
-      <FlashUpdateBar />
       <CartDrawer />
     </>
   );

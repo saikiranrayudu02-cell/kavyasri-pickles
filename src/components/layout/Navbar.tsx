@@ -24,7 +24,6 @@ import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import SearchModal from './SearchModal';
 import CartDrawer from './CartDrawer';
-import FlashUpdateBar from './FlashUpdateBar';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -37,6 +36,17 @@ export default function Navbar() {
   const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -234,9 +244,11 @@ export default function Navbar() {
             >
               <ShoppingBag className="w-4 h-4" />
               <span className="hidden sm:inline">Cart</span>
-              <span className="bg-black text-white text-[11px] font-black px-1.5 py-0.2 rounded-full">
-                {itemCount}
-              </span>
+              {itemCount > 0 && (
+                <span className="bg-black text-white text-[11px] font-black px-1.5 py-0.2 rounded-full">
+                  {itemCount}
+                </span>
+              )}
               {subtotal > 0 && <span className="hidden md:inline">| ₹{subtotal}</span>}
             </button>
 
@@ -434,9 +446,6 @@ export default function Navbar() {
           </div>
         )}
       </header>
-
-      {/* Dynamic Flash Updates Ticker Bar right underneath Navbar */}
-      <FlashUpdateBar />
 
       {/* Global Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

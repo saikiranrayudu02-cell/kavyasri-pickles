@@ -17,7 +17,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
-  const { addToCart } = useCart();
+  const { addToCart, startBuyNow } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   // Selected weight state (defaults to first variant or product weight)
@@ -50,8 +50,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     if (isOutOfStock) return;
-    addToCart(product, selectedWeight, 1);
-    router.push('/checkout');
+    const item = startBuyNow(product, selectedWeight, 1);
+    if (item) {
+      router.push('/checkout?mode=buynow');
+    }
   };
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
