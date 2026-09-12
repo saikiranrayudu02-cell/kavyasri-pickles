@@ -448,8 +448,8 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Dynamic Flash Updates Ticker Bar right underneath Navbar */}
-      <FlashUpdateBar />
+      {/* Dynamic Flash Updates Ticker Bar — strictly on home screen only */}
+      {pathname === '/' && <FlashUpdateBar />}
 
       {/* Global Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
