@@ -19,6 +19,9 @@ export default function SplashScreen() {
     }
 
     setIsVisible(true);
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
 
     // Initiate hairline progress bar fill immediately
     const startTimer = setTimeout(() => {
@@ -28,11 +31,17 @@ export default function SplashScreen() {
     // Snappy, graceful reveal: start fade at 1.2s
     const fadeTimer = setTimeout(() => {
       setIsFadingOut(true);
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
     }, 1200);
 
     // Remove from DOM after dissolve and mark session
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
       try {
         sessionStorage.setItem('kp_splash_seen_v2', '1');
       } catch {
@@ -44,11 +53,17 @@ export default function SplashScreen() {
       clearTimeout(startTimer);
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
     };
   }, []);
 
   const handleSkip = () => {
     setIsFadingOut(true);
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
     try {
       sessionStorage.setItem('kp_splash_seen_v2', '1');
     } catch {

@@ -33,7 +33,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 

@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serifFont.variable} ${sansFont.variable} scroll-smooth`}>
+    <html lang="en" className={`${serifFont.variable} ${sansFont.variable}`}>
       <body className="min-h-screen flex flex-col bg-[#faf7f2] text-[#1c1917] antialiased selection:bg-[#9e1b1e] selection:text-white">
         <ToastProvider>
           <AuthProvider>

@@ -42,18 +42,25 @@ export default function Navbar() {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -123,10 +130,10 @@ export default function Navbar() {
 
       {/* Main Sticky Header */}
       <header
-        className={`sticky top-0 z-40 border-b transition-all duration-300 ease-out ${
+        className={`sticky top-0 z-40 border-b py-2 sm:py-3 transition-[background-color,box-shadow,border-color] duration-200 ${
           isScrolled
-            ? 'bg-[#eba715]/95 backdrop-blur-xl shadow-lg shadow-amber-900/10 py-1.5 sm:py-2 border-[#d97706]/40'
-            : 'bg-[#eba715] py-2.5 sm:py-3.5 border-[#d97706]/20'
+            ? 'bg-[#eba715]/95 backdrop-blur-xl shadow-md shadow-amber-900/10 border-[#d97706]/40'
+            : 'bg-[#eba715] border-[#d97706]/20'
         }`}
       >
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1 sm:gap-4">
