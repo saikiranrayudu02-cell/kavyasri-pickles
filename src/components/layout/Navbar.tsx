@@ -24,6 +24,7 @@ import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import SearchModal from './SearchModal';
 import CartDrawer from './CartDrawer';
+import FlashUpdateBar from './FlashUpdateBar';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -446,6 +447,9 @@ export default function Navbar() {
           </div>
         )}
       </header>
+
+      {/* Dynamic Flash Updates Ticker Bar right underneath Navbar */}
+      <FlashUpdateBar />
 
       {/* Global Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
