@@ -127,7 +127,7 @@ export default function AdminProductsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
             Pickle Products Catalogue ({products.length})
           </h1>
           <p className="text-xs text-stone-500 mt-1">
@@ -291,7 +291,7 @@ export default function AdminProductsPage() {
                 <div className="flex-1 min-w-0">
                   <Link
                     href={`/admin/products/${prod.id}`}
-                    className="font-serif font-bold text-sm text-stone-900 line-clamp-1"
+                    className="font-bold text-sm text-stone-900 line-clamp-1 hover:text-[#166534] transition-colors"
                   >
                     {prod.name}
                   </Link>

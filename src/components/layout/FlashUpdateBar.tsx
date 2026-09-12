@@ -6,16 +6,13 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
-  X,
   Flame,
-  Radio,
   Clock,
-  Pause,
-  Play,
+  Sparkles,
   Zap,
 } from 'lucide-react';
 import { DataStore } from '@/lib/data/store';
-import { FlashUpdate, FlashUpdateTheme, FlashDisplayMode, MarqueeDirection } from '@/lib/types';
+import { FlashUpdate, FlashUpdateTheme, MarqueeDirection } from '@/lib/types';
 
 interface FlashUpdateBarProps {
   className?: string;
@@ -33,81 +30,73 @@ const THEME_STYLES: Record<
     actionBtn: string;
     border: string;
     glowLine: string;
-    controlBtn: string;
   }
 > = {
   crimson: {
-    wrapper: 'bg-linear-to-r from-[#630a0d] via-[#9e1b1e] to-[#6b0c10] text-white',
-    badgeBg: 'bg-amber-400 text-stone-950 shadow-md shadow-amber-950/30',
-    badgeText: 'text-stone-950 font-black',
-    pulseDot: 'bg-[#9e1b1e]',
-    textColor: 'text-amber-50',
-    stockPill: 'bg-black/30 border border-amber-300/30 text-amber-200',
+    wrapper: 'bg-linear-to-r from-[#4c0508] via-[#851216] to-[#4c0508] text-white',
+    badgeBg: 'bg-amber-400 text-stone-950 shadow-md shadow-black/20 border border-amber-300',
+    badgeText: 'text-stone-950 font-black tracking-wider',
+    pulseDot: 'bg-stone-950',
+    textColor: 'text-amber-50 font-semibold',
+    stockPill: 'bg-black/40 border border-amber-400/40 text-amber-200 shadow-2xs',
     actionBtn:
-      'bg-white text-[#9e1b1e] hover:bg-amber-100 hover:text-[#7f1316] shadow-md shadow-red-950/20 active:scale-95 border border-white/30',
-    border: 'border-b border-amber-400/20',
-    glowLine: 'from-transparent via-amber-400/60 to-transparent',
-    controlBtn: 'text-amber-200/80 hover:text-white hover:bg-white/10',
+      'bg-amber-400 text-stone-950 hover:bg-white hover:text-[#7f1316] shadow-md active:scale-95 border border-amber-300 font-black',
+    border: 'border-b border-amber-400/30',
+    glowLine: 'from-transparent via-amber-400/80 to-transparent',
   },
   amber: {
-    wrapper: 'bg-linear-to-r from-[#853b0a] via-[#b45309] to-[#78350f] text-white',
-    badgeBg: 'bg-stone-950 text-amber-300 shadow-md',
-    badgeText: 'text-amber-300 font-black',
-    pulseDot: 'bg-amber-400',
-    textColor: 'text-amber-50',
-    stockPill: 'bg-black/35 border border-amber-400/30 text-amber-200',
+    wrapper: 'bg-linear-to-r from-[#6b2e07] via-[#a14907] to-[#5c2405] text-white',
+    badgeBg: 'bg-amber-400 text-stone-950 shadow-md border border-amber-300',
+    badgeText: 'text-stone-950 font-black tracking-wider',
+    pulseDot: 'bg-stone-950',
+    textColor: 'text-amber-50 font-semibold',
+    stockPill: 'bg-black/40 border border-amber-400/40 text-amber-200 shadow-2xs',
     actionBtn:
-      'bg-amber-300 text-stone-950 hover:bg-white hover:text-amber-900 shadow-md active:scale-95 border border-amber-200/50',
-    border: 'border-b border-amber-300/20',
-    glowLine: 'from-transparent via-amber-300/60 to-transparent',
-    controlBtn: 'text-amber-100/80 hover:text-white hover:bg-white/10',
+      'bg-amber-300 text-stone-950 hover:bg-white hover:text-amber-900 shadow-md active:scale-95 border border-amber-200 font-black',
+    border: 'border-b border-amber-300/30',
+    glowLine: 'from-transparent via-amber-300/80 to-transparent',
   },
   emerald: {
-    wrapper: 'bg-linear-to-r from-[#0b381e] via-[#166534] to-[#0d3f23] text-white',
-    badgeBg: 'bg-emerald-300 text-emerald-950 shadow-md',
-    badgeText: 'text-emerald-950 font-black',
-    pulseDot: 'bg-emerald-800',
-    textColor: 'text-emerald-50',
-    stockPill: 'bg-black/30 border border-emerald-300/30 text-emerald-200',
+    wrapper: 'bg-linear-to-r from-[#092c18] via-[#14532d] to-[#072513] text-white',
+    badgeBg: 'bg-emerald-300 text-emerald-950 shadow-md border border-emerald-200',
+    badgeText: 'text-emerald-950 font-black tracking-wider',
+    pulseDot: 'bg-emerald-950',
+    textColor: 'text-emerald-50 font-semibold',
+    stockPill: 'bg-black/40 border border-emerald-300/40 text-emerald-200 shadow-2xs',
     actionBtn:
-      'bg-white text-emerald-900 hover:bg-emerald-100 shadow-md active:scale-95 border border-white/30',
-    border: 'border-b border-emerald-400/20',
-    glowLine: 'from-transparent via-emerald-400/60 to-transparent',
-    controlBtn: 'text-emerald-200/80 hover:text-white hover:bg-white/10',
+      'bg-emerald-300 text-emerald-950 hover:bg-white hover:text-emerald-900 shadow-md active:scale-95 border border-emerald-200 font-black',
+    border: 'border-b border-emerald-400/30',
+    glowLine: 'from-transparent via-emerald-400/80 to-transparent',
   },
   gold: {
-    wrapper: 'bg-linear-to-r from-[#78440c] via-[#a16207] to-[#663908] text-amber-50',
-    badgeBg: 'bg-stone-950 text-amber-400 shadow-md',
-    badgeText: 'text-amber-400 font-black',
-    pulseDot: 'bg-amber-400',
-    textColor: 'text-white',
-    stockPill: 'bg-black/30 border border-amber-300/30 text-amber-200',
+    wrapper: 'bg-linear-to-r from-[#5c3408] via-[#854d0e] to-[#4e2c06] text-amber-50',
+    badgeBg: 'bg-amber-400 text-stone-950 shadow-md border border-amber-300',
+    badgeText: 'text-stone-950 font-black tracking-wider',
+    pulseDot: 'bg-stone-950',
+    textColor: 'text-white font-semibold',
+    stockPill: 'bg-black/40 border border-amber-300/40 text-amber-200 shadow-2xs',
     actionBtn:
-      'bg-white text-[#78440c] hover:bg-amber-100 shadow-md active:scale-95 border border-white/30',
-    border: 'border-b border-amber-300/30',
-    glowLine: 'from-transparent via-amber-300/70 to-transparent',
-    controlBtn: 'text-amber-200/80 hover:text-white hover:bg-white/10',
+      'bg-amber-400 text-stone-950 hover:bg-white hover:text-[#78440c] shadow-md active:scale-95 border border-amber-300 font-black',
+    border: 'border-b border-amber-300/40',
+    glowLine: 'from-transparent via-amber-300/90 to-transparent',
   },
   dark: {
-    wrapper: 'bg-linear-to-r from-[#070709] via-[#161619] to-[#09090c] text-stone-100',
-    badgeBg: 'bg-linear-to-r from-amber-500 to-amber-400 text-stone-950 shadow-md shadow-amber-500/30',
-    badgeText: 'text-stone-950 font-black',
+    wrapper: 'bg-linear-to-r from-[#050507] via-[#121215] to-[#07070a] text-stone-100',
+    badgeBg: 'bg-linear-to-r from-amber-400 to-amber-500 text-stone-950 shadow-md border border-amber-300',
+    badgeText: 'text-stone-950 font-black tracking-wider',
     pulseDot: 'bg-stone-950',
-    textColor: 'text-stone-100',
-    stockPill: 'bg-white/10 border border-amber-500/30 text-amber-300',
+    textColor: 'text-stone-100 font-semibold',
+    stockPill: 'bg-white/10 border border-amber-500/40 text-amber-300 shadow-2xs',
     actionBtn:
-      'bg-linear-to-r from-amber-400 to-amber-500 text-stone-950 hover:brightness-110 shadow-md shadow-amber-500/25 active:scale-95',
+      'bg-linear-to-r from-amber-400 to-amber-500 text-stone-950 hover:brightness-110 shadow-md active:scale-95 font-black',
     border: 'border-b border-stone-800/90',
-    glowLine: 'from-transparent via-amber-500/70 to-transparent',
-    controlBtn: 'text-stone-400 hover:text-stone-100 hover:bg-stone-800',
+    glowLine: 'from-transparent via-amber-500/80 to-transparent',
   },
 };
 
 export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) {
   const [updates, setUpdates] = useState<FlashUpdate[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number } | null>(null);
 
@@ -163,24 +152,23 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
   const marqueeItems = useMemo(() => {
     if (updates.length === 0) return [];
     let base: FlashUpdate[] = [];
-    while (base.length < 5) {
+    while (base.length < 6) {
       base = [...base, ...updates];
     }
-    // Duplicate exactly once for seamless infinite loop (0% to -50% or -50% to 0%)
     return [...base, ...base];
   }, [updates]);
 
   // Auto rotate updates if in carousel slide mode
   useEffect(() => {
-    if (updates.length <= 1 || isPaused || isDismissed) return;
+    if (updates.length <= 1) return;
     if (isMarquee) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % updates.length);
-    }, 5500);
+    }, 7500);
 
     return () => clearInterval(timer);
-  }, [updates.length, isPaused, isDismissed, isMarquee]);
+  }, [updates.length, isMarquee]);
 
   // Live Countdown timer if current has countdown_end
   useEffect(() => {
@@ -210,7 +198,7 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
     return () => clearInterval(interval);
   }, [current?.countdown_end]);
 
-  if (!mounted || isDismissed || updates.length === 0) {
+  if (!mounted || updates.length === 0) {
     return null;
   }
 
@@ -234,46 +222,43 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
     <div
       role="region"
       aria-label="Flash Updates"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onTouchStart={() => setIsPaused(true)}
-      onTouchEnd={() => setIsPaused(false)}
       className={`relative w-full overflow-hidden transition-all duration-300 shadow-md z-30 ${themeStyle.wrapper} ${themeStyle.border} ${className}`}
     >
-      {/* Background ambient light textures */}
-      <div className="absolute inset-0 bg-white/4 pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-96 h-full bg-linear-to-r from-transparent via-white/8 to-transparent pointer-events-none transform -skew-x-12" />
+      {/* Subtle Background Shine */}
+      <div className="absolute inset-0 bg-white/5 pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-full bg-linear-to-r from-transparent via-white/10 to-transparent pointer-events-none transform -skew-x-12" />
 
       {/* Animated Glowing Accent Bottom Line */}
-      <div className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-linear-to-r ${themeStyle.glowLine} opacity-80 pointer-events-none animate-pulse`} />
+      <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r ${themeStyle.glowLine} opacity-90 pointer-events-none animate-pulse`} />
 
-      {/* Mode A: Continuous Infinite Marquee Loop (Moving from Left to Right) */}
+      {/* Mode A: Continuous Infinite Marquee Loop */}
       {isMarquee ? (
-        <div className="relative py-2 sm:py-2.5 flex items-center min-h-10.5 sm:min-h-11.5 overflow-hidden">
-          {/* Left fixed broadcast pill with Live Pulse */}
-          <div className="z-10 pl-3 sm:pl-5 pr-3 bg-linear-to-r from-black/60 via-black/40 to-transparent flex items-center shrink-0">
+        <div className="relative py-2 sm:py-2.5 flex items-center min-h-11 sm:min-h-12 overflow-hidden">
+          {/* Left fixed broadcast badge - Clean & crisp, no dark overlays */}
+          <div className="z-10 pl-3 sm:pl-5 pr-4 flex items-center shrink-0">
             <div
-              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs tracking-wider uppercase shrink-0 ${themeStyle.badgeBg}`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs tracking-wider uppercase shrink-0 shadow-md ${themeStyle.badgeBg}`}
             >
               <span className="relative flex h-2 w-2">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-80 ${themeStyle.pulseDot}`} />
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${themeStyle.pulseDot}`} />
                 <span className={`relative inline-flex rounded-full h-2 w-2 ${themeStyle.pulseDot}`} />
               </span>
-              <span className={themeStyle.badgeText}>⚡ FLASH UPDATE</span>
+              <Zap className="w-3.5 h-3.5 text-stone-950 fill-stone-950" />
+              <span className={themeStyle.badgeText}>FLASH UPDATE</span>
             </div>
           </div>
 
-          {/* Endless Marquee Ticker Track Moving Left to Right in Infinite Loop */}
+          {/* Endless Marquee Ticker Track Moving Smoothly */}
           <div className="flex-1 overflow-hidden">
             <div
-              className={`flex items-center gap-8 whitespace-nowrap ${
+              className={`flex items-center gap-10 sm:gap-14 whitespace-nowrap ${
                 marqueeDirection === 'rtl' ? 'animate-marquee-rtl' : 'animate-marquee-ltr'
               }`}
             >
               {marqueeItems.map((item, idx) => (
-                <div key={`${item.id}-${idx}`} className="flex items-center gap-4 sm:gap-6 shrink-0">
+                <div key={`${item.id}-${idx}`} className="flex items-center gap-4 sm:gap-6 shrink-0 group/item">
                   {/* Individual Item Badge */}
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-black/40 text-amber-300 border border-amber-400/30">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] sm:text-[11px] font-black uppercase tracking-wider bg-black/40 text-amber-300 border border-amber-400/30 shadow-2xs">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
                     {item.badge}
                   </span>
@@ -285,8 +270,8 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
 
                   {/* Stock Urgency Tag */}
                   {item.stock_alert_text && (
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${themeStyle.stockPill}`}>
-                      <Flame className="w-3 h-3 text-amber-400 shrink-0" />
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold ${themeStyle.stockPill}`}>
+                      <Flame className="w-3 h-3 text-amber-400 shrink-0 animate-bounce" />
                       <span>{item.stock_alert_text}</span>
                     </span>
                   )}
@@ -295,31 +280,18 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                   {item.link_url && (
                     <Link
                       href={item.link_url}
-                      className={`inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold px-3 py-0.8 sm:py-1 rounded-full transition-all shrink-0 hover:scale-105 active:scale-95 ${themeStyle.actionBtn}`}
+                      className={`group inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-black px-3.5 py-1 rounded-full transition-all shrink-0 hover:scale-105 active:scale-95 ${themeStyle.actionBtn}`}
                     >
                       <span>{item.link_text || 'Order Now'}</span>
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                     </Link>
                   )}
 
                   {/* Decorative Sparkle Divider */}
-                  <span className="text-amber-400/70 text-xs px-2">✦</span>
+                  <span className="text-amber-400/80 text-xs px-2 select-none">✦</span>
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Right dismiss button */}
-          <div className="z-10 pr-3 sm:pr-5 pl-2 bg-linear-to-l from-black/50 to-transparent flex items-center shrink-0">
-            <button
-              type="button"
-              onClick={() => setIsDismissed(true)}
-              className={`p-1 rounded-full opacity-70 hover:opacity-100 transition-opacity ${themeStyle.controlBtn}`}
-              aria-label="Dismiss flash update"
-              title="Dismiss update"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
           </div>
         </div>
       ) : (
@@ -327,9 +299,9 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4 min-h-10.5 sm:min-h-11.5">
           {/* Left / Main Content Container */}
           <div className="flex items-center gap-2 sm:gap-3.5 flex-1 min-w-0">
-            {/* Live Pill Badge with Dual Radar Pulse */}
+            {/* Live Pill Badge */}
             <div
-              className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.8 sm:py-1 rounded-full text-[10px] sm:text-xs tracking-wider uppercase shrink-0 transition-transform ${themeStyle.badgeBg}`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs tracking-wider uppercase shrink-0 shadow-md ${themeStyle.badgeBg}`}
             >
               <span className="relative flex h-2 w-2">
                 <span
@@ -337,7 +309,8 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                 />
                 <span className={`relative inline-flex rounded-full h-2 w-2 ${themeStyle.pulseDot}`} />
               </span>
-              <span className={themeStyle.badgeText}>{current.badge || '⚡ FLASH UPDATE'}</span>
+              <Zap className="w-3.5 h-3.5 text-stone-950 fill-stone-950" />
+              <span className={themeStyle.badgeText}>{current.badge || 'FLASH UPDATE'}</span>
             </div>
 
             {/* Optional Stock Urgency Tag */}
@@ -373,7 +346,7 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
             </div>
           </div>
 
-          {/* Right Controls & Action Button */}
+          {/* Right Action Button & Pagination */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Action CTA Button */}
             {current.link_url && (
@@ -392,7 +365,7 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className={`p-1 rounded-full transition-colors ${themeStyle.controlBtn}`}
+                  className="p-1 text-white/80 hover:text-white transition-colors"
                   aria-label="Previous flash update"
                   title="Previous update"
                 >
@@ -416,35 +389,14 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                 <button
                   type="button"
                   onClick={handleNext}
-                  className={`p-1 rounded-full transition-colors ${themeStyle.controlBtn}`}
+                  className="p-1 text-white/80 hover:text-white transition-colors"
                   aria-label="Next flash update"
                   title="Next update"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
-
-                {/* Pause/Play Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsPaused(!isPaused)}
-                  className={`p-1 rounded-full transition-colors ml-0.5 ${themeStyle.controlBtn}`}
-                  title={isPaused ? 'Resume auto-rotation' : 'Pause auto-rotation'}
-                >
-                  {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
-                </button>
               </div>
             )}
-
-            {/* Dismiss button */}
-            <button
-              type="button"
-              onClick={() => setIsDismissed(true)}
-              className={`p-1 rounded-full opacity-70 hover:opacity-100 transition-opacity ml-1 ${themeStyle.controlBtn}`}
-              aria-label="Dismiss flash update"
-              title="Dismiss update"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
           </div>
         </div>
       )}

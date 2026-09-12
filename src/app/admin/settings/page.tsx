@@ -103,7 +103,7 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div>
-        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
           Store Configuration & Settings
         </h1>
         <p className="text-xs text-stone-500 mt-1">
@@ -114,7 +114,7 @@ export default function AdminSettingsPage() {
       <form onSubmit={handleSave} className="space-y-8">
         {/* Business Identity */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-2xs space-y-4">
-          <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+          <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
             Store Identity & Legal Details
           </h3>
 
@@ -183,7 +183,7 @@ export default function AdminSettingsPage() {
 
         {/* Shipping & Delivery Rules */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-2xs space-y-4">
-          <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2 flex items-center gap-2">
+          <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 flex items-center gap-2 tracking-tight">
             <Truck className="w-4 h-4 text-[#166534]" />
             <span>Shipping & Logistics Rules</span>
           </h3>
@@ -227,7 +227,7 @@ export default function AdminSettingsPage() {
 
         {/* Payment Gateway Status */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-2xs space-y-4">
-          <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2 flex items-center gap-2">
+          <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 flex items-center gap-2 tracking-tight">
             <CreditCard className="w-4 h-4 text-[#166534]" />
             <span>Razorpay Payment Gateway</span>
           </h3>

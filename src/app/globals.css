@@ -68,6 +68,26 @@ h1, h2, h3, h4, .font-serif {
 }
 
 /* ===================================================================
+   ADMIN PORTAL ULTRA-CLEAN MODERN TYPOGRAPHY
+   =================================================================== */
+
+.admin-portal,
+.admin-portal body {
+  font-family: var(--font-admin), var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.admin-portal h1,
+.admin-portal h2,
+.admin-portal h3,
+.admin-portal h4,
+.admin-portal h5,
+.admin-portal h6,
+.admin-portal .font-serif {
+  font-family: var(--font-admin), var(--font-sans), sans-serif;
+  letter-spacing: -0.025em;
+}
+
+/* ===================================================================
    MOBILE-FIRST UTILITIES (Scrollbars, Safe Areas & Touch)
    =================================================================== */
 
@@ -212,18 +232,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marqueeLtr 110s linear infinite;
+  animation: marqueeLtr 180s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee {
-    animation-duration: 55s;
+    animation-duration: 140s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee {
-    animation-duration: 38s;
+    animation-duration: 110s;
   }
 }
 
@@ -235,18 +255,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee-ltr {
   display: flex;
   width: max-content;
-  animation: marqueeLtr 110s linear infinite;
+  animation: marqueeLtr 180s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee-ltr {
-    animation-duration: 55s;
+    animation-duration: 140s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee-ltr {
-    animation-duration: 38s;
+    animation-duration: 110s;
   }
 }
 
@@ -258,18 +278,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee-rtl {
   display: flex;
   width: max-content;
-  animation: marquee 110s linear infinite;
+  animation: marquee 180s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee-rtl {
-    animation-duration: 55s;
+    animation-duration: 140s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee-rtl {
-    animation-duration: 38s;
+    animation-duration: 110s;
   }
 }
 

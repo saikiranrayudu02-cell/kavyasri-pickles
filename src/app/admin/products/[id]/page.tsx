@@ -231,7 +231,7 @@ export default function EditProductPage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="font-serif text-2xl font-bold text-stone-900">Edit Pickle: {name}</h1>
+            <h1 className="text-2xl font-extrabold tracking-tight text-stone-900">Edit Pickle: {name}</h1>
             <p className="text-xs text-stone-500">Modify recipe details, pricing, and active status.</p>
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function EditProductPage() {
         {/* Left Column (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               Product Image
             </h3>
 
@@ -308,7 +308,7 @@ export default function EditProductPage() {
           </div>
 
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               Visibility
             </h3>
 
@@ -337,7 +337,7 @@ export default function EditProductPage() {
         {/* Right Column (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               General Details
             </h3>
 

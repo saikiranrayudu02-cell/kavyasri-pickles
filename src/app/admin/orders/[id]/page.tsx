@@ -151,7 +151,7 @@ export default function AdminOrderDetailPage() {
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-serif text-2xl font-bold text-stone-900">Order #{order.id}</h1>
+              <h1 className="text-2xl font-extrabold tracking-tight text-stone-900">Order #{order.id}</h1>
               <span
                 className={`text-xs font-bold px-3 py-1 rounded-full ${
                   order.order_status === 'Delivered'
@@ -306,7 +306,7 @@ export default function AdminOrderDetailPage() {
 
       {/* Admin Workflow Stepper (no-print) */}
       <div className="no-print bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4">
-        <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+        <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
           Update Order Fulfillment Status
         </h3>
 

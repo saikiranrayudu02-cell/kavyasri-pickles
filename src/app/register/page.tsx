@@ -30,10 +30,10 @@ function RegisterForm() {
     }
 
     setIsLoading(true);
-    const success = await signup(name, email, phone);
+    const result = await signup(name, email, phone, password);
     setIsLoading(false);
 
-    if (success) {
+    if (result.success) {
       showToast(`Welcome to Kavyasri Pickles, ${name}! 🌶️`, 'success');
       if (redirectParam && redirectParam.startsWith('/')) {
         router.push(redirectParam);
@@ -41,7 +41,7 @@ function RegisterForm() {
         router.push('/shop');
       }
     } else {
-      showToast('Registration failed. Please try again.', 'error');
+      showToast(result.error || 'Registration failed. Please try again.', 'error');
     }
   };
 

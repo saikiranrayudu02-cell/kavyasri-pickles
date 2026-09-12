@@ -74,7 +74,7 @@ export default function AdminReviewsPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <div>
-        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
           Customer Reviews Moderation ({reviews.length})
         </h1>
         <p className="text-xs text-stone-500 mt-1">

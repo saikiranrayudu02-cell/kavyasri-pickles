@@ -84,7 +84,7 @@ export default function AdminCategoriesPage() {
     <div className="space-y-6 max-w-5xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-stone-900">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
             Pickle Categories ({categories.length})
           </h1>
           <p className="text-xs text-stone-500 mt-1">Organize your store shelves and customer navigation.</p>
@@ -111,7 +111,7 @@ export default function AdminCategoriesPage() {
                   <Image src={cat.image_url} alt={cat.name} fill className="object-cover" />
                 </div>
                 <div>
-                  <h3 className="font-serif font-bold text-base text-stone-900 leading-tight">
+                  <h3 className="font-bold text-base text-stone-900 leading-tight">
                     {cat.name}
                   </h3>
                   <span className="text-[11px] text-stone-400 font-mono">/{cat.slug}</span>
@@ -157,7 +157,7 @@ export default function AdminCategoriesPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs">
           <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-stone-200">
-            <h3 className="font-serif font-bold text-xl text-stone-900 mb-4">
+            <h3 className="font-extrabold text-xl text-stone-900 mb-4 tracking-tight">
               {editingCat ? 'Edit Category' : 'Create New Category'}
             </h3>
 

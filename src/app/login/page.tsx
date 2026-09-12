@@ -28,10 +28,10 @@ function LoginForm() {
     }
 
     setIsLoading(true);
-    const success = await login(email, password);
+    const result = await login(email, password);
     setIsLoading(false);
 
-    if (success) {
+    if (result.success) {
       const cleanEmail = email.trim().toLowerCase();
       const isAdminUser = cleanEmail === PRIMARY_ADMIN_EMAIL;
 
@@ -50,7 +50,7 @@ function LoginForm() {
         router.push('/account');
       }
     } else {
-      showToast('Sign in failed. Please check your credentials.', 'error');
+      showToast(result.error || 'Sign in failed. Please check your credentials.', 'error');
     }
   };
 

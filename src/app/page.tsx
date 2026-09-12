@@ -74,7 +74,7 @@ export default function HomePage() {
 
                 <h1 className="animate-fade-in-up stagger-1 font-serif text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black text-[#1c1917] tracking-tight leading-[1.12]">
                   <span className="block font-black tracking-tight">Traditional Taste.</span>
-                  <span className="block mt-1 sm:mt-2 italic font-normal text-[#9e1b1e] tracking-normal drop-shadow-xs">
+                  <span className="block mt-1 sm:mt-2 italic font-normal text-[#df2626] tracking-normal drop-shadow-xs">
                     Homemade Love.
                   </span>
                 </h1>
@@ -431,33 +431,29 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA BANNER */}
-        <section className="relative overflow-hidden bg-linear-to-br from-[#2b080a] via-[#450e12] to-[#230507] text-white py-16 sm:py-20 border-t border-b border-[#5c151a]">
-          {/* Subtle Ambient Glow Blobs */}
-          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
-
-          <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-6">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-widest shadow-xs">
-              Fresh Batches Ready To Ship
+        {/* CTA BANNER (Simple, Aesthetic & Modern) */}
+        <section className="py-16 sm:py-20 bg-[#faf7f2] border-t border-b border-[#ede5d8] relative overflow-hidden">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#9e1b1e]/8 text-[#9e1b1e] border border-[#9e1b1e]/20 text-xs font-bold uppercase tracking-widest">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#9e1b1e]" />
+              Authentic Kitchen Tradition
             </span>
 
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-100">
-              Bring the Taste of Homemade Pickles to Your Home.
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
+              Handcrafted Homemade Pickles Delivered Fresh to Your Doorstep.
             </h2>
 
-            <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
-              Order today and experience authentic Indian heritage flavor crafted with fresh spices, pure wood-pressed oils, and zero preservatives.
+            <p className="text-stone-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Order today and experience 100% natural, sun-cured pickles prepared in small home batches with pure wood-pressed oils and zero artificial preservatives.
             </p>
 
-            <div className="pt-3">
+            <div className="pt-2 flex items-center justify-center gap-3">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#9e1b1e] hover:bg-[#b91c1c] text-white font-extrabold rounded-2xl shadow-2xl shadow-red-950/60 border border-red-500/30 transition-all duration-300 hover:scale-105 active:scale-98 text-base"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#9e1b1e] hover:bg-[#800f13] text-white font-bold rounded-xl shadow-md transition-all text-sm group"
               >
-                <span>Shop Now & Get Free Delivery</span>
-                <ArrowRight className="w-5 h-5" />
+                <span>Explore Full Collection</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>

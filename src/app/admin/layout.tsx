@@ -46,10 +46,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen flex bg-[#faf7f2] font-sans text-stone-900">
+    <div className="admin-portal h-screen max-h-screen flex overflow-hidden bg-[#faf7f2] font-sans text-stone-900 tracking-tight">
       {/* Desktop White Sidebar */}
       <aside
-        className={`hidden lg:flex lg:flex-col bg-white text-stone-700 border-r border-stone-200 shrink-0 transition-all duration-300 ease-in-out ${
+        className={`hidden lg:flex lg:flex-col bg-white text-stone-700 border-r border-stone-200 shrink-0 h-screen transition-all duration-300 ease-in-out ${
           isCollapsed ? 'w-20' : 'w-64'
         }`}
       >
@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ) : (
             <Link href="/admin" className="mx-auto" title="Kavyasri Admin">
-              <div className="w-9 h-9 rounded-xl bg-[#9e1b1e] text-white flex items-center justify-center font-serif font-bold text-lg shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#9e1b1e] text-white flex items-center justify-center font-extrabold text-lg shadow-xs">
                 K
               </div>
             </Link>
@@ -157,10 +157,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-stone-200 h-16 flex items-center justify-between px-3 sm:px-6 lg:px-8 z-20 shadow-xs">
+        <header className="bg-white border-b border-stone-200 h-16 shrink-0 flex items-center justify-between px-3 sm:px-6 lg:px-8 z-20 shadow-xs">
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Desktop Expand Button when collapsed */}
             <button

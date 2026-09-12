@@ -177,7 +177,7 @@ export default function AddProductPage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="font-serif text-2xl font-bold text-stone-900">Add New Pickle Product</h1>
+            <h1 className="text-2xl font-extrabold tracking-tight text-stone-900">Add New Pickle Product</h1>
             <p className="text-xs text-stone-500">Create a new authentic recipe for your store catalogue.</p>
           </div>
         </div>
@@ -205,7 +205,7 @@ export default function AddProductPage() {
         {/* Left Column: Media & Imagery (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               Product Image
             </h3>
 
@@ -282,7 +282,7 @@ export default function AddProductPage() {
 
           {/* Visibility & Badges */}
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               Visibility Settings
             </h3>
 
@@ -312,7 +312,7 @@ export default function AddProductPage() {
         <div className="lg:col-span-8 space-y-6">
           {/* Section 1: Basic Information */}
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               1. Basic Information
             </h3>
 
@@ -381,7 +381,7 @@ export default function AddProductPage() {
 
           {/* Section 2: Pricing & Inventory */}
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               2. Pricing & Inventory
             </h3>
 
@@ -433,7 +433,7 @@ export default function AddProductPage() {
 
           {/* Section 3: Pickle Specific Details */}
           <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-stone-900 border-b border-stone-100 pb-2">
+            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
               3. Pickle Recipe Details
             </h3>
 
