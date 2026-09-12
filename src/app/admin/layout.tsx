@@ -56,19 +56,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Brand Header */}
         <div className="h-16 px-4 border-b border-stone-100 flex items-center justify-between">
           {!isCollapsed ? (
-            <Link href="/admin" className="flex items-center gap-2.5">
-              <div className="relative w-8 h-8 shrink-0">
-                <Image src="/images/kavya_sri_logo_transparent.png" alt="Kavya Sri Admin" fill className="object-contain" />
-              </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-serif font-bold text-sm text-stone-900 leading-none">Kavya Sri</span>
-                <span className="text-[9px] font-bold text-[#9e1b1e] uppercase tracking-wider">Admin Portal</span>
+            <Link href="/admin" className="flex items-center gap-2">
+              <div className="relative w-40 h-9">
+                <Image src="/images/logo.svg" alt="Kavyasri Admin" fill className="object-contain object-left" />
               </div>
             </Link>
           ) : (
-            <Link href="/admin" className="mx-auto" title="Kavya Sri Admin">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden">
-                <Image src="/images/kavya_sri_logo_transparent.png" alt="Kavya Sri Admin" fill className="object-contain" />
+            <Link href="/admin" className="mx-auto" title="Kavyasri Admin">
+              <div className="w-9 h-9 rounded-xl bg-[#9e1b1e] text-white flex items-center justify-center font-serif font-bold text-lg shadow-xs">
+                K
               </div>
             </Link>
           )}
@@ -226,14 +222,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           />
           <div className="relative w-64 max-w-[80vw] bg-white text-stone-700 flex flex-col h-full z-10 border-r border-stone-200 shadow-2xl">
             <div className="p-4 border-b border-stone-100 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="relative w-8 h-8 shrink-0">
-                  <Image src="/images/kavya_sri_logo_transparent.png" alt="Kavya Sri Admin" fill className="object-contain" />
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <span className="font-serif font-bold text-sm text-stone-900 leading-none">Kavya Sri</span>
-                  <span className="text-[9px] font-bold text-[#9e1b1e] uppercase tracking-wider">Admin Portal</span>
-                </div>
+              <div className="relative w-40 h-8">
+                <Image src="/images/logo.svg" alt="Kavyasri Admin" fill className="object-contain object-left" />
               </div>
               <button
                 onClick={() => setIsMobileDrawerOpen(false)}

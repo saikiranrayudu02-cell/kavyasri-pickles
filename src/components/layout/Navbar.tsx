@@ -89,7 +89,7 @@ export default function Navbar() {
   return (
     <>
       {/* Top Ticker Announcement Bar */}
-      <div className="bg-[#eba715] text-stone-950 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
+      <div className="bg-[#dba32b] text-stone-950 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 sm:gap-2 truncate">
             <span className="bg-black text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
@@ -147,23 +147,16 @@ export default function Navbar() {
               {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
 
-            <Link href="/" className="flex items-center gap-2 xs:gap-2.5 group shrink-0">
-              <div className="relative w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 shrink-0 drop-shadow-md transition-transform duration-300 group-hover:scale-105">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="relative w-34 xs:w-42 sm:w-60 h-8 sm:h-12">
                 <Image
-                  src="/images/kavya_sri_logo_transparent.png"
-                  alt="Kavya Sri Pickles & Ghee"
+                  src="/images/logo.svg"
+                  alt="Kavyasri Pickles Logo"
                   fill
-                  className="object-contain"
+                  sizes="(max-width: 640px) 160px, 240px"
+                  className="object-contain object-left"
                   priority
                 />
-              </div>
-              <div className="flex flex-col justify-center leading-tight">
-                <span className="font-serif font-black text-base xs:text-lg sm:text-xl tracking-tight text-stone-950 group-hover:text-[#166534] transition-colors whitespace-nowrap">
-                  Kavya Sri
-                </span>
-                <span className="text-[9px] xs:text-[10px] font-extrabold uppercase tracking-widest text-[#9e1b1e] whitespace-nowrap">
-                  Pickles &amp; Ghee
-                </span>
               </div>
             </Link>
           </div>

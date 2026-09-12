@@ -29,7 +29,7 @@ const sansFont = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kavyasripickles.com'),
-  title: 'Kavya Sri Pickles & Ghee | Traditional Taste, Homemade Love',
+  title: 'Kavyasri Pickles | Traditional Taste, Homemade Love',
   description:
     'Authentic South Indian homemade pickles handcrafted with traditional recipes, cold-pressed oils, and sun-cured spices. Mango, Gongura, Chicken, Mutton, Garlic, Lemon, and more.',
   keywords: [
@@ -41,16 +41,16 @@ export const metadata: Metadata = {
     'Kavyasri Pickles',
   ],
   openGraph: {
-    title: 'Kavya Sri Pickles & Ghee — Traditional Taste, Homemade Love',
+    title: 'Kavyasri Pickles — Traditional Taste, Homemade Love',
     description:
       'Authentic homemade pickles crafted with 70-year-old family recipes and pure wood-pressed oils. Delivered fresh across India.',
     type: 'website',
-    images: ['/images/kavya_sri_logo.png'],
+    images: ['/images/logo.svg'],
   },
   icons: {
     icon: [
       { url: '/favicon.ico' },
-      { url: '/images/kavya_sri_logo_transparent.png', sizes: '500x500', type: 'image/png' },
+      { url: '/icon.jpg', sizes: '512x512', type: 'image/jpeg' },
     ],
     shortcut: ['/favicon.ico'],
     apple: [
