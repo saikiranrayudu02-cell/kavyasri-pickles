@@ -37,8 +37,8 @@ export default function SocialFloatingWidget() {
           aria-label="Chat on WhatsApp (9705222744)"
         >
           {/* Live Online Pulse Dot */}
-          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-400 border-2 border-stone-900 rounded-full z-10" />
-          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-400 rounded-full animate-ping" />
+          <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full z-10 shadow-xs" />
+          <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-400 rounded-full animate-ping opacity-75" />
 
           <div className="relative w-full h-full overflow-hidden rounded-[22%]">
             <Image
