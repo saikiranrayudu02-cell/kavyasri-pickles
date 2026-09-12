@@ -44,18 +44,51 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold || 499;
   const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee || 50;
 
-  // Clean versioned storage keys to isolate from any corrupt or stale legacy keys
-  const cartKey = user?.id ? `kp_cart_v2_${user.id}` : 'kp_cart_v2_guest';
-  const couponKey = user?.id ? `kp_coupon_v2_${user.id}` : 'kp_coupon_v2_guest';
+  // Clean versioned storage keys to isolate from any corrupt or stale legacy keys (v3)
+  const cartKey = user?.id ? `kp_cart_v3_${user.id}` : 'kp_cart_v3_guest';
+  const couponKey = user?.id ? `kp_coupon_v3_${user.id}` : 'kp_coupon_v3_guest';
 
   // Load cart from localStorage whenever user changes
   useEffect(() => {
     setHasLoaded(false);
     try {
-      // 1. Clean up any stale legacy test keys from previous versions
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('kp_cart_guest');
-        localStorage.removeItem('kp_cart_undefined');
+        // 1. Clean up any stale legacy test keys from previous versions (v1, v2, guest, undefined)
+        const legacyStaticKeys = [
+          'kp_cart_guest',
+          'kp_cart_undefined',
+          'kp_cart_v2_guest',
+          'kp_cart_v2_undefined',
+          'kp_coupon_guest',
+          'kp_coupon_undefined',
+          'kp_coupon_v2_guest',
+          'kp_coupon_v2_undefined',
+        ];
+        legacyStaticKeys.forEach((k) => {
+          try {
+            localStorage.removeItem(k);
+          } catch {
+            // ignore
+          }
+        });
+
+        // Purge any other legacy versioned keys
+        try {
+          for (let i = localStorage.length - 1; i >= 0; i--) {
+            const key = localStorage.key(i);
+            if (
+              key &&
+              (key.startsWith('kp_cart_v1_') ||
+                key.startsWith('kp_cart_v2_') ||
+                key.startsWith('kp_coupon_v1_') ||
+                key.startsWith('kp_coupon_v2_'))
+            ) {
+              localStorage.removeItem(key);
+            }
+          }
+        } catch {
+          // ignore
+        }
       }
 
       // 2. Load legitimate user cart
@@ -63,7 +96,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          setItems(parsed);
+          const validItems = parsed.filter(
+            (item: any) =>
+              item &&
+              typeof item.id === 'string' &&
+              typeof item.product_id === 'string' &&
+              typeof item.price === 'number' &&
+              item.price > 0 &&
+              typeof item.quantity === 'number' &&
+              item.quantity > 0
+          );
+          setItems(validItems);
         } else {
           setItems([]);
         }
@@ -78,10 +121,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setAppliedCoupon(null);
       }
 
-      // 3. Load active Buy Now item from sessionStorage if exists
-      const savedBuyNow = sessionStorage.getItem('kp_buynow_session');
-      if (savedBuyNow) {
-        setBuyNowItem(JSON.parse(savedBuyNow));
+      // 3. Load active Buy Now item from sessionStorage only if on checkout
+      if (typeof window !== 'undefined') {
+        const isCheckoutPage = window.location.pathname.startsWith('/checkout');
+        if (isCheckoutPage) {
+          const savedBuyNow = sessionStorage.getItem('kp_buynow_session');
+          if (savedBuyNow) {
+            setBuyNowItem(JSON.parse(savedBuyNow));
+          }
+        } else {
+          // Remove orphan buy now session if user navigated away from checkout
+          sessionStorage.removeItem('kp_buynow_session');
+          setBuyNowItem(null);
+        }
       }
     } catch {
       setItems([]);
@@ -96,8 +148,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hasLoaded) return;
     try {
-      localStorage.setItem(cartKey, JSON.stringify(items));
-      if (appliedCoupon) {
+      if (items.length === 0) {
+        localStorage.removeItem(cartKey);
+      } else {
+        localStorage.setItem(cartKey, JSON.stringify(items));
+      }
+
+      if (appliedCoupon && items.length > 0) {
         localStorage.setItem(couponKey, JSON.stringify(appliedCoupon));
       } else {
         localStorage.removeItem(couponKey);
@@ -234,6 +291,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = () => {
     setItems([]);
     setAppliedCoupon(null);
+    try {
+      localStorage.removeItem(cartKey);
+      localStorage.removeItem(couponKey);
+    } catch {
+      // ignore
+    }
   };
 
   const applyCoupon = (code: string) => {

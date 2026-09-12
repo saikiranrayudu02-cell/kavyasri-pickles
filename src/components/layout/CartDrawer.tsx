@@ -33,6 +33,7 @@ export default function CartDrawer() {
     setIsCartDrawerOpen,
     updateQuantity,
     removeFromCart,
+    clearCart,
     applyCoupon,
     removeCoupon,
   } = useCart();
@@ -84,13 +85,24 @@ export default function CartDrawer() {
                 Your Pickle Jar Cart ({itemCount})
               </h2>
             </div>
-            <button
-              onClick={() => setIsCartDrawerOpen(false)}
-              className="p-1.5 text-stone-400 hover:text-stone-700 rounded-full hover:bg-stone-200/60 transition-colors"
-              aria-label="Close cart"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              {items.length > 0 && (
+                <button
+                  onClick={clearCart}
+                  className="text-[11px] text-red-600 hover:text-red-700 font-bold px-2 py-1 rounded-lg hover:bg-red-50 transition-colors"
+                  title="Clear all items in cart"
+                >
+                  Clear all
+                </button>
+              )}
+              <button
+                onClick={() => setIsCartDrawerOpen(false)}
+                className="p-1.5 text-stone-400 hover:text-stone-700 rounded-full hover:bg-stone-200/60 transition-colors"
+                aria-label="Close cart"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Free Shipping Progress Bar */}
