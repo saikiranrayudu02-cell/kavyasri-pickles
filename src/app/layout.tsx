@@ -14,7 +14,6 @@ import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import SplashScreen from '@/components/layout/SplashScreen';
-import SocialFloatingWidget from '@/components/layout/SocialFloatingWidget';
 
 const serifFont = Playfair_Display({
   subsets: ['latin'],
@@ -62,7 +61,6 @@ export default function RootLayout({
               <WishlistProvider>
                 <SplashScreen />
                 {children}
-                <SocialFloatingWidget />
               </WishlistProvider>
             </CartProvider>
           </AuthProvider>
