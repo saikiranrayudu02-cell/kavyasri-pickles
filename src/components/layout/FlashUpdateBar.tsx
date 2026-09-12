@@ -233,11 +233,11 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
 
       {/* Mode A: Continuous Infinite Marquee Loop */}
       {isMarquee ? (
-        <div className="relative py-2 sm:py-2.5 flex items-center min-h-11 sm:min-h-12 overflow-hidden">
-          {/* Left fixed broadcast badge - Clean & crisp, no dark overlays */}
-          <div className="z-10 pl-3 sm:pl-5 pr-4 flex items-center shrink-0">
+        <div className="relative py-2.5 sm:py-3.5 flex items-center min-h-12 sm:min-h-14 overflow-hidden">
+          {/* Left fixed broadcast badge */}
+          <div className="z-10 pl-2.5 sm:pl-5 pr-3 sm:pr-4 flex items-center shrink-0">
             <div
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs tracking-wider uppercase shrink-0 shadow-md ${themeStyle.badgeBg}`}
+              className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-wider uppercase shrink-0 shadow-md ${themeStyle.badgeBg}`}
             >
               <span className="relative flex h-2 w-2">
                 <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${themeStyle.pulseDot}`} />
@@ -251,12 +251,12 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
           {/* Endless Marquee Ticker Track Moving Smoothly */}
           <div className="flex-1 overflow-hidden">
             <div
-              className={`flex items-center gap-10 sm:gap-14 whitespace-nowrap ${
+              className={`flex items-center gap-8 sm:gap-14 whitespace-nowrap ${
                 marqueeDirection === 'rtl' ? 'animate-marquee-rtl' : 'animate-marquee-ltr'
               }`}
             >
               {marqueeItems.map((item, idx) => (
-                <div key={`${item.id}-${idx}`} className="flex items-center gap-4 sm:gap-6 shrink-0 group/item">
+                <div key={`${item.id}-${idx}`} className="flex items-center gap-3.5 sm:gap-6 shrink-0 group/item">
                   {/* Individual Item Badge */}
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] sm:text-[11px] font-black uppercase tracking-wider bg-black/40 text-amber-300 border border-amber-400/30 shadow-2xs">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
@@ -264,7 +264,7 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                   </span>
 
                   {/* Headline Message */}
-                  <span className={`text-xs sm:text-sm font-bold tracking-wide ${themeStyle.textColor}`}>
+                  <span className={`text-xs sm:text-sm font-extrabold tracking-wide drop-shadow-2xs ${themeStyle.textColor}`}>
                     {item.message}
                   </span>
 

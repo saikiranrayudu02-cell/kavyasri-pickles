@@ -232,18 +232,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marqueeLtr 180s linear infinite;
+  animation: marqueeLtr 28s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee {
-    animation-duration: 140s;
+    animation-duration: 36s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee {
-    animation-duration: 110s;
+    animation-duration: 45s;
   }
 }
 
@@ -255,18 +255,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee-ltr {
   display: flex;
   width: max-content;
-  animation: marqueeLtr 180s linear infinite;
+  animation: marqueeLtr 28s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee-ltr {
-    animation-duration: 140s;
+    animation-duration: 36s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee-ltr {
-    animation-duration: 110s;
+    animation-duration: 45s;
   }
 }
 
@@ -278,18 +278,18 @@ h1, h2, h3, h4, .font-serif {
 .animate-marquee-rtl {
   display: flex;
   width: max-content;
-  animation: marquee 180s linear infinite;
+  animation: marquee 28s linear infinite;
 }
 
 @media (min-width: 640px) {
   .animate-marquee-rtl {
-    animation-duration: 140s;
+    animation-duration: 36s;
   }
 }
 
 @media (min-width: 1024px) {
   .animate-marquee-rtl {
-    animation-duration: 110s;
+    animation-duration: 45s;
   }
 }
 
