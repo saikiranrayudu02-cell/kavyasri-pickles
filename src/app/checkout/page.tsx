@@ -27,7 +27,7 @@ function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isBuyNow = searchParams.get('mode') === 'buynow';
-  const { user } = useAuth();
+  const { user, isLoading: isAuthLoading } = useAuth();
   const {
     items,
     subtotal,
@@ -50,6 +50,15 @@ function CheckoutContent() {
   const checkoutTotal = isBuyNow && buyNowItem
     ? Math.max(0, checkoutSubtotal - checkoutDiscount + checkoutShipping + checkoutTax)
     : total;
+
+  // Enforce sign-in requirement on Checkout
+  useEffect(() => {
+    if (!isAuthLoading && !user) {
+      showToast('Please sign in to proceed with checkout!', 'info');
+      const checkoutRedirect = isBuyNow ? '/checkout?mode=buynow' : '/checkout';
+      router.push(`/login?redirect=${encodeURIComponent(checkoutRedirect)}`);
+    }
+  }, [user, isAuthLoading, isBuyNow, router, showToast]);
 
   // Contact & Address Form
   const [fullName, setFullName] = useState(user?.name || '');
@@ -91,6 +100,18 @@ function CheckoutContent() {
       }
     }
   }, [user]);
+
+  if (isAuthLoading || !user) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#faf7f2]">
+        <SubpageHeader />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-10 h-10 border-3 border-[#166534] border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-sm font-semibold text-stone-700">Verifying session...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (checkoutItems.length === 0) {
     return (

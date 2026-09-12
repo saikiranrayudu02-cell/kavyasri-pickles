@@ -16,9 +16,13 @@ import {
   Truck,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 
 export default function CartDrawer() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { showToast } = useToast();
   const {
     items,
     itemCount,
@@ -64,6 +68,11 @@ export default function CartDrawer() {
 
   const handleCheckoutClick = () => {
     setIsCartDrawerOpen(false);
+    if (!user) {
+      showToast('Please sign in to proceed to checkout!', 'info');
+      router.push('/login?redirect=/checkout');
+      return;
+    }
     router.push('/checkout');
   };
 

@@ -8,6 +8,8 @@ import { Heart, ShoppingBag, Star, Zap, ArrowRight } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import SpiceMeter from './SpiceMeter';
 import DietaryBadge from './DietaryBadge';
 
@@ -17,6 +19,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
+  const { user } = useAuth();
+  const { showToast } = useToast();
   const { addToCart, startBuyNow } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
@@ -42,6 +46,12 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!user) {
+      showToast('Please sign in to add items to your cart!', 'info');
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/shop';
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      return;
+    }
     if (isOutOfStock) return;
     addToCart(product, selectedWeight, 1);
   };
@@ -49,6 +59,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!user) {
+      showToast('Please sign in to buy this product!', 'info');
+      router.push(`/login?redirect=${encodeURIComponent('/checkout?mode=buynow')}`);
+      return;
+    }
     if (isOutOfStock) return;
     const item = startBuyNow(product, selectedWeight, 1);
     if (item) {

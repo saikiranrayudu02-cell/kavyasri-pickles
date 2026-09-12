@@ -27,6 +27,7 @@ import { DataStore } from '@/lib/data/store';
 import { Product, Review } from '@/lib/types';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 
 export default function ProductDetailPage() {
@@ -34,6 +35,7 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const slug = params?.slug as string;
 
+  const { user } = useAuth();
   const { addToCart, startBuyNow } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { showToast } = useToast();
@@ -91,11 +93,22 @@ export default function ProductDetailPage() {
       : product.discount_percent;
 
   const handleAddToCart = () => {
+    if (!user) {
+      showToast('Please sign in to add items to your cart!', 'info');
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : `/products/${slug}`;
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      return;
+    }
     if (isOutOfStock) return;
     addToCart(product, selectedWeight, quantity);
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      showToast('Please sign in to buy this product!', 'info');
+      router.push(`/login?redirect=${encodeURIComponent('/checkout?mode=buynow')}`);
+      return;
+    }
     if (isOutOfStock) return;
     const item = startBuyNow(product, selectedWeight, quantity);
     if (item) {

@@ -165,6 +165,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, appliedCoupon, hasLoaded, cartKey, couponKey]);
 
   const addToCart = (product: Product, variantWeight?: string, quantity = 1) => {
+    if (!user) {
+      showToast('Please sign in to add items to your cart!', 'info');
+      return;
+    }
+
     const selectedWeight = variantWeight || product.weight || '250g';
     const variant = product.variants?.find((v) => v.weight === selectedWeight);
     const price = variant ? variant.price : product.price;
@@ -219,6 +224,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
    * Does NOT add the item to `items` or increment `itemCount`.
    */
   const startBuyNow = (product: Product, variantWeight?: string, quantity = 1): CartItem | null => {
+    if (!user) {
+      showToast('Please sign in to buy products!', 'info');
+      return null;
+    }
+
     const selectedWeight = variantWeight || product.weight || '250g';
     const variant = product.variants?.find((v) => v.weight === selectedWeight);
     const price = variant ? variant.price : product.price;

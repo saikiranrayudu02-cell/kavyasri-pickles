@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Lock, Mail, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Lock, Mail, ArrowRight, Eye, EyeOff, Loader2, Sparkles } from 'lucide-react';
 import { useAuth, PRIMARY_ADMIN_EMAIL } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get('redirect');
   const { login } = useAuth();
   const { showToast } = useToast();
 
@@ -42,6 +44,8 @@ export default function LoginPage() {
 
       if (isAdminUser) {
         router.push('/admin');
+      } else if (redirectParam && redirectParam.startsWith('/')) {
+        router.push(redirectParam);
       } else {
         router.push('/account');
       }
@@ -67,12 +71,21 @@ export default function LoginPage() {
           Sign In to Your Account
         </h2>
         <p className="mt-2 text-sm text-stone-500">
-          Access your order history, profile, and saved delivery addresses.
+          {redirectParam
+            ? 'Sign in to access products, add items to cart, and place orders.'
+            : 'Access your order history, profile, and saved delivery addresses.'}
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 relative z-10 animate-fade-in-up stagger-2">
         <div className="bg-white py-8 px-6 shadow-xl shadow-stone-200/50 rounded-3xl border border-stone-200/80 sm:px-10">
+          {redirectParam && (
+            <div className="mb-5 p-3.5 bg-amber-50/90 border border-amber-200/90 rounded-2xl text-xs text-amber-900 flex items-center gap-2.5">
+              <Lock className="w-4 h-4 text-amber-700 shrink-0" />
+              <span>Please sign in or create an account to access, buy, and add products to your cart.</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-xs font-semibold text-stone-700 mb-1.5">
@@ -145,7 +158,10 @@ export default function LoginPage() {
           <div className="mt-8 pt-6 border-t border-stone-100 text-center">
             <p className="text-sm text-stone-500">
               Don&apos;t have an account yet?{' '}
-              <Link href="/register" className="font-bold text-[#166534] hover:underline">
+              <Link
+                href={redirectParam ? `/register?redirect=${encodeURIComponent(redirectParam)}` : '/register'}
+                className="font-bold text-[#166534] hover:underline"
+              >
                 Register Here
               </Link>
             </p>
@@ -153,5 +169,19 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#faf7f2] flex items-center justify-center">
+          <div className="w-8 h-8 border-3 border-[#166534] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

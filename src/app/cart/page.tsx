@@ -17,9 +17,13 @@ import {
 } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 
 export default function CartPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { showToast } = useToast();
   const {
     items,
     itemCount,
@@ -44,6 +48,15 @@ export default function CartPage() {
     if (couponCode.trim()) {
       applyCoupon(couponCode);
     }
+  };
+
+  const handleProceedToCheckout = () => {
+    if (!user) {
+      showToast('Please sign in to proceed to checkout!', 'info');
+      router.push('/login?redirect=/checkout');
+      return;
+    }
+    router.push('/checkout');
   };
 
   return (
@@ -256,7 +269,7 @@ export default function CartPage() {
 
                 {/* Checkout Button */}
                 <button
-                  onClick={() => router.push('/checkout')}
+                  onClick={handleProceedToCheckout}
                   className="w-full py-4 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-bold rounded-2xl shadow-lg shadow-red-900/20 flex items-center justify-center gap-2 text-sm transition-all transform active:scale-98"
                 >
                   <span>Proceed to Checkout</span>
