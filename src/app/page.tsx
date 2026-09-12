@@ -10,7 +10,6 @@ import {
   Award,
   Truck,
   HeartHandshake,
-  Sparkles,
   Star,
   CheckCircle2,
 } from 'lucide-react';
@@ -66,7 +65,7 @@ export default function HomePage() {
               {/* Left Column: Copy & CTAs */}
               <div className="lg:col-span-6 space-y-6 text-center lg:text-left z-10">
                 <div className="animate-fade-in-up inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/80 border border-amber-300 text-amber-900 text-xs font-bold shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
+                  <Award className="w-3.5 h-3.5 text-[#d97706]" />
                   <span>Handmade in Small Batches • Zero Preservatives</span>
                 </div>
 
@@ -234,7 +233,7 @@ export default function HomePage() {
 
               <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
                 <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-[#d97706] mb-4">
-                  <Sparkles className="w-6 h-6" />
+                  <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Quality Ingredients</h3>
                 <p className="text-xs text-stone-600 leading-relaxed">

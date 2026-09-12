@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import {
   Upload,
   ArrowLeft,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   Plus,

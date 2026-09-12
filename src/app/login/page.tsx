@@ -4,7 +4,7 @@ import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Lock, Mail, ArrowRight, Eye, EyeOff, Loader2, Sparkles } from 'lucide-react';
+import { Lock, Mail, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth, PRIMARY_ADMIN_EMAIL } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 

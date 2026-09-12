@@ -5,7 +5,6 @@ import Link from 'next/link';
 import {
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   ArrowRight,
   X,
   Flame,

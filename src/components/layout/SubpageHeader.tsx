@@ -3,12 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, ShoppingBag, ShieldCheck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import CartDrawer from '@/components/layout/CartDrawer';
 
 export default function SubpageHeader({ title }: { title?: string }) {
   const { itemCount, setIsCartDrawerOpen } = useCart();
+  const { isAdmin } = useAuth();
 
   return (
     <>
@@ -34,8 +36,19 @@ export default function SubpageHeader({ title }: { title?: string }) {
             />
           </Link>
 
-          {/* Right: Cart Button */}
-          <div className="flex items-center gap-3">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-bold text-xs transition-all shadow-xs shrink-0"
+                title="Go to Admin Panel"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+                <span className="hidden sm:inline">Admin Panel</span>
+              </Link>
+            )}
+
             <button
               onClick={() => setIsCartDrawerOpen(true)}
               className="relative p-2 text-stone-800 hover:text-[#9e1b1e] rounded-xl hover:bg-stone-200/50 transition-colors"

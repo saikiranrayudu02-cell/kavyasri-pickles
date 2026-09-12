@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Award, Sparkles, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
+import { Award, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';
 
 export default function AboutPage() {

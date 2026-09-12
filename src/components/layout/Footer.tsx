@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, ShieldCheck, Award, Heart, Sparkles } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck, Award, Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -23,7 +23,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-3 justify-center sm:justify-start">
             <div className="w-11 h-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center text-[#d97706] shrink-0">
-              <Sparkles className="w-5 h-5" />
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <h4 className="text-white font-bold text-sm">Wood-Pressed Oils</h4>

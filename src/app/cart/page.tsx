@@ -10,7 +10,7 @@ import {
   Minus,
   ShoppingBag,
   ArrowRight,
-  Sparkles,
+  Tag,
   ShieldCheck,
   Truck,
   CheckCircle2,
@@ -204,7 +204,7 @@ export default function CartPage() {
                 {appliedCoupon ? (
                   <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-emerald-600" />
+                      <Tag className="w-4 h-4 text-emerald-600" />
                       <div>
                         <span className="font-bold text-emerald-800">{appliedCoupon.code}</span>
                         <span className="text-emerald-700 ml-1">(-₹{discount})</span>

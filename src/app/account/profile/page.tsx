@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   ShieldCheck,
   Lock,
-  Sparkles,
   Save,
   Bell,
 } from 'lucide-react';

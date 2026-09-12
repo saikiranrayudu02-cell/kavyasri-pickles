@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Tag, Trash2, Eye, EyeOff, Edit2, Sparkles } from 'lucide-react';
+import { Plus, Tag, Trash2, Eye, EyeOff, Edit2 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { DataStore } from '@/lib/data/store';
 import { Coupon } from '@/lib/types';

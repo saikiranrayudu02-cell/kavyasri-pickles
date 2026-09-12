@@ -13,7 +13,6 @@ import {
   Zap,
   Plus,
   Minus,
-  Sparkles,
   Award,
   ChevronRight,
   CheckCircle2,
@@ -449,7 +448,7 @@ export default function ProductDetailPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                   <div className="p-4 rounded-xl bg-[#faf7f2] border border-stone-200">
                     <h4 className="font-bold text-stone-900 mb-1 flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-amber-600" />
+                      <ShieldCheck className="w-4 h-4 text-amber-600" />
                       Traditional Method
                     </h4>
                     <p className="text-xs text-stone-500">Handcrafted in small batches of 25kg, sun-cured naturally without commercial speed-up ovens.</p>

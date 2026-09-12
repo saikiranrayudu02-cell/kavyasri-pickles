@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   ChevronRight,
   ExternalLink,
-  Sparkles,
   ShoppingBag,
   ArrowRight,
 } from 'lucide-react';
@@ -138,7 +137,7 @@ export default function AccountHeader({
                   </h1>
                   {isAdmin && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                      <Sparkles className="w-3 h-3" /> Admin
+                      <ShieldCheck className="w-3 h-3 text-amber-400" /> Admin
                     </span>
                   )}
                 </div>

@@ -11,7 +11,7 @@ import {
   Trash2,
   ArrowRight,
   ShoppingBag,
-  Sparkles,
+  Tag,
   CheckCircle2,
   Truck,
 } from 'lucide-react';
@@ -241,7 +241,7 @@ export default function CartDrawer() {
               {appliedCoupon ? (
                 <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-emerald-600" />
+                    <Tag className="w-4 h-4 text-emerald-600" />
                     <div>
                       <span className="font-bold text-emerald-800">{appliedCoupon.code}</span>
                       <span className="text-emerald-700 ml-1">applied (-₹{discount})</span>

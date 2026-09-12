@@ -9,7 +9,6 @@ import {
   User,
   ChevronRight,
   Truck,
-  Sparkles,
   ShoppingBag,
   Clock,
   CheckCircle2,
@@ -132,7 +131,7 @@ export default function AccountDashboardPage() {
               {loading ? '...' : orders.length}
             </div>
             <p className="text-[10px] sm:text-[11px] text-stone-500 mt-1 flex items-center gap-1 font-medium truncate">
-              <Sparkles className="w-3 h-3 text-amber-500 shrink-0" /> <span className="truncate">Lifetime orders</span>
+              <Package className="w-3 h-3 text-amber-600 shrink-0" /> <span className="truncate">Lifetime orders</span>
             </p>
           </div>
 

@@ -15,7 +15,6 @@ import {
   ShieldCheck,
   Package,
   LogOut,
-  Sparkles,
   ChevronRight,
   ExternalLink,
 } from 'lucide-react';
@@ -90,46 +89,6 @@ export default function Navbar() {
     <>
       {/* Sticky Top Navigation Wrapper */}
       <div className="sticky top-0 z-40 w-full">
-        {/* Top Ticker Announcement Bar */}
-        <div className="bg-[#fef9ee] border-b border-[#ebdcc1]/80 text-stone-800 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 sm:gap-2 truncate">
-              <span className="bg-[#9e1b1e] text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
-                Festive Offer
-              </span>
-              <span className="truncate font-bold text-stone-800">
-                Free Express Shipping on all orders above ₹499 • Authentic Handcrafted Indian Pickles
-              </span>
-            </div>
-
-            <div className="hidden sm:flex items-center gap-2 shrink-0">
-              {isAdmin ? (
-                <Link
-                  href="/admin"
-                  className="inline-flex items-center gap-1 text-[11px] bg-stone-900 text-white font-bold px-2.5 py-0.8 rounded-md hover:bg-stone-800 transition-colors shadow-xs"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Admin Panel</span>
-                </Link>
-              ) : user ? (
-                <Link
-                  href="/account"
-                  className="inline-flex items-center gap-1 text-[11px] text-stone-800 hover:text-[#9e1b1e] hover:underline font-bold truncate max-w-37.5"
-                >
-                  <span className="truncate">My Account ({user.name})</span>
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="inline-flex items-center gap-1 text-[11px] text-stone-800 hover:text-[#9e1b1e] hover:underline font-bold"
-                >
-                  <span>Customer Login</span>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* Main Header */}
         <header
           className={`border-b py-2 sm:py-3 transition-[background-color,box-shadow,border-color] duration-200 ${
@@ -213,7 +172,7 @@ export default function Navbar() {
                       className="px-4 py-2 text-xs font-bold text-[#166534] hover:bg-emerald-50 flex items-center justify-between"
                     >
                       <span>View Full Catalogue</span>
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#166534]" />
                     </Link>
                   </div>
                 </div>
@@ -262,6 +221,18 @@ export default function Navbar() {
               )}
               {subtotal > 0 && <span className="hidden md:inline">| ₹{subtotal}</span>}
             </button>
+
+            {/* Admin Panel Direct Link (when logged in as admin) */}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white rounded-xl text-xs font-bold shadow-md shadow-red-950/15 transition-transform active:scale-95 shrink-0"
+                title="Go to Admin Panel"
+              >
+                <ShieldCheck className="w-4 h-4 text-amber-300" />
+                <span className="hidden sm:inline">Admin Panel</span>
+              </Link>
+            )}
 
             {/* Account Menu */}
             <div className="relative">

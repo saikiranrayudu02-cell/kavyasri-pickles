@@ -7,7 +7,6 @@ import {
   Users,
   Award,
   ArrowUpRight,
-  Sparkles,
   RefreshCw,
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';

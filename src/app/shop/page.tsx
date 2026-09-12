@@ -8,7 +8,6 @@ import {
   SlidersHorizontal,
   X,
   RotateCcw,
-  Sparkles,
 } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';
 import ProductCard from '@/components/product/ProductCard';

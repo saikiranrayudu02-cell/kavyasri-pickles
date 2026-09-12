@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Truck,
-  Sparkles,
   ShoppingBag,
 } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';

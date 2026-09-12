@@ -15,7 +15,6 @@ import {
   MapPin,
   CreditCard,
   ChevronRight,
-  Sparkles,
 } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';
 import { DataStore } from '@/lib/data/store';

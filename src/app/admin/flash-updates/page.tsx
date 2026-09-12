@@ -9,7 +9,7 @@ import {
   Edit2,
   Eye,
   EyeOff,
-  Sparkles,
+  Tag,
   RefreshCw,
   ExternalLink,
   Flame,
@@ -606,7 +606,7 @@ export default function AdminFlashUpdatesPage() {
                 >
                   <div className="flex items-center justify-between text-stone-900 font-bold group-hover:text-amber-900">
                     <span className="truncate">{tmpl.title}</span>
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Tag className="w-3.5 h-3.5 text-amber-500 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <p className="text-[11px] text-stone-500 truncate mt-0.5">{tmpl.badge}</p>
                 </button>

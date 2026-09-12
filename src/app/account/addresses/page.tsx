@@ -11,7 +11,6 @@ import {
   Building2,
   Phone,
   User,
-  Sparkles,
   X,
 } from 'lucide-react';
 import SubpageHeader from '@/components/layout/SubpageHeader';
