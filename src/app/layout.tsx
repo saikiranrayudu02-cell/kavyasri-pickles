@@ -17,6 +17,7 @@ import SplashScreen from '@/components/layout/SplashScreen';
 
 const serifFont = Playfair_Display({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-serif',
   display: 'swap',
 });
