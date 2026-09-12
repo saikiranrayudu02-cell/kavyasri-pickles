@@ -186,8 +186,14 @@ export default function AdminOrderDetailPage() {
         {/* Invoice Header (Company details & Logo) */}
         <div className="flex flex-col sm:flex-row justify-between items-start gap-6 border-b border-stone-200 pb-8">
           <div>
-            <div className="relative w-52 h-10 mb-2">
-              <Image src="/images/logo.svg" alt="Kavyasri Pickles" fill className="object-contain object-left" />
+            <div className="flex items-center gap-3 mb-2">
+              <div className="relative w-12 h-12 shrink-0">
+                <Image src="/images/kavya_sri_logo_transparent.png" alt="Kavya Sri Pickles & Ghee" fill className="object-contain" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif font-black text-xl text-stone-900 tracking-tight leading-none">Kavya Sri</span>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9e1b1e]">Pickles &amp; Ghee</span>
+              </div>
             </div>
             <p className="text-xs text-stone-500 max-w-xs">
               Traditional Taste • Homemade Love

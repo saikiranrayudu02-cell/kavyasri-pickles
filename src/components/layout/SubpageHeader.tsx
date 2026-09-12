@@ -24,14 +24,24 @@ export default function SubpageHeader({ title }: { title?: string }) {
           </Link>
 
           {/* Center: Brand Logo */}
-          <Link href="/" className="relative w-32 xs:w-40 sm:w-52 h-8 sm:h-10 transition-transform hover:scale-105 shrink-0">
-            <Image
-              src="/images/logo.svg"
-              alt="Kavyasri Pickles"
-              fill
-              className="object-contain"
-              priority
-            />
+          <Link href="/" className="flex items-center gap-2 group transition-transform hover:scale-105 shrink-0">
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 drop-shadow-sm">
+              <Image
+                src="/images/kavya_sri_logo_transparent.png"
+                alt="Kavya Sri Pickles & Ghee"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div className="flex flex-col justify-center leading-tight">
+              <span className="font-serif font-black text-sm sm:text-base tracking-tight text-stone-950 whitespace-nowrap">
+                Kavya Sri
+              </span>
+              <span className="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest text-[#9e1b1e] whitespace-nowrap">
+                Pickles &amp; Ghee
+              </span>
+            </div>
           </Link>
 
           {/* Right: Cart Button */}

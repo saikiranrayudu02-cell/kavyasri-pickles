@@ -95,14 +95,23 @@ export default function SplashScreen() {
       {/* Center Brand Identity */}
       <div className="flex flex-col items-center px-6 text-center max-w-sm sm:max-w-md w-full animate-fade-in">
         {/* Official Brand Logo */}
-        <div className="relative w-56 xs:w-68 sm:w-80 h-13 xs:h-16 sm:h-18 mb-3.5">
+        <div className="relative w-24 h-24 xs:w-28 xs:h-28 sm:w-32 sm:h-32 mb-3 drop-shadow-xl">
           <Image
-            src="/images/logo.svg"
-            alt="Kavyasri Pickles"
+            src="/images/kavya_sri_logo_transparent.png"
+            alt="Kavya Sri Pickles & Ghee"
             fill
             priority
             className="object-contain"
           />
+        </div>
+
+        <div className="flex flex-col items-center mb-2.5">
+          <h2 className="font-serif font-black text-2xl xs:text-3xl text-stone-900 tracking-tight">
+            Kavya Sri
+          </h2>
+          <span className="text-[11px] xs:text-xs font-extrabold uppercase tracking-widest text-[#9e1b1e]">
+            Pickles &amp; Ghee
+          </span>
         </div>
 
         {/* Minimal Clean Tagline */}

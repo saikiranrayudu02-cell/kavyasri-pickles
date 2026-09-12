@@ -20,10 +20,12 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-[#faf7f2] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Link href="/" className="inline-block mb-4">
-          <div className="relative w-64 h-12 mx-auto">
-            <Image src="/images/logo.svg" alt="Kavyasri Pickles" fill className="object-contain" priority />
+        <Link href="/" className="inline-flex flex-col items-center mb-4 group transition-transform hover:scale-105">
+          <div className="relative w-20 h-20 mx-auto drop-shadow-md mb-1.5">
+            <Image src="/images/kavya_sri_logo_transparent.png" alt="Kavya Sri Pickles & Ghee" fill className="object-contain" priority />
           </div>
+          <span className="font-serif font-black text-xl text-stone-900 tracking-tight">Kavya Sri</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9e1b1e]">Pickles &amp; Ghee</span>
         </Link>
         <h2 className="font-serif text-2xl font-bold text-stone-900">Reset Password</h2>
       </div>
