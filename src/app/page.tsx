@@ -12,6 +12,9 @@ import {
   HeartHandshake,
   Star,
   CheckCircle2,
+  Leaf,
+  Sun,
+  PackageCheck,
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -206,77 +209,127 @@ export default function HomePage() {
         </section>
 
         {/* WHY KAVYASRI PICKLES? (Brand USP) */}
-        <section className="py-16 bg-white border-b border-[#ede5d8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12 space-y-2 reveal-on-scroll">
-              <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
+        <section className="py-20 bg-gradient-to-b from-[#faf7f2] via-[#f5efe4] to-[#faf7f2] border-b border-[#ede5d8] relative overflow-hidden">
+          {/* Subtle Ambient Background Glows */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 right-10 w-80 h-80 bg-red-200/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto mb-14 reveal-on-scroll">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#9e1b1e]/10 border border-[#9e1b1e]/20 text-[#9e1b1e] text-xs font-bold tracking-widest uppercase mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9e1b1e] animate-pulse" />
                 The Kavyasri Promise
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-1">
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight">
                 Why Our Pickles Taste Like Home
               </h2>
-              <p className="text-sm text-stone-500 mt-2">
+              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#9e1b1e] to-transparent mx-auto my-4" />
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
                 We refuse to cut corners. No commercial chemicals, no artificial acidity, and no shortcuts.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-on-scroll">
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-[#9e1b1e] mb-4">
-                  <Award className="w-6 h-6" />
+            {/* Grid Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 reveal-on-scroll">
+              {/* Card 1 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#9e1b1e] group-hover:bg-[#9e1b1e] group-hover:text-white group-hover:border-[#9e1b1e] transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <Award className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">01</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Homemade Taste</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-[#9e1b1e] transition-colors">
+                  Homemade Taste
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Every jar is prepared in authentic home kitchens in small batches using traditional pestle & mortar spice pounding.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-[#d97706] mb-4">
-                  <ShieldCheck className="w-6 h-6" />
+              {/* Card 2 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#d97706] group-hover:bg-[#d97706] group-hover:text-white group-hover:border-[#d97706] transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <Leaf className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">02</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Quality Ingredients</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-[#d97706] transition-colors">
+                  Quality Ingredients
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Cold-pressed gingelly & mustard oils, sun-dried Guntur chillies, and hand-picked fresh produce straight from local farms.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 mb-4">
-                  <HeartHandshake className="w-6 h-6" />
+              {/* Card 3 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-rose-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-emerald-700 group-hover:bg-emerald-700 group-hover:text-white group-hover:border-emerald-700 transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <HeartHandshake className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">03</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Traditional Recipes</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-emerald-700 transition-colors">
+                  Traditional Recipes
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Passed down across three generations of master culinary grandmothers from the fertile Andhra & Telangana heartlands.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-700 mb-4">
-                  <Flame className="w-6 h-6" />
+              {/* Card 4 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <Sun className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">04</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Freshly Prepared</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-orange-600 transition-colors">
+                  Freshly Prepared
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Never mass-produced in giant warehouses. Each batch is aged naturally under the sun to perfection.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700 mb-4">
-                  <ShieldCheck className="w-6 h-6" />
+              {/* Card 5 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-sky-700 group-hover:bg-sky-700 group-hover:text-white group-hover:border-sky-700 transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <PackageCheck className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">05</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Hygienically Packed</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-sky-700 transition-colors">
+                  Hygienically Packed
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Packed in food-grade, leak-proof jars with tamper-evident seals and triple-layer protective bubble cushioning.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-[#faf7f2] border border-stone-200/90 hover:border-amber-400 transition-all duration-300 card-hover">
-                <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 mb-4">
-                  <Truck className="w-6 h-6" />
+              {/* Card 6 */}
+              <div className="group relative bg-white/90 backdrop-blur-md p-7 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="flex items-start justify-between mb-5">
+                  <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-purple-700 group-hover:bg-purple-700 group-hover:text-white group-hover:border-purple-700 transition-all duration-300 shadow-sm group-hover:scale-110">
+                    <Truck className="w-6 h-6 stroke-[2]" />
+                  </div>
+                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">06</span>
                 </div>
-                <h3 className="font-serif font-bold text-lg text-stone-900 mb-2">Delivered to Your Door</h3>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-purple-700 transition-colors">
+                  Delivered to Your Door
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
                   Speedy, insured express delivery across all pin codes in India with real-time tracking from kitchen to doorstep.
                 </p>
               </div>

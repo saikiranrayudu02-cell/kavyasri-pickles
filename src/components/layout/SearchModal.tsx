@@ -29,11 +29,38 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     };
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     };
   }, [isOpen, onClose]);
 
@@ -52,8 +79,17 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-stone-200">
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+      onClick={onClose}
+      onTouchMove={(e) => e.preventDefault()}
+      style={{ touchAction: 'none' }}
+    >
+      <div
+        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-stone-200"
+        onClick={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+      >
         {/* Search Input Bar */}
         <div className="flex items-center px-4 py-3 border-b border-stone-200 bg-[#faf7f2]">
           <Search className="w-5 h-5 text-[#166534] mr-3 shrink-0" />

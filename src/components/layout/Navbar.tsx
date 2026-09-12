@@ -39,12 +39,37 @@ export default function Navbar() {
 
   useEffect(() => {
     if (isMobileMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     }
     return () => {
-      document.body.style.overflow = '';
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     };
   }, [isMobileMenuOpen]);
 
@@ -337,95 +362,106 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-stone-200/80 bg-white/98 backdrop-blur-xl px-4 pt-3 pb-8 space-y-4 animate-fade-in shadow-2xl max-h-[85vh] overflow-y-auto">
-            {/* Mobile User Quick Info / Login Banner */}
-            <div className="p-3.5 rounded-2xl bg-linear-to-r from-amber-50 to-orange-50/70 border border-amber-200/80 flex items-center justify-between">
-              {user ? (
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-[#166534] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-                    {user.name.charAt(0).toUpperCase()}
+          <>
+            {/* Mobile Menu Backdrop */}
+            <div
+              className="fixed inset-0 top-[57px] bg-black/60 backdrop-blur-xs z-30 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+              onTouchMove={(e) => e.preventDefault()}
+              style={{ touchAction: 'none' }}
+            />
+
+            {/* Mobile Menu Drawer */}
+            <div className="relative z-40 lg:hidden border-t border-stone-200/80 bg-white/98 backdrop-blur-xl px-4 pt-3 pb-8 space-y-4 animate-fade-in shadow-2xl max-h-[85vh] overflow-y-auto overscroll-y-contain">
+              {/* Mobile User Quick Info / Login Banner */}
+              <div className="p-3.5 rounded-2xl bg-linear-to-r from-amber-50 to-orange-50/70 border border-amber-200/80 flex items-center justify-between">
+                {user ? (
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#166534] text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-stone-900 truncate">{user.name}</p>
+                      <p className="text-[10px] text-stone-500 truncate">{user.email}</p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold text-stone-900 truncate">{user.name}</p>
-                    <p className="text-[10px] text-stone-500 truncate">{user.email}</p>
+                ) : (
+                  <div className="flex items-center justify-between w-full gap-2">
+                    <div>
+                      <p className="text-xs font-bold text-stone-900">Welcome to Kavyasri!</p>
+                      <p className="text-[10px] text-stone-500">Sign in to track your orders</p>
+                    </div>
+                    <Link
+                      href="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3.5 py-1.5 bg-[#166534] text-white text-xs font-bold rounded-xl shadow-xs shrink-0"
+                    >
+                      Sign In
+                    </Link>
                   </div>
+                )}
+              </div>
+
+              {/* Primary Nav Links */}
+              <div className="space-y-1">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center justify-between px-3.5 py-2.5 text-xs font-bold rounded-xl transition-all ${
+                        isActive
+                          ? 'bg-[#166534] text-white shadow-xs'
+                          : 'text-stone-800 hover:bg-[#faf7f2] active:bg-stone-100'
+                      }`}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronRight className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-stone-400'}`} />
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Category Quick Chips */}
+              <div className="pt-3 border-t border-stone-100">
+                <div className="text-[10px] font-black uppercase text-stone-400 px-1 mb-2 tracking-wider">
+                  Explore Categories
                 </div>
-              ) : (
-                <div className="flex items-center justify-between w-full gap-2">
-                  <div>
-                    <p className="text-xs font-bold text-stone-900">Welcome to Kavyasri!</p>
-                    <p className="text-[10px] text-stone-500">Sign in to track your orders</p>
-                  </div>
+                <div className="grid grid-cols-1 gap-1.5">
+                  {categoryLinks.map((cat) => (
+                    <Link
+                      key={cat.href}
+                      href={cat.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-stone-700 hover:text-[#166534] hover:bg-emerald-50/50 rounded-xl transition-colors"
+                    >
+                      <span>{cat.name}</span>
+                      <span className="text-stone-300">→</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Admin Dashboard shortcut if admin */}
+              {isAdmin && (
+                <div className="pt-3 border-t border-stone-100">
                   <Link
-                    href="/login"
+                    href="/admin"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="px-3.5 py-1.5 bg-[#166534] text-white text-xs font-bold rounded-xl shadow-xs shrink-0"
+                    className="flex items-center justify-between px-3.5 py-2.5 bg-amber-100/90 text-amber-950 rounded-xl text-xs font-bold border border-amber-300/80 shadow-xs"
                   >
-                    Sign In
+                    <span className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-amber-700" />
+                      <span>Admin Management Portal</span>
+                    </span>
+                    <ExternalLink className="w-3.5 h-3.5 text-amber-700" />
                   </Link>
                 </div>
               )}
             </div>
-
-            {/* Primary Nav Links */}
-            <div className="space-y-1">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-3.5 py-2.5 text-xs font-bold rounded-xl transition-all ${
-                      isActive
-                        ? 'bg-[#166534] text-white shadow-xs'
-                        : 'text-stone-800 hover:bg-[#faf7f2] active:bg-stone-100'
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    <ChevronRight className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-stone-400'}`} />
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Category Quick Chips */}
-            <div className="pt-3 border-t border-stone-100">
-              <div className="text-[10px] font-black uppercase text-stone-400 px-1 mb-2 tracking-wider">
-                Explore Categories
-              </div>
-              <div className="grid grid-cols-1 gap-1.5">
-                {categoryLinks.map((cat) => (
-                  <Link
-                    key={cat.href}
-                    href={cat.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-stone-700 hover:text-[#166534] hover:bg-emerald-50/50 rounded-xl transition-colors"
-                  >
-                    <span>{cat.name}</span>
-                    <span className="text-stone-300">→</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Admin Dashboard shortcut if admin */}
-            {isAdmin && (
-              <div className="pt-3 border-t border-stone-100">
-                <Link
-                  href="/admin"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-3.5 py-2.5 bg-amber-100/90 text-amber-950 rounded-xl text-xs font-bold border border-amber-300/80 shadow-xs"
-                >
-                  <span className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-amber-700" />
-                    <span>Admin Management Portal</span>
-                  </span>
-                  <ExternalLink className="w-3.5 h-3.5 text-amber-700" />
-                </Link>
-              </div>
-            )}
-          </div>
+          </>
         )}
       </header>
       </div>

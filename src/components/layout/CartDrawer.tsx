@@ -47,12 +47,37 @@ export default function CartDrawer() {
 
   React.useEffect(() => {
     if (isCartDrawerOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     }
     return () => {
-      document.body.style.overflow = '';
+      const scrollY = document.body.style.top;
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+        }
+      }
     };
   }, [isCartDrawerOpen]);
 
@@ -82,12 +107,14 @@ export default function CartDrawer() {
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
         onClick={() => setIsCartDrawerOpen(false)}
+        onTouchMove={(e) => e.preventDefault()}
+        style={{ touchAction: 'none' }}
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col h-full overscroll-y-contain">
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-[#faf7f2]">
+          <div className="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between bg-[#faf7f2] shrink-0">
             <div className="flex items-center gap-2.5">
               <ShoppingBag className="w-5 h-5 text-[#166534]" />
               <h2 className="font-serif font-bold text-lg text-stone-900">
@@ -115,7 +142,7 @@ export default function CartDrawer() {
           </div>
 
           {/* Free Shipping Progress Bar */}
-          <div className="bg-[#fffbeb] border-b border-amber-200/70 px-4 py-2.5 text-xs text-amber-900">
+          <div className="bg-[#fffbeb] border-b border-amber-200/70 px-4 py-2.5 text-xs text-amber-900 shrink-0">
             {freeShippingRemaining > 0 ? (
               <div>
                 <div className="flex items-center justify-between mb-1.5 font-medium">
@@ -142,7 +169,10 @@ export default function CartDrawer() {
           </div>
 
           {/* Cart Items List */}
-          <div className="flex-1 overflow-y-auto p-4 divide-y divide-stone-100">
+          <div
+            className="flex-1 overflow-y-auto p-4 divide-y divide-stone-100 overscroll-y-contain"
+            style={{ WebkitOverflowScrolling: 'touch' }}
+          >
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6">
                 <div className="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center mb-4 text-stone-400">
