@@ -137,40 +137,42 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       {/* Body Content */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between font-sans">
         <div>
           {/* Category & Spice Level */}
-          <div className="flex items-center justify-between text-xs text-stone-500 mb-1.5">
-            <span className="font-medium text-[#78350f]">{product.category_name}</span>
+          <div className="flex items-center justify-between text-xs text-stone-500 mb-2">
+            <span className="font-semibold text-[11px] text-[#9e1b1e] tracking-wide uppercase bg-red-50/80 px-2 py-0.5 rounded-md border border-red-100/60">
+              {product.category_name}
+            </span>
             <SpiceMeter level={product.spice_level} showText={false} />
           </div>
 
           {/* Product Name */}
-          <Link href={`/products/${product.slug}`} className="block group-hover:text-[#9e1b1e] transition-colors">
-            <h3 className="font-serif font-bold text-stone-900 text-base leading-snug line-clamp-2">
+          <Link href={`/products/${product.slug}`} className="block transition-colors">
+            <h3 className="font-sans font-bold text-stone-900 text-sm sm:text-[15px] leading-snug line-clamp-2 group-hover:text-[#9e1b1e] tracking-tight">
               {product.name}
             </h3>
           </Link>
 
           {/* Star Rating */}
           <div className="flex items-center gap-1.5 mt-2 text-xs">
-            <div className="flex items-center text-amber-500">
+            <div className="flex items-center text-amber-500 bg-amber-50/80 px-2 py-0.5 rounded-md border border-amber-200/50">
               <Star className="w-3.5 h-3.5 fill-current" />
-              <span className="font-bold ml-1 text-stone-800">{product.rating}</span>
+              <span className="font-bold ml-1 text-stone-900 text-xs">{product.rating}</span>
             </div>
-            <span className="text-stone-400">({product.reviews_count} reviews)</span>
+            <span className="text-stone-400 font-medium">({product.reviews_count} reviews)</span>
           </div>
 
           {/* Weight Variant Selector */}
           {product.variants && product.variants.length > 1 && (
             <div className="flex items-center gap-1.5 mt-3">
-              <span className="text-[11px] font-medium text-stone-400">Pack:</span>
+              <span className="text-[11px] font-semibold text-stone-400">Pack:</span>
               <div className="flex flex-wrap gap-1.5">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.id}
                     onClick={() => setSelectedWeight(variant.weight)}
-                    className={`text-xs px-2.5 py-1 rounded-lg font-semibold transition-all min-h-7 ${
+                    className={`text-xs px-2.5 py-1 rounded-lg font-bold transition-all min-h-7 ${
                       selectedWeight === variant.weight
                         ? 'bg-[#9e1b1e] text-white shadow-xs'
                         : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -188,12 +190,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="mt-4 pt-3 border-t border-stone-100">
           <div className="flex items-baseline justify-between mb-3">
             <div className="flex items-baseline gap-2">
-              <span className="text-lg font-extrabold text-stone-900">₹{currentPrice}</span>
+              <span className="text-xl font-extrabold text-stone-950 tracking-tight">₹{currentPrice}</span>
               {currentMrp > currentPrice && (
-                <span className="text-xs text-stone-400 line-through">₹{currentMrp}</span>
+                <span className="text-xs text-stone-400 line-through font-medium">₹{currentMrp}</span>
               )}
             </div>
-            <span className="text-[11px] text-stone-500 font-medium">{selectedWeight} jar</span>
+            <span className="text-[11px] text-stone-500 font-semibold">{selectedWeight} jar</span>
           </div>
 
           {/* Action Buttons */}

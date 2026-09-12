@@ -8,7 +8,6 @@ import {
   ArrowRight,
   Flame,
   Clock,
-  Sparkles,
   Zap,
 } from 'lucide-react';
 import { DataStore } from '@/lib/data/store';
@@ -287,8 +286,8 @@ export default function FlashUpdateBar({ className = '' }: FlashUpdateBarProps) 
                     </Link>
                   )}
 
-                  {/* Decorative Sparkle Divider */}
-                  <span className="text-amber-400/80 text-xs px-2 select-none">✦</span>
+                  {/* Decorative Divider */}
+                  <span className="text-amber-400/80 text-xs px-2 select-none">•</span>
                 </div>
               ))}
             </div>

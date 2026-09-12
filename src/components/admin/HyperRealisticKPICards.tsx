@@ -9,7 +9,7 @@ import {
   ArrowUpRight,
   IndianRupee,
   Clock,
-  Sparkles,
+  ShieldCheck,
   Package,
 } from 'lucide-react';
 
@@ -152,7 +152,7 @@ export default function HyperRealisticKPICards({
             </div>
             <div className="flex items-center gap-2 mt-1.5">
               <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-purple-100/90 text-purple-900 text-[11px] font-extrabold">
-                <Sparkles className="w-3 h-3 text-purple-700" />
+                <ShieldCheck className="w-3 h-3 text-purple-700" />
                 Active Catalog
               </span>
               <span className="text-[11px] text-stone-400 font-medium">in store</span>

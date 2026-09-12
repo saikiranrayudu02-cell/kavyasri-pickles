@@ -516,7 +516,7 @@ export default function AdminFlashUpdatesPage() {
                             <ArrowRight className="w-3 h-3" />
                           </span>
                         )}
-                        <span className="text-amber-400/70 text-xs">✦</span>
+                        <span className="text-amber-400/70 text-xs">•</span>
                       </div>
                     ))}
                   </div>

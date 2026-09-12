@@ -226,7 +226,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Title */}
-              <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 leading-tight">
+              <h1 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-950 leading-tight tracking-tight">
                 {product.name}
               </h1>
 
@@ -242,7 +242,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Short Description */}
-              <p className="text-sm text-stone-600 mt-4 leading-relaxed">
+              <p className="text-sm sm:text-base text-stone-700 mt-4 leading-relaxed font-normal">
                 {product.short_description}
               </p>
 
@@ -250,9 +250,9 @@ export default function ProductDetailPage() {
               <div className="mt-6 p-4 rounded-2xl bg-[#faf7f2] border border-stone-200/80 flex items-baseline justify-between">
                 <div>
                   <div className="flex items-baseline gap-3">
-                    <span className="text-3xl font-extrabold text-stone-900">₹{currentPrice}</span>
+                    <span className="text-3xl sm:text-4xl font-black text-stone-950 tracking-tight">₹{currentPrice}</span>
                     {currentMrp > currentPrice && (
-                      <span className="text-base text-stone-400 line-through">₹{currentMrp}</span>
+                      <span className="text-base sm:text-lg text-stone-400 line-through font-medium">₹{currentMrp}</span>
                     )}
                     {discountPercent > 0 && (
                       <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
@@ -466,7 +466,7 @@ export default function ProductDetailPage() {
 
             {activeTab === 'ingredients' && (
               <div className="space-y-4 max-w-3xl">
-                <h4 className="font-serif font-bold text-base text-stone-900">What Goes Inside:</h4>
+                <h4 className="font-extrabold text-base sm:text-lg text-stone-950 tracking-tight">What Goes Inside:</h4>
                 <div className="flex flex-wrap gap-2">
                   {product.ingredients.map((ing, i) => (
                     <span
@@ -508,7 +508,7 @@ export default function ProductDetailPage() {
               <div className="space-y-8 max-w-3xl">
                 {/* Write a Review form */}
                 <div className="p-5 rounded-2xl bg-[#faf7f2] border border-stone-200">
-                  <h4 className="font-serif font-bold text-stone-900 text-base mb-3">Write a Customer Review</h4>
+                  <h4 className="font-extrabold text-stone-950 text-base sm:text-lg tracking-tight mb-3">Write a Customer Review</h4>
                   <form onSubmit={handleReviewSubmit} className="space-y-3">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
@@ -596,7 +596,7 @@ export default function ProductDetailPage() {
         {relatedProducts.length > 0 && (
           <div className="mt-16 mb-16 sm:mb-0">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="font-serif font-bold text-2xl text-stone-900">
+              <h3 className="font-extrabold text-xl sm:text-2xl text-stone-950 tracking-tight">
                 You May Also Relish
               </h3>
               <Link href="/shop" className="text-xs font-bold text-[#166534] hover:underline">

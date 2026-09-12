@@ -7,7 +7,7 @@ export const viewport: Viewport = {
   themeColor: '#eba715',
   viewportFit: 'cover',
 };
-import { Playfair_Display, Plus_Jakarta_Sans, Inter } from 'next/font/google';
+import { Playfair_Display, Outfit, Inter } from 'next/font/google';
 import './globals.css';
 import { ToastProvider } from '@/context/ToastContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -22,7 +22,7 @@ const serifFont = Playfair_Display({
   display: 'swap',
 });
 
-const sansFont = Plus_Jakarta_Sans({
+const sansFont = Outfit({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',

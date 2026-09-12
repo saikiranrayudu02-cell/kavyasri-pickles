@@ -8,7 +8,6 @@ import {
   MapPin,
   ShieldCheck,
   Award,
-  Sparkles,
   Heart,
   Clock,
   ExternalLink,
@@ -38,7 +37,7 @@ export default function Footer() {
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-3 text-center md:text-left">
               <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
-                <Sparkles className="w-5 h-5" />
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <h4 className="text-white font-semibold text-xs tracking-wide uppercase">Wood-Pressed Oils</h4>
@@ -94,9 +93,11 @@ export default function Footer() {
                 href="https://wa.me/919705222744?text=Hello%20Kavyasri%20Pickles,%20I%20would%20like%20to%20place%20an%20order!"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors shadow-xs"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-semibold transition-colors shadow-xs"
               >
-                <MessageCircle className="w-4 h-4" />
+                <div className="relative w-4 h-4">
+                  <Image src="/images/whatsapp.svg" alt="WhatsApp" fill className="object-contain" />
+                </div>
                 <span>WhatsApp Order</span>
               </a>
 
