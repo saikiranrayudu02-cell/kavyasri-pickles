@@ -91,13 +91,13 @@ export default function Navbar() {
       {/* Sticky Top Navigation Wrapper */}
       <div className="sticky top-0 z-40 w-full">
         {/* Top Ticker Announcement Bar */}
-        <div className="bg-[#dba32b] text-stone-950 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
+        <div className="bg-[#fef9ee] border-b border-[#ebdcc1]/80 text-stone-800 text-[10px] sm:text-xs font-semibold py-1.5 px-3 sm:px-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 sm:gap-2 truncate">
-              <span className="bg-black text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
+              <span className="bg-[#9e1b1e] text-white text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded tracking-wide shrink-0">
                 Festive Offer
               </span>
-              <span className="truncate font-bold text-stone-950">
+              <span className="truncate font-bold text-stone-800">
                 Free Express Shipping on all orders above ₹499 • Authentic Handcrafted Indian Pickles
               </span>
             </div>
@@ -106,7 +106,7 @@ export default function Navbar() {
               {isAdmin ? (
                 <Link
                   href="/admin"
-                  className="inline-flex items-center gap-1 text-[11px] bg-black text-white font-bold px-2.5 py-0.8 rounded-md hover:bg-stone-800 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1 text-[11px] bg-stone-900 text-white font-bold px-2.5 py-0.8 rounded-md hover:bg-stone-800 transition-colors shadow-xs"
                 >
                   <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
                   <span>Admin Panel</span>
@@ -114,14 +114,14 @@ export default function Navbar() {
               ) : user ? (
                 <Link
                   href="/account"
-                  className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold truncate max-w-37.5"
+                  className="inline-flex items-center gap-1 text-[11px] text-stone-800 hover:text-[#9e1b1e] hover:underline font-bold truncate max-w-37.5"
                 >
                   <span className="truncate">My Account ({user.name})</span>
                 </Link>
               ) : (
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-1 text-[11px] text-stone-950 hover:underline font-bold"
+                  className="inline-flex items-center gap-1 text-[11px] text-stone-800 hover:text-[#9e1b1e] hover:underline font-bold"
                 >
                   <span>Customer Login</span>
                 </Link>
@@ -134,8 +134,8 @@ export default function Navbar() {
         <header
           className={`border-b py-2 sm:py-3 transition-[background-color,box-shadow,border-color] duration-200 ${
             isScrolled
-              ? 'bg-[#eba715]/95 backdrop-blur-xl shadow-md shadow-amber-900/10 border-[#d97706]/40'
-              : 'bg-[#eba715] border-[#d97706]/20'
+              ? 'bg-[#fdf8ed]/98 backdrop-blur-2xl shadow-md shadow-amber-950/5 border-[#ebdcc1]'
+              : 'bg-[#fdf8ed]/95 backdrop-blur-xl border-[#ebdcc1]'
           }`}
         >
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1 sm:gap-4">
@@ -143,7 +143,7 @@ export default function Navbar() {
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-1.5 sm:p-2 text-stone-950 hover:text-black rounded-xl hover:bg-black/10 transition-colors touch-manipulation"
+              className="lg:hidden p-1.5 sm:p-2 text-stone-800 hover:text-stone-950 rounded-xl hover:bg-stone-200/50 transition-colors touch-manipulation"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
@@ -173,8 +173,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-colors ${
                     isActive
-                      ? 'text-[#166534] bg-white shadow-xs font-extrabold'
-                      : 'text-stone-950 hover:text-[#166534] hover:bg-black/10'
+                      ? 'text-[#9e1b1e] bg-white shadow-xs font-extrabold border border-[#ebdcc1]/80'
+                      : 'text-stone-800 hover:text-[#9e1b1e] hover:bg-stone-200/40'
                   }`}
                 >
                   {link.label}
@@ -187,10 +187,10 @@ export default function Navbar() {
               <button
                 onClick={() => setIsCategoriesDropdownOpen(!isCategoriesDropdownOpen)}
                 onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
-                className="px-3.5 py-2 rounded-xl text-sm font-bold text-stone-950 hover:text-[#166534] hover:bg-black/10 flex items-center gap-1 transition-colors"
+                className="px-3.5 py-2 rounded-xl text-sm font-bold text-stone-800 hover:text-[#9e1b1e] hover:bg-stone-200/40 flex items-center gap-1 transition-colors"
               >
                 <span>Pickle Categories</span>
-                <ChevronDown className="w-4 h-4 text-stone-900" />
+                <ChevronDown className="w-4 h-4 text-stone-600" />
               </button>
 
               {isCategoriesDropdownOpen && (
@@ -226,22 +226,22 @@ export default function Navbar() {
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2 sm:px-3 sm:py-2 text-stone-900 bg-white/90 hover:bg-white rounded-full sm:rounded-xl flex items-center gap-2 text-xs font-semibold border border-black/10 shadow-xs transition-colors"
+              className="p-2 sm:px-3 sm:py-2 text-stone-800 bg-white hover:bg-stone-50 rounded-full sm:rounded-xl flex items-center gap-2 text-xs font-semibold border border-[#ebdcc1] shadow-xs transition-colors"
               aria-label="Search"
             >
-              <Search className="w-4 h-4 text-stone-800" />
-              <span className="hidden md:inline text-stone-700 font-medium">Search pickles...</span>
+              <Search className="w-4 h-4 text-stone-600" />
+              <span className="hidden md:inline text-stone-600 font-medium">Search pickles...</span>
             </button>
 
             {/* Wishlist Link */}
             <Link
               href="/wishlist"
-              className="relative p-2 text-stone-950 hover:text-black hover:bg-black/10 rounded-full transition-colors"
+              className="relative p-2 text-stone-800 hover:text-[#9e1b1e] hover:bg-stone-200/50 rounded-full transition-colors"
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
               {wishlist.length > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-[#166534] text-white text-[10px] font-bold flex items-center justify-center shadow-md ring-2 ring-[#eba715]">
+                <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-[#9e1b1e] text-white text-[10px] font-bold flex items-center justify-center shadow-md ring-2 ring-[#fdf8ed]">
                   {wishlist.length}
                 </span>
               )}
@@ -250,13 +250,13 @@ export default function Navbar() {
             {/* Cart Drawer Trigger */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative flex items-center gap-2 bg-[#166534] hover:bg-[#14532d] text-white px-3 sm:px-4 py-2 rounded-xl text-xs font-bold shadow-md shadow-emerald-900/20 transition-transform active:scale-95"
+              className="relative flex items-center gap-2 bg-[#166534] hover:bg-[#14532d] text-white px-3 sm:px-4 py-2 rounded-xl text-xs font-bold shadow-md shadow-emerald-950/15 transition-transform active:scale-95"
               aria-label="Open cart"
             >
               <ShoppingBag className="w-4 h-4" />
               <span className="hidden sm:inline">Cart</span>
               {itemCount > 0 && (
-                <span className="bg-black text-white text-[11px] font-black px-1.5 py-0.2 rounded-full">
+                <span className="bg-amber-400 text-stone-950 text-[11px] font-black px-1.5 py-0.2 rounded-full shadow-xs">
                   {itemCount}
                 </span>
               )}
@@ -267,7 +267,7 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
-                className="p-2 text-stone-950 hover:text-black hover:bg-black/10 rounded-full transition-colors"
+                className="p-2 text-stone-800 hover:text-[#9e1b1e] hover:bg-stone-200/50 rounded-full transition-colors"
                 aria-label="User Account"
               >
                 <User className="w-5 h-5" />

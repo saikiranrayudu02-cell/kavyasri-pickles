@@ -12,12 +12,12 @@ export default function SubpageHeader({ title }: { title?: string }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-[#eba715]/95 backdrop-blur-xl border-b border-[#d4940f] shadow-md transition-all">
+      <header className="sticky top-0 z-40 bg-[#fdf8ed]/95 backdrop-blur-xl border-b border-[#ebdcc1] shadow-xs transition-all">
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
           {/* Left: Back to Home button */}
           <Link
             href="/"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-stone-900 font-bold text-xs transition-all border border-stone-900/10 active:scale-95 shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-xs transition-all border border-[#ebdcc1] shadow-2xs active:scale-95 shrink-0"
           >
             <ArrowLeft className="w-4 h-4 text-[#9e1b1e]" />
             <span className="hidden sm:inline">Back to Home</span>
@@ -38,12 +38,12 @@ export default function SubpageHeader({ title }: { title?: string }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative p-2 text-stone-900 hover:text-[#9e1b1e] rounded-xl hover:bg-white/10 transition-colors"
+              className="relative p-2 text-stone-800 hover:text-[#9e1b1e] rounded-xl hover:bg-stone-200/50 transition-colors"
               aria-label="View Shopping Cart"
             >
               <ShoppingBag className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#9e1b1e] text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#eba715] shadow-xs animate-pulse">
+                <span className="absolute -top-1 -right-1 bg-[#9e1b1e] text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#fdf8ed] shadow-xs animate-pulse">
                   {itemCount}
                 </span>
               )}
