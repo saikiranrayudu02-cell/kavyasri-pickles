@@ -224,9 +224,9 @@ function ShopContent() {
         </div>
 
         {/* Content Layout: Filter Sidebar + Products Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
           {/* Desktop Filter Sidebar */}
-          <aside className="hidden lg:block space-y-6">
+          <aside className="hidden lg:block space-y-6 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar pb-6">
             <div className="bg-white rounded-2xl p-5 border border-stone-200/90 shadow-2xs space-y-6">
               {/* Search Bar in Filter */}
               <div>
