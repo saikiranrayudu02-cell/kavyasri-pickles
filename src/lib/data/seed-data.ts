@@ -55,14 +55,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Avakaya Pickle",
     "slug": "avakaya-pickle",
-    "short_description": "Authentic Andhra raw mango avakaya pickle made with stone-ground Guntur chillies & cold-pressed sesame oil.",
+    "short_description": "Authentic homemade Andhra-style raw mango pickle prepared with stone-ground Guntur chillies, mustard, and cold-pressed sesame oil.",
     "description": "Our traditional Avakaya Pickle is crafted with fresh, hand-cut raw Ramkela mangoes, sun-cured with stone-ground Guntur red chillies, fragrant mustard powder, garlic, and pure gingelly oil following an authentic heirloom Andhra recipe.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 60,
-    "sku": "KP-AVK-250",
+    "sku": "KP-AVK-1KG",
     "spice_level": "Extra Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -85,7 +85,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 152,
     "variants": [
       {
-        "id": "var-avakaya-1kg",
+        "id": "var-avk-1kg",
         "product_id": "prod-avakaya",
         "weight": "1kg",
         "price": 400,
@@ -93,19 +93,19 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 60
       },
       {
-        "id": "var-avakaya-500g",
+        "id": "var-avk-500g",
         "product_id": "prod-avakaya",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 35
       },
       {
-        "id": "var-avakaya-250g",
+        "id": "var-avk-250g",
         "product_id": "prod-avakaya",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
+        "price": 149,
+        "mrp": 199,
         "stock_quantity": 20
       }
     ],
@@ -117,14 +117,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Tomato Pickle",
     "slug": "tomato-pickle",
-    "short_description": "Rich red country tomato pickle slow-simmered with tamarind pulp, mustard, and curry leaves.",
+    "short_description": "Rich red country tomato pickle slow-reduced with tamarind pulp, roasted mustard, and curry leaves.",
     "description": "Juicy vine-ripened tomatoes slow-reduced with tamarind, red chilli oil, mustard seeds, and fried curry leaves to create a rich savory tomato thokku pickle perfect with hot rice, idlis, and parathas.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 50,
-    "sku": "KP-TOM-250",
+    "sku": "KP-TOM-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -148,7 +148,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 88,
     "variants": [
       {
-        "id": "var-tomato-1kg",
+        "id": "var-tom-1kg",
         "product_id": "prod-tomato",
         "weight": "1kg",
         "price": 400,
@@ -156,20 +156,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 50
       },
       {
-        "id": "var-tomato-500g",
+        "id": "var-tom-500g",
         "product_id": "prod-tomato",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
+        "price": 249,
+        "mrp": 299,
         "stock_quantity": 30
       },
       {
-        "id": "var-tomato-250g",
+        "id": "var-tom-250g",
         "product_id": "prod-tomato",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 15
       }
     ],
     "created_at": "2026-08-02T10:00:00Z"
@@ -180,14 +180,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Pandu Mirchi Pickle",
     "slug": "pandu-mirchi-pickle",
-    "short_description": "Fiery Andhra red chilli pickle made from ripe red chillies, tamarind, and garlic.",
+    "short_description": "Fiery Andhra red chilli pickle prepared with freshly harvested ripe red chillies, garlic, and wild tamarind.",
     "description": "Authentic Andhra Pandu Mirchi Pachadi crafted with freshly harvested ripe red chillies coarsely ground with wild tamarind, plump garlic cloves, and cold-pressed gingelly oil for an unmatched spicy explosion.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 45,
-    "sku": "KP-PND-250",
+    "sku": "KP-PND-1KG",
     "spice_level": "Extra Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -210,7 +210,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 110,
     "variants": [
       {
-        "id": "var-pandu-mirchi-1kg",
+        "id": "var-pnd-1kg",
         "product_id": "prod-pandu-mirchi",
         "weight": "1kg",
         "price": 400,
@@ -218,20 +218,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 45
       },
       {
-        "id": "var-pandu-mirchi-500g",
+        "id": "var-pnd-500g",
         "product_id": "prod-pandu-mirchi",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 25
       },
       {
-        "id": "var-pandu-mirchi-250g",
+        "id": "var-pnd-250g",
         "product_id": "prod-pandu-mirchi",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 12
       }
     ],
     "created_at": "2026-08-03T10:00:00Z"
@@ -242,14 +242,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Gongura Pickle",
     "slug": "gongura-pickle",
-    "short_description": "Authentic tangy sorrel leaf pickle slow-roasted with roasted red chillies and garlic.",
+    "short_description": "Authentic tangy sorrel leaf pickle slow-cooked in cold-pressed sesame oil with roasted red chillies and garlic.",
     "description": "Handpicked fresh red sorrel leaves slow-cooked in fragrant cold-pressed sesame oil, tempered with sun-dried red chillies, garlic, and fenugreek. Delivers the legendary tangy Andhra taste.",
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
     "weight": "1kg",
     "stock_quantity": 50,
-    "sku": "KP-GON-250",
+    "sku": "KP-GON-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -272,7 +272,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 125,
     "variants": [
       {
-        "id": "var-gongura-1kg",
+        "id": "var-gon-1kg",
         "product_id": "prod-gongura",
         "weight": "1kg",
         "price": 600,
@@ -280,20 +280,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 50
       },
       {
-        "id": "var-gongura-500g",
+        "id": "var-gon-500g",
         "product_id": "prod-gongura",
         "weight": "500g",
-        "price": 330,
-        "mrp": 384,
+        "price": 349,
+        "mrp": 399,
         "stock_quantity": 30
       },
       {
-        "id": "var-gongura-250g",
+        "id": "var-gon-250g",
         "product_id": "prod-gongura",
         "weight": "250g",
-        "price": 180,
-        "mrp": 209,
-        "stock_quantity": 20
+        "price": 199,
+        "mrp": 249,
+        "stock_quantity": 15
       }
     ],
     "created_at": "2026-08-04T10:00:00Z"
@@ -304,14 +304,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Nimmakaya Pickle",
     "slug": "nimmakaya-pickle",
-    "short_description": "Traditional sun-cured yellow lemon pickle with spicy salt seasoning & mustard seeds.",
+    "short_description": "Traditional sun-cured yellow lemon pickle seasoned with rock salt, yellow mustard, and spicy red chilli.",
     "description": "Fresh kagzi lemons sun-cured for 21 days with rock salt, yellow mustard, and spicy red chilli powder to create a lip-smacking digestion-boosting tangy lemon pickle.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 55,
-    "sku": "KP-NMK-250",
+    "sku": "KP-NMK-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "18 Months",
@@ -333,7 +333,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 75,
     "variants": [
       {
-        "id": "var-nimmakaya-1kg",
+        "id": "var-nmk-1kg",
         "product_id": "prod-nimmakaya",
         "weight": "1kg",
         "price": 400,
@@ -341,20 +341,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 55
       },
       {
-        "id": "var-nimmakaya-500g",
+        "id": "var-nmk-500g",
         "product_id": "prod-nimmakaya",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
+        "price": 249,
+        "mrp": 299,
         "stock_quantity": 30
       },
       {
-        "id": "var-nimmakaya-250g",
+        "id": "var-nmk-250g",
         "product_id": "prod-nimmakaya",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 15
       }
     ],
     "created_at": "2026-08-05T10:00:00Z"
@@ -365,14 +365,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Dabbakaya Pickle",
     "slug": "dabbakaya-pickle",
-    "short_description": "Authentic South Indian citron pickle seasoned with fenugreek & roasted mustard oil.",
+    "short_description": "Authentic South Indian citron pickle prepared with split fenugreek, yellow mustard, and roasted sesame oil.",
     "description": "Hand-harvested Indian citron (Dabbakaya) cured with traditional spices, split fenugreek, mustard, and gingelly oil, offering a rare combination of citrus aroma and savory spice.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 40,
-    "sku": "KP-DBK-250",
+    "sku": "KP-DBK-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -394,7 +394,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 62,
     "variants": [
       {
-        "id": "var-dabbakaya-1kg",
+        "id": "var-dbk-1kg",
         "product_id": "prod-dabbakaya",
         "weight": "1kg",
         "price": 400,
@@ -402,20 +402,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 40
       },
       {
-        "id": "var-dabbakaya-500g",
+        "id": "var-dbk-500g",
         "product_id": "prod-dabbakaya",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 20
       },
       {
-        "id": "var-dabbakaya-250g",
+        "id": "var-dbk-250g",
         "product_id": "prod-dabbakaya",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-06T10:00:00Z"
@@ -426,14 +426,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Vendu Mirchi Gongura Pickle",
     "slug": "vendu-mirchi-gongura-pickle",
-    "short_description": "Sun-dried red chillies blended with Gongura sorrel leaves and garlic.",
+    "short_description": "Sun-dried red chillies braised with tangy Gongura sorrel leaves, roasted mustard seeds, and garlic.",
     "description": "Crisp sun-dried whole red chillies braised with sour Gongura sorrel leaves, roasted mustard seeds, garlic, and sesame oil to create a fiery regional Andhra favorite.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 48,
-    "sku": "KP-VMG-250",
+    "sku": "KP-VMG-1KG",
     "spice_level": "Extra Hot",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -455,7 +455,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 82,
     "variants": [
       {
-        "id": "var-vendu-mirchi-gongura-1kg",
+        "id": "var-vmg-1kg",
         "product_id": "prod-vendu-mirchi-gongura",
         "weight": "1kg",
         "price": 400,
@@ -463,20 +463,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 48
       },
       {
-        "id": "var-vendu-mirchi-gongura-500g",
+        "id": "var-vmg-500g",
         "product_id": "prod-vendu-mirchi-gongura",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 28
       },
       {
-        "id": "var-vendu-mirchi-gongura-250g",
+        "id": "var-vmg-250g",
         "product_id": "prod-vendu-mirchi-gongura",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 12
       }
     ],
     "created_at": "2026-08-07T10:00:00Z"
@@ -487,14 +487,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Allam Pickle",
     "slug": "allam-pickle",
-    "short_description": "Rich Andhra ginger pickle with tamarind, organic jaggery, and spices.",
+    "short_description": "Rich Andhra ginger pickle cooked with thick tamarind pulp, organic dark jaggery, and sesame oil tempering.",
     "description": "Freshly grated ginger root slow-cooked with thick tamarind pulp, organic dark jaggery, red chilli powder, and sesame oil tempering. Perfectly balances sweet, tangy, and spicy notes.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 50,
-    "sku": "KP-ALM-250",
+    "sku": "KP-ALM-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -516,7 +516,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 95,
     "variants": [
       {
-        "id": "var-allam-1kg",
+        "id": "var-alm-1kg",
         "product_id": "prod-allam",
         "weight": "1kg",
         "price": 400,
@@ -524,20 +524,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 50
       },
       {
-        "id": "var-allam-500g",
+        "id": "var-alm-500g",
         "product_id": "prod-allam",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
+        "price": 249,
+        "mrp": 299,
         "stock_quantity": 30
       },
       {
-        "id": "var-allam-250g",
+        "id": "var-alm-250g",
         "product_id": "prod-allam",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 14
       }
     ],
     "created_at": "2026-08-08T10:00:00Z"
@@ -548,14 +548,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Pudina Pickle",
     "slug": "pudina-pickle",
-    "short_description": "Fresh mint leaf pickle seasoned with garlic, tamarind, and cold-pressed oil.",
+    "short_description": "Fresh garden mint leaf pickle roasted with green chillies, tamarind pulp, garlic cloves, and gingelly oil.",
     "description": "Aromatic fresh garden mint (pudina) leaves roasted with green chillies, tamarind pulp, garlic cloves, and gingelly oil, creating a refreshing yet zesty pickle.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 42,
-    "sku": "KP-PDN-250",
+    "sku": "KP-PDN-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "6 Months",
@@ -577,7 +577,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 68,
     "variants": [
       {
-        "id": "var-pudina-1kg",
+        "id": "var-pdn-1kg",
         "product_id": "prod-pudina",
         "weight": "1kg",
         "price": 400,
@@ -585,20 +585,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 42
       },
       {
-        "id": "var-pudina-500g",
+        "id": "var-pdn-500g",
         "product_id": "prod-pudina",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 22
       },
       {
-        "id": "var-pudina-250g",
+        "id": "var-pdn-250g",
         "product_id": "prod-pudina",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-09T10:00:00Z"
@@ -609,14 +609,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Kothimira Pickle",
     "slug": "kothimira-pickle",
-    "short_description": "Fresh coriander cilantro leaf pickle with tamarind, garlic, and spices.",
+    "short_description": "Farm-fresh green coriander leaf pickle ground coarsely with tamarind, garlic, red chillies, and spice oil.",
     "description": "Farm-fresh green coriander (cilantro) leaves ground coarsely with tamarind, garlic, red chillies, and tempered in pure cold-pressed oil for an invigorating taste.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 40,
-    "sku": "KP-KTM-250",
+    "sku": "KP-KTM-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "6 Months",
@@ -638,7 +638,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 54,
     "variants": [
       {
-        "id": "var-kothimira-1kg",
+        "id": "var-ktm-1kg",
         "product_id": "prod-kothimira",
         "weight": "1kg",
         "price": 400,
@@ -646,20 +646,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 40
       },
       {
-        "id": "var-kothimira-500g",
+        "id": "var-ktm-500g",
         "product_id": "prod-kothimira",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 20
       },
       {
-        "id": "var-kothimira-250g",
+        "id": "var-ktm-250g",
         "product_id": "prod-kothimira",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-10T10:00:00Z"
@@ -670,14 +670,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Chintakaya Pickle",
     "slug": "chintakaya-pickle",
-    "short_description": "Authentic raw green tamarind pickle crushed with green chillies & mustard temper.",
+    "short_description": "Authentic raw green tamarind pickle crushed with green chillies, turmeric, and mustard-curry leaf tempering.",
     "description": "Tender raw green tamarind pods crushed with green chillies, turmeric, salt, and seasoned with mustard-curry leaf tempering. A legendary tangy rustic delicacy.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 45,
-    "sku": "KP-CHK-250",
+    "sku": "KP-CHK-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -699,7 +699,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 79,
     "variants": [
       {
-        "id": "var-chintakaya-1kg",
+        "id": "var-ctk-1kg",
         "product_id": "prod-chintakaya",
         "weight": "1kg",
         "price": 400,
@@ -707,20 +707,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 45
       },
       {
-        "id": "var-chintakaya-500g",
+        "id": "var-ctk-500g",
         "product_id": "prod-chintakaya",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 25
       },
       {
-        "id": "var-chintakaya-250g",
+        "id": "var-ctk-250g",
         "product_id": "prod-chintakaya",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 12
       }
     ],
     "created_at": "2026-08-11T10:00:00Z"
@@ -731,14 +731,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Usiri Pickle",
     "slug": "usiri-pickle",
-    "short_description": "Whole Indian gooseberry (amla) pickle infused with red chilli mustard spice.",
+    "short_description": "Whole Indian gooseberry (amla) pickle cured in spicy Guntur red chilli powder, mustard, and gingelly oil.",
     "description": "Plump whole Indian amla gooseberries steamed and cured in spicy Guntur red chilli powder, stone-ground mustard, fenugreek, and cold-pressed gingelly oil.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 50,
-    "sku": "KP-USR-250",
+    "sku": "KP-USR-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -760,7 +760,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 102,
     "variants": [
       {
-        "id": "var-usiri-1kg",
+        "id": "var-usr-1kg",
         "product_id": "prod-usiri",
         "weight": "1kg",
         "price": 400,
@@ -768,20 +768,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 50
       },
       {
-        "id": "var-usiri-500g",
+        "id": "var-usr-500g",
         "product_id": "prod-usiri",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
+        "price": 249,
+        "mrp": 299,
         "stock_quantity": 30
       },
       {
-        "id": "var-usiri-250g",
+        "id": "var-usr-250g",
         "product_id": "prod-usiri",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 15
       }
     ],
     "created_at": "2026-08-12T10:00:00Z"
@@ -792,14 +792,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Mamidi Thokku Pickle",
     "slug": "mamidi-thokku-pickle",
-    "short_description": "Shredded raw mango thokku pickle with red chilli powder & garlic.",
+    "short_description": "Shredded raw green mango thokku pickle marinated with red chilli powder, garlic, and cold-pressed oil.",
     "description": "Finely grated raw green mango strands marinated with spicy red chillies, garlic, mustard seeds, and sesame oil. Spreads effortlessly over warm rice and flatbreads.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 52,
-    "sku": "KP-MTK-250",
+    "sku": "KP-MTK-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -821,7 +821,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 84,
     "variants": [
       {
-        "id": "var-mamidi-thokku-1kg",
+        "id": "var-mtk-1kg",
         "product_id": "prod-mamidi-thokku",
         "weight": "1kg",
         "price": 400,
@@ -829,20 +829,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 52
       },
       {
-        "id": "var-mamidi-thokku-500g",
+        "id": "var-mtk-500g",
         "product_id": "prod-mamidi-thokku",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 32
       },
       {
-        "id": "var-mamidi-thokku-250g",
+        "id": "var-mtk-250g",
         "product_id": "prod-mamidi-thokku",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 14
       }
     ],
     "created_at": "2026-08-13T10:00:00Z"
@@ -853,14 +853,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Kakarakaya Pickle",
     "slug": "kakarakaya-pickle",
-    "short_description": "Crispy bitter gourd pickle cooked with tamarind, jaggery, and aromatic spices.",
+    "short_description": "Crispy bitter gourd pickle cooked in a rich tamarind, jaggery, and red chilli masala gravy.",
     "description": "Crisp-fried bitter gourd roundels folded into a rich tamarind, jaggery, and red chilli masala gravy. The unique balance of bitter, sweet, sour, and spicy makes it a gourmet treat.",
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
     "weight": "1kg",
     "stock_quantity": 40,
-    "sku": "KP-KKA-250",
+    "sku": "KP-KKA-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -882,7 +882,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 61,
     "variants": [
       {
-        "id": "var-kakarakaya-1kg",
+        "id": "var-kka-1kg",
         "product_id": "prod-kakarakaya",
         "weight": "1kg",
         "price": 600,
@@ -890,20 +890,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 40
       },
       {
-        "id": "var-kakarakaya-500g",
+        "id": "var-kka-500g",
         "product_id": "prod-kakarakaya",
         "weight": "500g",
-        "price": 330,
-        "mrp": 384,
-        "stock_quantity": 30
+        "price": 349,
+        "mrp": 399,
+        "stock_quantity": 20
       },
       {
-        "id": "var-kakarakaya-250g",
+        "id": "var-kka-250g",
         "product_id": "prod-kakarakaya",
         "weight": "250g",
-        "price": 180,
-        "mrp": 209,
-        "stock_quantity": 20
+        "price": 199,
+        "mrp": 249,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-14T10:00:00Z"
@@ -914,14 +914,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Vellulli Pickle",
     "slug": "vellulli-pickle",
-    "short_description": "Whole garlic clove pickle drenched in mustard oil and roasted Indian spices.",
+    "short_description": "Whole peeled garlic clove pickle drenched in cold-pressed mustard oil and roasted Indian spices.",
     "description": "Immunity-boosting whole peeled garlic cloves soaked in cold-pressed mustard oil, crushed yellow mustard, and spicy Guntur red chilli powder.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 50,
-    "sku": "KP-VEL-250",
+    "sku": "KP-VEL-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -943,7 +943,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 98,
     "variants": [
       {
-        "id": "var-vellulli-1kg",
+        "id": "var-vel-1kg",
         "product_id": "prod-vellulli",
         "weight": "1kg",
         "price": 400,
@@ -951,20 +951,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 50
       },
       {
-        "id": "var-vellulli-500g",
+        "id": "var-vel-500g",
         "product_id": "prod-vellulli",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
+        "price": 249,
+        "mrp": 299,
         "stock_quantity": 30
       },
       {
-        "id": "var-vellulli-250g",
+        "id": "var-vel-250g",
         "product_id": "prod-vellulli",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 15
       }
     ],
     "created_at": "2026-08-15T10:00:00Z"
@@ -975,14 +975,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Munagakaya Pickle",
     "slug": "munagakaya-pickle",
-    "short_description": "Tender drumstick pickle cooked in spicy Andhra tamarind mustard marinade.",
+    "short_description": "Tender drumstick pieces marinated in fiery Andhra red chilli masala, tamarind pulp, and sesame oil.",
     "description": "Fresh cut drumstick (munagakaya) pieces marinated in fiery Andhra red chilli masala, tamarind pulp, and tempered in pure sesame oil.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 40,
-    "sku": "KP-MNK-250",
+    "sku": "KP-MNK-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "6 Months",
@@ -1004,7 +1004,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 52,
     "variants": [
       {
-        "id": "var-munagakaya-1kg",
+        "id": "var-mnk-1kg",
         "product_id": "prod-munagakaya",
         "weight": "1kg",
         "price": 400,
@@ -1012,20 +1012,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 40
       },
       {
-        "id": "var-munagakaya-500g",
+        "id": "var-mnk-500g",
         "product_id": "prod-munagakaya",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 20
       },
       {
-        "id": "var-munagakaya-250g",
+        "id": "var-mnk-250g",
         "product_id": "prod-munagakaya",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-16T10:00:00Z"
@@ -1036,14 +1036,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Karivepaku Pickle",
     "slug": "karivepaku-pickle",
-    "short_description": "Fragrant curry leaf pickle coarsely ground with tamarind, garlic & gingelly oil.",
+    "short_description": "Fragrant curry leaf pickle coarsely ground with roasted red chillies, tamarind, garlic, and gingelly oil.",
     "description": "Fresh, dark green curry leaves dry-roasted and coarsely ground with roasted red chillies, tamarind, garlic, and sesame oil. Rich in iron and digestive wellness.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 45,
-    "sku": "KP-KVP-250",
+    "sku": "KP-KVP-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "9 Months",
@@ -1065,7 +1065,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 71,
     "variants": [
       {
-        "id": "var-karivepaku-1kg",
+        "id": "var-kvp-1kg",
         "product_id": "prod-karivepaku",
         "weight": "1kg",
         "price": 400,
@@ -1073,20 +1073,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 45
       },
       {
-        "id": "var-karivepaku-500g",
+        "id": "var-kvp-500g",
         "product_id": "prod-karivepaku",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 25
       },
       {
-        "id": "var-karivepaku-250g",
+        "id": "var-kvp-250g",
         "product_id": "prod-karivepaku",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 12
       }
     ],
     "created_at": "2026-08-17T10:00:00Z"
@@ -1097,14 +1097,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Maagaya Pickle",
     "slug": "maagaya-pickle",
-    "short_description": "Sun-dried raw mango slice pickle with fenugreek & mustard oil.",
+    "short_description": "Sun-dried raw mango slice pickle cured with roasted fenugreek powder, Guntur red chilli, and sesame oil.",
     "description": "Peeled raw mango strips sun-dried and cured with roasted fenugreek powder, Guntur red chilli powder, turmeric, and gingelly oil for an authentic vintage Andhra flavor.",
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
     "weight": "1kg",
     "stock_quantity": 40,
-    "sku": "KP-MGY-250",
+    "sku": "KP-MGY-1KG",
     "spice_level": "Hot",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -1126,7 +1126,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 90,
     "variants": [
       {
-        "id": "var-maagaya-1kg",
+        "id": "var-mgy-1kg",
         "product_id": "prod-maagaya",
         "weight": "1kg",
         "price": 600,
@@ -1134,20 +1134,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 40
       },
       {
-        "id": "var-maagaya-500g",
+        "id": "var-mgy-500g",
         "product_id": "prod-maagaya",
         "weight": "500g",
-        "price": 330,
-        "mrp": 384,
-        "stock_quantity": 30
+        "price": 349,
+        "mrp": 399,
+        "stock_quantity": 20
       },
       {
-        "id": "var-maagaya-250g",
+        "id": "var-mgy-250g",
         "product_id": "prod-maagaya",
         "weight": "250g",
-        "price": 180,
-        "mrp": 209,
-        "stock_quantity": 20
+        "price": 199,
+        "mrp": 249,
+        "stock_quantity": 10
       }
     ],
     "created_at": "2026-08-18T10:00:00Z"
@@ -1158,14 +1158,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "All Veg Mixed Pickle",
     "slug": "all-veg-mixed-pickle",
-    "short_description": "Assorted farm vegetables cured in traditional Indian red chilli mustard spice oil.",
+    "short_description": "Assorted farm vegetables including carrots, green chillies, raw mango, and cauliflower cured in spice oil.",
     "description": "A delicious medley of diced raw mangoes, carrots, green chillies, cauliflower, and lime cured in a fragrant red chilli and yellow mustard oil blend.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 55,
-    "sku": "KP-MXV-250",
+    "sku": "KP-MXV-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "12 Months",
@@ -1189,7 +1189,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 85,
     "variants": [
       {
-        "id": "var-all-veg-mixed-1kg",
+        "id": "var-mxv-1kg",
         "product_id": "prod-all-veg-mixed",
         "weight": "1kg",
         "price": 400,
@@ -1197,20 +1197,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 55
       },
       {
-        "id": "var-all-veg-mixed-500g",
+        "id": "var-mxv-500g",
         "product_id": "prod-all-veg-mixed",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 35
       },
       {
-        "id": "var-all-veg-mixed-250g",
+        "id": "var-mxv-250g",
         "product_id": "prod-all-veg-mixed",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 18
       }
     ],
     "created_at": "2026-08-19T10:00:00Z"
@@ -1221,14 +1221,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     "category_name": "Veg Pickles",
     "name": "Cauliflower Pickle",
     "slug": "cauliflower-pickle",
-    "short_description": "Crunchy cauliflower florets pickled with mustard, ginger, and Kashmiri chilli.",
+    "short_description": "Crunchy cauliflower florets marinated in Kashmiri red chilli, ginger, yellow mustard, and mustard oil.",
     "description": "Fresh crispy white cauliflower florets blanched and marinated in Kashmiri red chilli, ginger, yellow mustard powder, and mustard oil for a crunchy gourmet pickle experience.",
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
     "weight": "1kg",
     "stock_quantity": 45,
-    "sku": "KP-CLF-250",
+    "sku": "KP-CLF-1KG",
     "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "6 Months",
@@ -1250,7 +1250,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 64,
     "variants": [
       {
-        "id": "var-cauliflower-1kg",
+        "id": "var-clf-1kg",
         "product_id": "prod-cauliflower",
         "weight": "1kg",
         "price": 400,
@@ -1258,20 +1258,20 @@ export const INITIAL_PRODUCTS: Product[] = [
         "stock_quantity": 45
       },
       {
-        "id": "var-cauliflower-500g",
+        "id": "var-clf-500g",
         "product_id": "prod-cauliflower",
         "weight": "500g",
-        "price": 220,
-        "mrp": 274,
-        "stock_quantity": 30
+        "price": 249,
+        "mrp": 299,
+        "stock_quantity": 25
       },
       {
-        "id": "var-cauliflower-250g",
+        "id": "var-clf-250g",
         "product_id": "prod-cauliflower",
         "weight": "250g",
-        "price": 120,
-        "mrp": 149,
-        "stock_quantity": 20
+        "price": 149,
+        "mrp": 199,
+        "stock_quantity": 12
       }
     ],
     "created_at": "2026-08-20T10:00:00Z"
