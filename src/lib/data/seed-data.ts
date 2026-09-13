@@ -60,7 +60,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 60,
     "sku": "KP-AVK-250",
     "spice_level": "Extra Hot",
@@ -85,27 +85,27 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 152,
     "variants": [
       {
-        "id": "var-avk-250",
+        "id": "var-avakaya-1kg",
         "product_id": "prod-avakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 60
       },
       {
-        "id": "var-avk-500",
+        "id": "var-avakaya-500g",
         "product_id": "prod-avakaya",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 35
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-avk-1kg",
+        "id": "var-avakaya-250g",
         "product_id": "prod-avakaya",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
         "stock_quantity": 20
       }
     ],
@@ -122,7 +122,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 50,
     "sku": "KP-TOM-250",
     "spice_level": "Medium",
@@ -148,28 +148,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 88,
     "variants": [
       {
-        "id": "var-tom-250",
+        "id": "var-tomato-1kg",
         "product_id": "prod-tomato",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 50
       },
       {
-        "id": "var-tom-500",
+        "id": "var-tomato-500g",
         "product_id": "prod-tomato",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
+        "price": 220,
+        "mrp": 274,
         "stock_quantity": 30
       },
       {
-        "id": "var-tom-1kg",
+        "id": "var-tomato-250g",
         "product_id": "prod-tomato",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 15
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-02T10:00:00Z"
@@ -185,7 +185,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 45,
     "sku": "KP-PND-250",
     "spice_level": "Extra Hot",
@@ -210,28 +210,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 110,
     "variants": [
       {
-        "id": "var-pnd-250",
+        "id": "var-pandu-mirchi-1kg",
         "product_id": "prod-pandu-mirchi",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 45
       },
       {
-        "id": "var-pnd-500",
+        "id": "var-pandu-mirchi-500g",
         "product_id": "prod-pandu-mirchi",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 25
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-pnd-1kg",
+        "id": "var-pandu-mirchi-250g",
         "product_id": "prod-pandu-mirchi",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 12
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-03T10:00:00Z"
@@ -247,7 +247,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 50,
     "sku": "KP-GON-250",
     "spice_level": "Hot",
@@ -272,28 +272,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 125,
     "variants": [
       {
-        "id": "var-gon-250",
+        "id": "var-gongura-1kg",
         "product_id": "prod-gongura",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 600,
         "mrp": 699,
         "stock_quantity": 50
       },
       {
-        "id": "var-gon-500",
+        "id": "var-gongura-500g",
         "product_id": "prod-gongura",
         "weight": "500g",
-        "price": 1099,
-        "mrp": 1249,
+        "price": 330,
+        "mrp": 384,
         "stock_quantity": 30
       },
       {
-        "id": "var-gon-1kg",
+        "id": "var-gongura-250g",
         "product_id": "prod-gongura",
-        "weight": "1kg",
-        "price": 1999,
-        "mrp": 2299,
-        "stock_quantity": 15
+        "weight": "250g",
+        "price": 180,
+        "mrp": 209,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-04T10:00:00Z"
@@ -309,7 +309,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 55,
     "sku": "KP-NMK-250",
     "spice_level": "Medium",
@@ -333,28 +333,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 75,
     "variants": [
       {
-        "id": "var-nmk-250",
+        "id": "var-nimmakaya-1kg",
         "product_id": "prod-nimmakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 55
       },
       {
-        "id": "var-nmk-500",
+        "id": "var-nimmakaya-500g",
         "product_id": "prod-nimmakaya",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
+        "price": 220,
+        "mrp": 274,
         "stock_quantity": 30
       },
       {
-        "id": "var-nmk-1kg",
+        "id": "var-nimmakaya-250g",
         "product_id": "prod-nimmakaya",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 15
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-05T10:00:00Z"
@@ -370,7 +370,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 40,
     "sku": "KP-DBK-250",
     "spice_level": "Medium",
@@ -394,28 +394,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 62,
     "variants": [
       {
-        "id": "var-dbk-250",
+        "id": "var-dabbakaya-1kg",
         "product_id": "prod-dabbakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 40
       },
       {
-        "id": "var-dbk-500",
+        "id": "var-dabbakaya-500g",
         "product_id": "prod-dabbakaya",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 20
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-dbk-1kg",
+        "id": "var-dabbakaya-250g",
         "product_id": "prod-dabbakaya",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-06T10:00:00Z"
@@ -431,7 +431,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 48,
     "sku": "KP-VMG-250",
     "spice_level": "Extra Hot",
@@ -455,28 +455,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 82,
     "variants": [
       {
-        "id": "var-vmg-250",
+        "id": "var-vendu-mirchi-gongura-1kg",
         "product_id": "prod-vendu-mirchi-gongura",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 48
       },
       {
-        "id": "var-vmg-500",
+        "id": "var-vendu-mirchi-gongura-500g",
         "product_id": "prod-vendu-mirchi-gongura",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 28
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-vmg-1kg",
+        "id": "var-vendu-mirchi-gongura-250g",
         "product_id": "prod-vendu-mirchi-gongura",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 12
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-07T10:00:00Z"
@@ -492,7 +492,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 50,
     "sku": "KP-ALM-250",
     "spice_level": "Medium",
@@ -516,28 +516,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 95,
     "variants": [
       {
-        "id": "var-alm-250",
+        "id": "var-allam-1kg",
         "product_id": "prod-allam",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 50
       },
       {
-        "id": "var-alm-500",
+        "id": "var-allam-500g",
         "product_id": "prod-allam",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
+        "price": 220,
+        "mrp": 274,
         "stock_quantity": 30
       },
       {
-        "id": "var-alm-1kg",
+        "id": "var-allam-250g",
         "product_id": "prod-allam",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 14
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-08T10:00:00Z"
@@ -553,7 +553,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 42,
     "sku": "KP-PDN-250",
     "spice_level": "Medium",
@@ -577,28 +577,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 68,
     "variants": [
       {
-        "id": "var-pdn-250",
+        "id": "var-pudina-1kg",
         "product_id": "prod-pudina",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 42
       },
       {
-        "id": "var-pdn-500",
+        "id": "var-pudina-500g",
         "product_id": "prod-pudina",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 22
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-pdn-1kg",
+        "id": "var-pudina-250g",
         "product_id": "prod-pudina",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-09T10:00:00Z"
@@ -614,7 +614,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 40,
     "sku": "KP-KTM-250",
     "spice_level": "Medium",
@@ -638,28 +638,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 54,
     "variants": [
       {
-        "id": "var-ktm-250",
+        "id": "var-kothimira-1kg",
         "product_id": "prod-kothimira",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 40
       },
       {
-        "id": "var-ktm-500",
+        "id": "var-kothimira-500g",
         "product_id": "prod-kothimira",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 20
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-ktm-1kg",
+        "id": "var-kothimira-250g",
         "product_id": "prod-kothimira",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-10T10:00:00Z"
@@ -675,7 +675,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 45,
     "sku": "KP-CHK-250",
     "spice_level": "Hot",
@@ -699,28 +699,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 79,
     "variants": [
       {
-        "id": "var-ctk-250",
+        "id": "var-chintakaya-1kg",
         "product_id": "prod-chintakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 45
       },
       {
-        "id": "var-ctk-500",
+        "id": "var-chintakaya-500g",
         "product_id": "prod-chintakaya",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 25
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-ctk-1kg",
+        "id": "var-chintakaya-250g",
         "product_id": "prod-chintakaya",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 12
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-11T10:00:00Z"
@@ -736,7 +736,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 50,
     "sku": "KP-USR-250",
     "spice_level": "Hot",
@@ -760,28 +760,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 102,
     "variants": [
       {
-        "id": "var-usr-250",
+        "id": "var-usiri-1kg",
         "product_id": "prod-usiri",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 50
       },
       {
-        "id": "var-usr-500",
+        "id": "var-usiri-500g",
         "product_id": "prod-usiri",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
+        "price": 220,
+        "mrp": 274,
         "stock_quantity": 30
       },
       {
-        "id": "var-usr-1kg",
+        "id": "var-usiri-250g",
         "product_id": "prod-usiri",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 15
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-12T10:00:00Z"
@@ -797,7 +797,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 52,
     "sku": "KP-MTK-250",
     "spice_level": "Hot",
@@ -821,28 +821,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 84,
     "variants": [
       {
-        "id": "var-mtk-250",
+        "id": "var-mamidi-thokku-1kg",
         "product_id": "prod-mamidi-thokku",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 52
       },
       {
-        "id": "var-mtk-500",
+        "id": "var-mamidi-thokku-500g",
         "product_id": "prod-mamidi-thokku",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 32
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-mtk-1kg",
+        "id": "var-mamidi-thokku-250g",
         "product_id": "prod-mamidi-thokku",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 14
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-13T10:00:00Z"
@@ -858,7 +858,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 40,
     "sku": "KP-KKA-250",
     "spice_level": "Medium",
@@ -882,28 +882,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 61,
     "variants": [
       {
-        "id": "var-kka-250",
+        "id": "var-kakarakaya-1kg",
         "product_id": "prod-kakarakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 600,
         "mrp": 699,
         "stock_quantity": 40
       },
       {
-        "id": "var-kka-500",
+        "id": "var-kakarakaya-500g",
         "product_id": "prod-kakarakaya",
         "weight": "500g",
-        "price": 1099,
-        "mrp": 1249,
-        "stock_quantity": 20
+        "price": 330,
+        "mrp": 384,
+        "stock_quantity": 30
       },
       {
-        "id": "var-kka-1kg",
+        "id": "var-kakarakaya-250g",
         "product_id": "prod-kakarakaya",
-        "weight": "1kg",
-        "price": 1999,
-        "mrp": 2299,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 180,
+        "mrp": 209,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-14T10:00:00Z"
@@ -919,7 +919,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 50,
     "sku": "KP-VEL-250",
     "spice_level": "Hot",
@@ -943,28 +943,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 98,
     "variants": [
       {
-        "id": "var-vel-250",
+        "id": "var-vellulli-1kg",
         "product_id": "prod-vellulli",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 50
       },
       {
-        "id": "var-vel-500",
+        "id": "var-vellulli-500g",
         "product_id": "prod-vellulli",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
+        "price": 220,
+        "mrp": 274,
         "stock_quantity": 30
       },
       {
-        "id": "var-vel-1kg",
+        "id": "var-vellulli-250g",
         "product_id": "prod-vellulli",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 15
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-15T10:00:00Z"
@@ -980,7 +980,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 40,
     "sku": "KP-MNK-250",
     "spice_level": "Hot",
@@ -1004,28 +1004,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 52,
     "variants": [
       {
-        "id": "var-mnk-250",
+        "id": "var-munagakaya-1kg",
         "product_id": "prod-munagakaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 40
       },
       {
-        "id": "var-mnk-500",
+        "id": "var-munagakaya-500g",
         "product_id": "prod-munagakaya",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 20
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-mnk-1kg",
+        "id": "var-munagakaya-250g",
         "product_id": "prod-munagakaya",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-16T10:00:00Z"
@@ -1041,7 +1041,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 45,
     "sku": "KP-KVP-250",
     "spice_level": "Medium",
@@ -1065,28 +1065,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 71,
     "variants": [
       {
-        "id": "var-kvp-250",
+        "id": "var-karivepaku-1kg",
         "product_id": "prod-karivepaku",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 45
       },
       {
-        "id": "var-kvp-500",
+        "id": "var-karivepaku-500g",
         "product_id": "prod-karivepaku",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 25
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-kvp-1kg",
+        "id": "var-karivepaku-250g",
         "product_id": "prod-karivepaku",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 12
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-17T10:00:00Z"
@@ -1102,7 +1102,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 600,
     "mrp": 699,
     "discount_percent": 14,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 40,
     "sku": "KP-MGY-250",
     "spice_level": "Hot",
@@ -1126,28 +1126,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 90,
     "variants": [
       {
-        "id": "var-mgy-250",
+        "id": "var-maagaya-1kg",
         "product_id": "prod-maagaya",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 600,
         "mrp": 699,
         "stock_quantity": 40
       },
       {
-        "id": "var-mgy-500",
+        "id": "var-maagaya-500g",
         "product_id": "prod-maagaya",
         "weight": "500g",
-        "price": 1099,
-        "mrp": 1249,
-        "stock_quantity": 20
+        "price": 330,
+        "mrp": 384,
+        "stock_quantity": 30
       },
       {
-        "id": "var-mgy-1kg",
+        "id": "var-maagaya-250g",
         "product_id": "prod-maagaya",
-        "weight": "1kg",
-        "price": 1999,
-        "mrp": 2299,
-        "stock_quantity": 10
+        "weight": "250g",
+        "price": 180,
+        "mrp": 209,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-18T10:00:00Z"
@@ -1163,7 +1163,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 55,
     "sku": "KP-MXV-250",
     "spice_level": "Medium",
@@ -1189,28 +1189,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 85,
     "variants": [
       {
-        "id": "var-mxv-250",
+        "id": "var-all-veg-mixed-1kg",
         "product_id": "prod-all-veg-mixed",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 55
       },
       {
-        "id": "var-mxv-500",
+        "id": "var-all-veg-mixed-500g",
         "product_id": "prod-all-veg-mixed",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 35
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-mxv-1kg",
+        "id": "var-all-veg-mixed-250g",
         "product_id": "prod-all-veg-mixed",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 18
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-19T10:00:00Z"
@@ -1226,7 +1226,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "price": 400,
     "mrp": 499,
     "discount_percent": 20,
-    "weight": "250g",
+    "weight": "1kg",
     "stock_quantity": 45,
     "sku": "KP-CLF-250",
     "spice_level": "Medium",
@@ -1250,28 +1250,28 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 64,
     "variants": [
       {
-        "id": "var-clf-250",
+        "id": "var-cauliflower-1kg",
         "product_id": "prod-cauliflower",
-        "weight": "250g",
+        "weight": "1kg",
         "price": 400,
         "mrp": 499,
         "stock_quantity": 45
       },
       {
-        "id": "var-clf-500",
+        "id": "var-cauliflower-500g",
         "product_id": "prod-cauliflower",
         "weight": "500g",
-        "price": 749,
-        "mrp": 899,
-        "stock_quantity": 25
+        "price": 220,
+        "mrp": 274,
+        "stock_quantity": 30
       },
       {
-        "id": "var-clf-1kg",
+        "id": "var-cauliflower-250g",
         "product_id": "prod-cauliflower",
-        "weight": "1kg",
-        "price": 1399,
-        "mrp": 1599,
-        "stock_quantity": 12
+        "weight": "250g",
+        "price": 120,
+        "mrp": 149,
+        "stock_quantity": 20
       }
     ],
     "created_at": "2026-08-20T10:00:00Z"
