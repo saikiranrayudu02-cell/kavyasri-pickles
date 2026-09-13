@@ -72,8 +72,8 @@ export default function HomePage() {
                   <span>Handmade in Small Batches • Zero Preservatives</span>
                 </div>
 
-                <h1 className="animate-fade-in-up stagger-1 font-rounded text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1c1917] tracking-tight leading-[1.10]">
-                  <span className="block font-bold tracking-tight text-stone-900">
+                <h1 className="animate-fade-in-up stagger-1 font-rounded text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-600 tracking-tight leading-[1.10]">
+                  <span className="block font-bold tracking-tight text-stone-600">
                     Traditional Taste
                   </span>
                   <span className="block mt-1 sm:mt-2 font-bold bg-linear-to-r from-[#9e1b1e] via-[#c2410c] to-[#d97706] bg-clip-text text-transparent tracking-tight">
@@ -95,7 +95,7 @@ export default function HomePage() {
                   </Link>
                   <Link
                     href="/shop?category=cat-combos"
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-white hover:bg-stone-50 text-stone-900 font-semibold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-xs text-sm sm:text-base"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-white hover:bg-stone-50 text-stone-700 font-semibold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-xs text-sm sm:text-base"
                   >
                     <span>Explore Gift Combos</span>
                   </Link>
@@ -146,7 +146,7 @@ export default function HomePage() {
               <span className="text-xs font-semibold tracking-widest text-[#9e1b1e] uppercase">
                 Handcrafted Varieties
               </span>
-              <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 mt-1 tracking-tight">
+              <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-600 mt-1 tracking-tight">
                 Explore By Category
               </h2>
               <p className="text-sm text-stone-500 mt-2">
@@ -169,7 +169,7 @@ export default function HomePage() {
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <h3 className="font-rounded font-semibold text-sm text-stone-900 group-hover:text-[#9e1b1e] transition-colors">
+                  <h3 className="font-rounded font-semibold text-sm text-stone-600 group-hover:text-[#9e1b1e] transition-colors">
                     {cat.name}
                   </h3>
                   <span className="text-[11px] text-stone-500 mt-1 flex items-center gap-1 group-hover:text-[#d97706] font-medium">
@@ -189,7 +189,7 @@ export default function HomePage() {
                 <span className="text-xs font-semibold tracking-wider text-[#9e1b1e] uppercase">
                   Most Loved Delicacies
                 </span>
-                <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 mt-1 tracking-tight">
+                <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-600 mt-1 tracking-tight">
                   Signature Homemade Pickles
                 </h2>
               </div>
@@ -223,7 +223,7 @@ export default function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#9e1b1e] animate-pulse" />
                 The Kavyasri Promise
               </div>
-              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight">
+              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-semibold text-stone-600 tracking-tight">
                 Why Our Pickles Taste Like Home
               </h2>
               <div className="w-16 h-0.5 bg-linear-to-r from-transparent via-[#9e1b1e] to-transparent mx-auto my-4" />
@@ -243,7 +243,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">01</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-[#9e1b1e] transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-[#9e1b1e] transition-colors">
                   Homemade Taste
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -260,7 +260,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">02</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-[#d97706] transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-[#d97706] transition-colors">
                   Quality Ingredients
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -277,7 +277,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">03</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-emerald-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-emerald-700 transition-colors">
                   Traditional Recipes
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -294,7 +294,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">04</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-orange-600 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-orange-600 transition-colors">
                   Freshly Prepared
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -311,7 +311,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">05</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-sky-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-sky-700 transition-colors">
                   Hygienically Packed
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -328,7 +328,7 @@ export default function HomePage() {
                   </div>
                   <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">06</span>
                 </div>
-                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-purple-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-600 mb-2 group-hover:text-purple-700 transition-colors">
                   Delivered to Your Door
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -346,7 +346,7 @@ export default function HomePage() {
               <span className="text-xs font-bold tracking-widest text-[#d97706] uppercase">
                 Find Your Perfect Heat
               </span>
-              <h2 className="font-rounded text-2xl sm:text-3xl font-bold text-stone-900 mt-1 tracking-tight">
+              <h2 className="font-rounded text-2xl sm:text-3xl font-bold text-stone-600 mt-1 tracking-tight">
                 Kavyasri Spice Level Guide
               </h2>
             </div>
@@ -365,7 +365,7 @@ export default function HomePage() {
                       <Flame key={i} className="w-4 h-4 text-[#9e1b1e] fill-current" />
                     ))}
                   </div>
-                  <h4 className="font-bold text-sm text-stone-900">{item.level}</h4>
+                  <h4 className="font-bold text-sm text-stone-600">{item.level}</h4>
                   <p className="text-[11px] text-stone-500 mt-1">{item.desc}</p>
                   <p className="text-[10px] text-[#9e1b1e] font-semibold mt-2">Try: {item.pickles}</p>
                 </div>
@@ -381,7 +381,7 @@ export default function HomePage() {
               <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
                 Customer Stories
               </span>
-              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 mt-1 tracking-tight">
+              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-semibold text-stone-600 mt-1 tracking-tight">
                 Loved by 10,000+ Food Lovers
               </h2>
             </div>
@@ -420,7 +420,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="pt-4 border-t border-stone-200">
-                    <div className="font-bold text-xs text-stone-900">{rev.name}</div>
+                    <div className="font-bold text-xs text-stone-600">{rev.name}</div>
                     <div className="text-[11px] text-stone-400">{rev.location}</div>
                     <div className="inline-flex items-center gap-1 mt-1 text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">
                       <CheckCircle2 className="w-3 h-3" />
@@ -441,7 +441,7 @@ export default function HomePage() {
               Authentic Kitchen Tradition
             </span>
 
-            <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight leading-tight">
+            <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-semibold text-stone-600 tracking-tight leading-tight">
               Handcrafted Homemade Pickles Delivered Fresh to Your Doorstep.
             </h2>
 
