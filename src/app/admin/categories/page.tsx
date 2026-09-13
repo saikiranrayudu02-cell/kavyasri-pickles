@@ -81,69 +81,78 @@ export default function AdminCategoriesPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 backdrop-blur-2xl border border-white/80 p-5 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+              Taxonomy Management
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-stone-900 mt-0.5">
             Pickle Categories ({categories.length})
           </h1>
-          <p className="text-xs text-stone-500 mt-1">Organize your store shelves and customer navigation.</p>
+          <p className="text-xs text-stone-500 font-medium">Organize store shelves, sub-categories, and customer navigation menus.</p>
         </div>
 
         <button
           onClick={openCreate}
-          className="px-4 py-2.5 bg-[#166534] hover:bg-[#14532d] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+          className="px-5 py-2.5 bg-linear-to-r from-[#166534] to-[#15803d] hover:from-[#14532d] hover:to-[#166534] text-white rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all active:scale-95 shadow-[0_4px_16px_rgba(22,101,52,0.25)] self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>New Category</span>
         </button>
       </div>
 
+      {/* Grid of Categories */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className="bg-white rounded-3xl p-5 border border-stone-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+            className="bg-white/70 backdrop-blur-2xl rounded-3xl p-5 border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col justify-between group"
           >
             <div>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 shrink-0">
+              <div className="flex items-center gap-3.5 mb-3.5">
+                <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200/80 shadow-xs shrink-0 group-hover:scale-105 transition-transform duration-300">
                   <Image src={cat.image_url} alt={cat.name} fill className="object-cover" />
                 </div>
-                <div>
-                  <h3 className="font-bold text-base text-stone-900 leading-tight">
+                <div className="min-w-0">
+                  <h3 className="font-bold text-base text-stone-900 leading-snug tracking-tight truncate">
                     {cat.name}
                   </h3>
-                  <span className="text-[11px] text-stone-400 font-mono">/{cat.slug}</span>
+                  <span className="text-[11px] text-stone-400 font-mono block truncate">/{cat.slug}</span>
                 </div>
               </div>
 
-              <p className="text-xs text-stone-600 line-clamp-2">{cat.description}</p>
+              <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed font-medium">{cat.description}</p>
             </div>
 
-            <div className="flex items-center justify-between pt-4 mt-4 border-t border-stone-100">
+            <div className="flex items-center justify-between pt-4 mt-4 border-t border-stone-200/60">
               <button
                 onClick={() => handleToggle(cat)}
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold transition-all active:scale-95 ${
                   cat.is_active
-                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                    : 'bg-stone-100 text-stone-500'
+                    ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80 shadow-2xs'
+                    : 'bg-stone-100/80 text-stone-500 border border-stone-200/50'
                 }`}
               >
-                {cat.is_active ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                <span>{cat.is_active ? 'Active' : 'Disabled'}</span>
+                {cat.is_active ? <Eye className="w-3 h-3 text-emerald-600" /> : <EyeOff className="w-3 h-3 text-stone-400" />}
+                <span>{cat.is_active ? 'Active on Store' : 'Hidden'}</span>
               </button>
 
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => openEdit(cat)}
-                  className="p-1.5 text-stone-600 hover:text-stone-900 rounded-lg hover:bg-stone-100"
+                  className="p-2 text-stone-600 hover:text-stone-900 rounded-xl hover:bg-stone-100/80 transition-colors active:scale-90"
+                  title="Edit Category"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(cat.id, cat.name)}
-                  className="p-1.5 text-stone-400 hover:text-red-600 rounded-lg hover:bg-emerald-50"
+                  className="p-2 text-stone-400 hover:text-red-600 rounded-xl hover:bg-red-50/80 transition-colors active:scale-90"
+                  title="Delete Category"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -153,17 +162,20 @@ export default function AdminCategoriesPage() {
         ))}
       </div>
 
-      {/* Create / Edit Modal */}
+      {/* Create / Edit Sheet Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-stone-200">
-            <h3 className="font-extrabold text-xl text-stone-900 mb-4 tracking-tight">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/40 backdrop-blur-md transition-all animate-in fade-in duration-200">
+          <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] border border-white/80 animate-in zoom-in-95 duration-200">
+            <h3 className="font-bold text-xl text-stone-900 mb-1 tracking-tight">
               {editingCat ? 'Edit Category' : 'Create New Category'}
             </h3>
+            <p className="text-xs text-stone-500 mb-5 font-medium">
+              Configure name, store slug, and showcase imagery.
+            </p>
 
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Category Name</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Category Name *</label>
                 <input
                   type="text"
                   required
@@ -175,53 +187,53 @@ export default function AdminCategoriesPage() {
                     }
                   }}
                   placeholder="e.g. Traditional Veg Pickles"
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#166534]/20"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-medium transition-all text-stone-900"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Slug</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Slug</label>
                 <input
                   type="text"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   placeholder="traditional-veg-pickles"
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-stone-300 font-mono text-stone-600"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-mono text-stone-600 transition-all"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Description</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Description</label>
                 <textarea
                   rows={2}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Brief summary of this pickle collection..."
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-stone-300"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 transition-all text-stone-800"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Image URL</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Image URL</label>
                 <input
                   type="text"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-stone-300 text-stone-600"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-mono text-stone-600 transition-all"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-4">
+              <div className="flex justify-end gap-2.5 pt-4 border-t border-stone-100 mt-6">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl"
+                  className="px-4 py-2.5 text-xs font-semibold text-stone-600 hover:bg-stone-100/80 rounded-2xl transition-colors active:scale-95"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#166534] hover:bg-[#14532d] text-white rounded-xl text-xs font-bold shadow"
+                  className="px-5 py-2.5 bg-linear-to-r from-[#166534] to-[#15803d] hover:from-[#14532d] hover:to-[#166534] text-white rounded-2xl text-xs font-semibold shadow-[0_4px_16px_rgba(22,101,52,0.25)] transition-all active:scale-95"
                 >
                   {editingCat ? 'Save Changes' : 'Create Category'}
                 </button>

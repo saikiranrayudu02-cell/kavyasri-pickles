@@ -122,45 +122,66 @@ export default function RevenueLineChart({ data, timeFilter }: RevenueLineChartP
 
   return (
     <div className="space-y-4">
-      {/* High-Level Executive Stats Header Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-stone-50/90 p-3.5 rounded-2xl border border-stone-200/80 shadow-2xs">
-        {/* Metric 1: Revenue */}
-        <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-stone-200/60 shadow-2xs">
-          <div className="w-10 h-10 rounded-xl bg-emerald-100/70 text-[#166534] flex items-center justify-center shrink-0">
-            <IndianRupee className="w-5 h-5" />
-          </div>
-          <div>
-            <p className="text-[10px] font-extrabold uppercase text-stone-400 tracking-wider">Total Period Sales</p>
-            <p className="text-lg font-extrabold text-stone-900 flex items-baseline gap-0.5">
-              <span>₹</span>
-              <span>{totalSales.toLocaleString('en-IN')}</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Metric 2: Orders */}
-        <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-stone-200/60 shadow-2xs">
-          <div className="w-10 h-10 rounded-xl bg-amber-100/70 text-amber-800 flex items-center justify-center shrink-0">
-            <ShoppingBag className="w-5 h-5" />
-          </div>
-          <div>
-            <p className="text-[10px] font-extrabold uppercase text-stone-400 tracking-wider">Total Store Orders</p>
-            <p className="text-lg font-extrabold text-stone-900">
-              {totalOrders} <span className="text-xs font-semibold text-stone-500">jars</span>
-            </p>
+      {/* High-Level Executive Stats Header Strip (Hyper-Realistic Glassmorphism) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-linear-to-br from-stone-100/70 via-stone-50/50 to-white/80 backdrop-blur-xl p-3.5 rounded-3xl border border-white/80 shadow-xs ring-1 ring-stone-900/5">
+        {/* Metric 1: Revenue (Frosted Glass) */}
+        <div className="relative group bg-linear-to-br from-white/90 via-white/75 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-3.5 rounded-2xl border border-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:shadow-emerald-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+          <div className="h-1 w-full absolute top-0 left-0 bg-linear-to-r from-emerald-600 via-emerald-400 to-teal-400" />
+          <div className="absolute -top-12 -right-12 w-28 h-28 bg-emerald-400/15 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-[#166534] border border-emerald-500/20 backdrop-blur-md shadow-2xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <IndianRupee className="w-5.5 h-5.5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold uppercase text-stone-500 tracking-wider flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Total Period Sales
+              </p>
+              <p className="text-xl font-extrabold text-stone-950 flex items-baseline gap-0.5 tracking-tight mt-0.5">
+                <span className="text-sm text-emerald-700 font-bold">₹</span>
+                <span>{totalSales.toLocaleString('en-IN')}</span>
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Metric 3: Peak Revenue Callout */}
-        <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-stone-200/60 shadow-2xs">
-          <div className="w-10 h-10 rounded-xl bg-purple-100/70 text-purple-800 flex items-center justify-center shrink-0">
-            <TrendingUp className="w-5 h-5" />
+        {/* Metric 2: Orders (Frosted Glass) */}
+        <div className="relative group bg-linear-to-br from-white/90 via-white/75 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-3.5 rounded-2xl border border-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:shadow-amber-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+          <div className="h-1 w-full absolute top-0 left-0 bg-linear-to-r from-amber-500 via-amber-400 to-yellow-400" />
+          <div className="absolute -top-12 -right-12 w-28 h-28 bg-amber-400/15 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-800 border border-amber-500/20 backdrop-blur-md shadow-2xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <ShoppingBag className="w-5.5 h-5.5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold uppercase text-stone-500 tracking-wider flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                Total Store Orders
+              </p>
+              <p className="text-xl font-extrabold text-stone-950 tracking-tight mt-0.5">
+                {totalOrders} <span className="text-xs font-semibold text-stone-400">jars</span>
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="text-[10px] font-extrabold uppercase text-stone-400 tracking-wider">Peak Sales Performance</p>
-            <p className="text-xs font-bold text-stone-800 truncate">
-              {maxSalesPoint.label}: <span className="text-[#166534] font-extrabold">₹{maxSalesPoint.sales.toLocaleString('en-IN')}</span>
-            </p>
+        </div>
+
+        {/* Metric 3: Peak Revenue Callout (Frosted Glass) */}
+        <div className="relative group bg-linear-to-br from-white/90 via-white/75 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-3.5 rounded-2xl border border-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-xl hover:shadow-purple-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+          <div className="h-1 w-full absolute top-0 left-0 bg-linear-to-r from-purple-600 via-indigo-500 to-indigo-400" />
+          <div className="absolute -top-12 -right-12 w-28 h-28 bg-purple-400/15 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 text-purple-800 border border-purple-500/20 backdrop-blur-md shadow-2xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <TrendingUp className="w-5.5 h-5.5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold uppercase text-stone-500 tracking-wider flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                Peak Sales Performance
+              </p>
+              <p className="text-xs font-bold text-stone-800 truncate mt-0.5">
+                {maxSalesPoint.label}: <span className="text-[#166534] font-extrabold text-sm">₹{maxSalesPoint.sales.toLocaleString('en-IN')}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

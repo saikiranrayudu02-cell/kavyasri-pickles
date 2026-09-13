@@ -52,9 +52,9 @@ function RegisterForm() {
       <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-[#166534]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center z-10 animate-fade-in-up">
-        <Link href="/" className="inline-block mb-4 group transition-transform duration-300 hover:scale-105">
-          <div className="relative w-64 h-12 mx-auto">
-            <Image src="/images/logo.svg" alt="Kavyasri Pickles" fill className="object-contain" priority />
+        <Link href="/" className="inline-flex flex-col items-center mb-4 group">
+          <div className="relative w-20 h-20 rounded-full overflow-hidden shadow-md border-2 border-amber-200/80 bg-amber-50">
+            <Image src="/images/logo.png" alt="Kavyasri Pickles" fill className="object-cover transition-transform duration-300 group-hover:scale-105" priority />
           </div>
         </Link>
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">

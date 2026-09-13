@@ -221,26 +221,34 @@ export default function EditProductPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 backdrop-blur-2xl border border-white/80 p-5 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <div className="flex items-center gap-3.5">
           <Link
             href="/admin/products"
-            className="p-2 bg-white rounded-xl border border-stone-200 text-stone-600 hover:text-black transition-colors"
+            className="p-2.5 bg-stone-100/80 hover:bg-stone-200/80 text-stone-700 rounded-2xl transition-all duration-200 active:scale-95 border border-stone-200/50"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-stone-900">Edit Pickle: {name}</h1>
-            <p className="text-xs text-stone-500">Modify recipe details, pricing, and active status.</p>
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                Edit Mode
+              </span>
+              <span className="text-[10px] text-stone-400 font-mono">ID: {product.id.slice(0, 8)}</span>
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-stone-900 mt-0.5">Edit Pickle: {name}</h1>
+            <p className="text-xs text-stone-500 font-medium">Modify recipe details, pricing, and active status.</p>
           </div>
         </div>
 
         <button
           type="button"
           onClick={handleUpdate}
-          className="px-6 py-2.5 bg-[#166534] hover:bg-[#14532d] text-white rounded-xl text-xs font-bold shadow"
+          className="px-6 py-2.5 bg-linear-to-r from-[#166534] to-[#15803d] hover:from-[#14532d] hover:to-[#166534] text-white rounded-2xl text-xs font-semibold shadow-[0_4px_16px_rgba(22,101,52,0.25)] transition-all active:scale-95 flex items-center gap-1.5 self-end sm:self-auto"
         >
+          <CheckCircle2 className="w-3.5 h-3.5" />
           Save Changes
         </button>
       </div>
@@ -248,26 +256,36 @@ export default function EditProductPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
-              Product Image
-            </h3>
+          <div className="bg-white/70 backdrop-blur-2xl rounded-3xl p-6 border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5">
+            <div className="flex items-center justify-between border-b border-stone-200/60 pb-3">
+              <h3 className="font-bold text-sm text-stone-900 tracking-tight">
+                Product Image & Media
+              </h3>
+              <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                Active Cover
+              </span>
+            </div>
 
-            <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100 border border-stone-200">
-              <Image src={imageUrl} alt="Preview" fill className="object-cover" />
+            <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-stone-100/80 border border-stone-200/80 shadow-inner group">
+              <Image src={imageUrl} alt="Preview" fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                <span className="text-[10px] text-white font-medium bg-black/50 backdrop-blur-md px-2 py-1 rounded-lg">
+                  Current Photo
+                </span>
+              </div>
             </div>
 
             {/* Local Storage Photo Uploader */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <label className="text-xs font-semibold text-stone-800 block">
                 📁 Upload Photo from Device:
               </label>
-              <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-stone-300 hover:border-[#166534] bg-[#faf7f2] hover:bg-emerald-50/30 rounded-2xl cursor-pointer transition-all p-3 text-center group">
-                <Upload className="w-6 h-6 text-[#166534] group-hover:scale-110 transition-transform mb-1" />
-                <span className="text-xs font-bold text-stone-900">
-                  Click to select photo from computer
+              <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-stone-300/80 hover:border-[#166534] bg-stone-50/50 hover:bg-emerald-50/30 rounded-2xl cursor-pointer transition-all p-3 text-center group">
+                <Upload className="w-5 h-5 text-[#166534] group-hover:scale-110 transition-transform mb-1.5" />
+                <span className="text-xs font-semibold text-stone-900">
+                  Select photo from computer
                 </span>
-                <span className="text-[10px] text-stone-400 mt-0.5">
+                <span className="text-[10px] text-stone-500 mt-0.5">
                   PNG, JPG, WEBP, SVG (Saved to Supabase)
                 </span>
                 <input
@@ -279,8 +297,8 @@ export default function EditProductPage() {
               </label>
             </div>
 
-            <div>
-              <label className="text-xs font-semibold text-stone-700 block mb-1">Or Select Photo Preset:</label>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-stone-700 block">Or Select Photo Preset:</label>
               <div className="grid grid-cols-4 gap-2">
                 {[
                   { label: 'Mango', url: '/images/pickles/mango.jpg' },
@@ -296,8 +314,8 @@ export default function EditProductPage() {
                     key={item.label}
                     type="button"
                     onClick={() => setImageUrl(item.url)}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      imageUrl === item.url ? 'border-[#166534]' : 'border-stone-200 opacity-60 hover:opacity-100'
+                    className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 active:scale-95 ${
+                      imageUrl === item.url ? 'border-[#166534] ring-3 ring-emerald-500/20 shadow-xs' : 'border-stone-200/70 opacity-70 hover:opacity-100'
                     }`}
                   >
                     <Image src={item.url} alt={item.label} fill className="object-cover" />
@@ -307,57 +325,63 @@ export default function EditProductPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
-              Visibility
+          <div className="bg-white/70 backdrop-blur-2xl rounded-3xl p-6 border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
+            <h3 className="font-bold text-sm text-stone-900 border-b border-stone-200/60 pb-3 tracking-tight">
+              Store Visibility
             </h3>
 
-            <label className="flex items-center justify-between cursor-pointer text-xs font-semibold text-stone-800">
-              <span>Visible in Public Store</span>
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-stone-50/60 border border-stone-200/50">
+              <div>
+                <span className="text-xs font-bold text-stone-800 block">Visible in Public Store</span>
+                <span className="text-[10px] text-stone-500">Show item in catalog</span>
+              </div>
               <input
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="accent-[#166534] w-4 h-4"
+                className="accent-[#166534] w-4 h-4 cursor-pointer"
               />
-            </label>
+            </div>
 
-            <label className="flex items-center justify-between cursor-pointer text-xs font-semibold text-stone-800">
-              <span>Featured Bestseller</span>
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-stone-50/60 border border-stone-200/50">
+              <div>
+                <span className="text-xs font-bold text-stone-800 block">Featured Bestseller</span>
+                <span className="text-[10px] text-stone-500">Pin item to top sections</span>
+              </div>
               <input
                 type="checkbox"
                 checked={isFeatured}
                 onChange={(e) => setIsFeatured(e.target.checked)}
-                className="accent-[#166534] w-4 h-4"
+                className="accent-[#166534] w-4 h-4 cursor-pointer"
               />
-            </label>
+            </div>
           </div>
         </div>
 
         {/* Right Column (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-2xs space-y-4">
-            <h3 className="font-bold text-base text-stone-900 border-b border-stone-100 pb-2 tracking-tight">
-              General Details
+          <div className="bg-white/70 backdrop-blur-2xl rounded-3xl p-6 border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5">
+            <h3 className="font-bold text-sm text-stone-900 border-b border-stone-200/60 pb-3 tracking-tight">
+              General Product Specifications
             </h3>
 
             <div>
-              <label className="text-xs font-semibold text-stone-700 block mb-1">Pickle Name</label>
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">Pickle Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#166534]/20"
+                className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-medium transition-all text-stone-900"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Category</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Category</label>
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 bg-white"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-medium text-stone-800 transition-all"
                 >
                   <option value="cat-veg">Traditional Veg Pickles</option>
                   <option value="cat-nonveg">Authentic Non-Veg Pickles</option>
@@ -368,55 +392,55 @@ export default function EditProductPage() {
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">SKU</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">SKU</label>
                 <input
                   type="text"
                   value={sku}
                   onChange={(e) => setSku(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 font-mono"
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-mono text-stone-700 transition-all"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Price (₹)</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Price (₹)</label>
                 <input
                   type="number"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 font-bold"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-emerald-900"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">MRP (₹)</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">MRP (₹)</label>
                 <input
                   type="number"
                   value={mrp}
                   onChange={(e) => setMrp(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 text-stone-600"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1">Stock Quantity</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Stock Quantity</label>
                 <input
                   type="number"
                   value={stockQuantity}
                   onChange={(e) => setStockQuantity(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300 font-bold"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-stone-900"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-stone-700 block mb-1">Short Description</label>
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">Short Description</label>
               <input
                 type="text"
                 value={shortDescription}
                 onChange={(e) => setShortDescription(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-stone-300"
+                className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 transition-all text-stone-800"
               />
             </div>
           </div>

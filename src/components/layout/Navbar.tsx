@@ -133,16 +133,24 @@ export default function Navbar() {
               {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
 
-            <Link href="/" className="flex items-center gap-2">
-              <div className="relative w-34 xs:w-42 sm:w-60 h-8 sm:h-12">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="relative w-10 h-10 sm:w-13 sm:h-13 shrink-0 rounded-full overflow-hidden shadow-xs border border-amber-200/60 bg-amber-50">
                 <Image
-                  src="/images/logo.svg"
+                  src="/images/logo.png"
                   alt="Kavyasri Pickles Logo"
                   fill
-                  sizes="(max-width: 640px) 160px, 240px"
-                  className="object-contain object-left"
+                  sizes="(max-width: 640px) 40px, 52px"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif font-black text-stone-900 text-sm sm:text-lg tracking-tight leading-tight group-hover:text-[#9e1b1e] transition-colors">
+                  Kavyasri <span className="text-[#9e1b1e]">Pickles</span>
+                </span>
+                <span className="text-[9px] sm:text-[10px] font-semibold text-amber-900/80 tracking-wider uppercase">
+                  Traditional • Homemade
+                </span>
               </div>
             </Link>
           </div>

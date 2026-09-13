@@ -72,9 +72,11 @@ export default function HomePage() {
                   <span>Handmade in Small Batches • Zero Preservatives</span>
                 </div>
 
-                <h1 className="animate-fade-in-up stagger-1 font-serif text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black text-[#1c1917] tracking-tight leading-[1.12]">
-                  <span className="block font-black tracking-tight">Traditional Taste.</span>
-                  <span className="block mt-1 sm:mt-2 italic font-normal text-[#df2626] tracking-normal drop-shadow-xs">
+                <h1 className="animate-fade-in-up stagger-1 font-rounded text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-extrabold text-[#1c1917] tracking-tight leading-[1.08]">
+                  <span className="block font-black tracking-tight text-stone-900 drop-shadow-2xs">
+                    Traditional Taste
+                  </span>
+                  <span className="block mt-1 sm:mt-2 font-black bg-linear-to-r from-[#9e1b1e] via-[#c2410c] to-[#d97706] bg-clip-text text-transparent tracking-tight">
                     Homemade Love.
                   </span>
                 </h1>

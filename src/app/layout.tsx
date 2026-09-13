@@ -7,7 +7,7 @@ export const viewport: Viewport = {
   themeColor: '#eba715',
   viewportFit: 'cover',
 };
-import { Playfair_Display, Outfit, Inter } from 'next/font/google';
+import { Playfair_Display, Outfit, Nunito, Inter } from 'next/font/google';
 import './globals.css';
 import { ToastProvider } from '@/context/ToastContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -25,6 +25,13 @@ const serifFont = Playfair_Display({
 const sansFont = Outfit({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
+});
+
+const roundedFont = Nunito({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800', '900'],
+  variable: '--font-rounded',
   display: 'swap',
 });
 
@@ -72,7 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serifFont.variable} ${sansFont.variable} ${adminFont.variable}`}>
+    <html lang="en" className={`${serifFont.variable} ${sansFont.variable} ${roundedFont.variable} ${adminFont.variable}`}>
       <body className="min-h-screen flex flex-col bg-[#faf7f2] text-[#1c1917] antialiased selection:bg-[#9e1b1e] selection:text-white">
         <ToastProvider>
           <AuthProvider>

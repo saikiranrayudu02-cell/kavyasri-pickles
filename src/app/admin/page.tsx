@@ -328,28 +328,28 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8 pb-10">
-      {/* Top Welcome Header & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs">
+      {/* Top Welcome Header & Actions (Apple Glass Hero) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 sm:p-7 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="font-extrabold text-2xl sm:text-3xl tracking-tight text-stone-900">
+          <div className="flex items-center gap-2.5">
+            <h1 className="font-extrabold text-2xl sm:text-3.5xl tracking-[-0.03em] text-stone-950">
               Kitchen & Store Dashboard
             </h1>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-[#166534] border border-emerald-500/20 text-[10px] font-extrabold uppercase backdrop-blur-md shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs shadow-emerald-500/50" />
               Live DB
             </span>
           </div>
-          <p className="text-xs text-stone-500 mt-1">
+          <p className="text-xs text-stone-500 mt-1 font-medium">
             Real-time analytics, order tracking, and inventory control for Kavyasri Pickles.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={refreshData}
             disabled={loading}
-            className="p-2.5 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl text-stone-600 hover:text-black transition-colors"
+            className="p-3 bg-stone-100/80 hover:bg-stone-200/80 border border-stone-200/60 rounded-2xl text-stone-600 hover:text-black active:scale-95 transition-all shadow-2xs backdrop-blur-md"
             title="Refresh Analytics Data"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -357,7 +357,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/products/new"
-            className="px-4 py-2.5 bg-[#166534] hover:bg-[#14532d] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm hover:shadow-md"
+            className="px-4.5 py-2.5 bg-linear-to-r from-[#166534] to-[#15803d] text-white rounded-2xl text-xs font-extrabold flex items-center gap-2 transition-all shadow-md shadow-emerald-900/20 hover:scale-[1.02] active:scale-95"
           >
             <Plus className="w-4 h-4" />
             <span>Add Pickle</span>
@@ -377,27 +377,27 @@ export default function AdminDashboardPage() {
       />
 
       {/* Executive Sales & Revenue Interactive Chart Section */}
-      <div className="bg-white p-5 sm:p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-100 pb-4">
+      <div className="bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-5 sm:p-7 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-200/50 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#166534]/10 text-[#166534] flex items-center justify-center font-bold">
-              <BarChart3 className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-[#166534] border border-emerald-500/20 backdrop-blur-md shadow-2xs flex items-center justify-center font-bold">
+              <BarChart3 className="w-5.5 h-5.5" />
             </div>
             <div>
-              <h3 className="font-extrabold tracking-tight text-lg text-stone-900">Revenue Analytics & Trend Visualization</h3>
-              <p className="text-xs text-stone-500">Filter period performance or select a custom date range</p>
+              <h3 className="font-extrabold tracking-tight text-lg text-stone-950">Revenue Analytics & Trend Visualization</h3>
+              <p className="text-xs text-stone-500 font-medium">Filter period performance or select a custom date range</p>
             </div>
           </div>
 
           {/* Time Filter Buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-stone-100/90 p-1.5 rounded-2xl border border-stone-200 text-xs font-bold self-start lg:self-auto">
+          <div className="flex flex-wrap items-center gap-1 bg-stone-100/90 p-1.5 rounded-2xl border border-stone-200/80 text-xs font-bold self-start lg:self-auto backdrop-blur-md">
             {(['today', 'yesterday', 'weekly', 'monthly', 'quarter', 'all', 'custom'] as TimeFilter[]).map((tf) => (
               <button
                 key={tf}
                 onClick={() => setTimeFilter(tf)}
-                className={`px-3 py-1.5 rounded-xl capitalize transition-all ${
+                className={`px-3 py-1.5 rounded-xl capitalize transition-all active:scale-95 ${
                   timeFilter === tf
-                    ? 'bg-[#166534] text-white shadow-xs font-extrabold'
+                    ? 'bg-linear-to-r from-[#166534] to-[#15803d] text-white shadow-md shadow-emerald-900/20 font-extrabold'
                     : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
                 }`}
               >
@@ -409,7 +409,7 @@ export default function AdminDashboardPage() {
 
         {/* Custom Date Range Picker Bar (Shown when Custom Range filter is selected) */}
         {timeFilter === 'custom' && (
-          <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200/80 flex flex-wrap items-center justify-between gap-3 text-xs animate-fade-in shadow-2xs">
+          <div className="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 text-xs animate-fade-in shadow-2xs">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-extrabold text-[#166534] flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
@@ -421,7 +421,7 @@ export default function AdminDashboardPage() {
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
+                  className="px-3 py-1.5 bg-white border border-stone-300/80 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -430,7 +430,7 @@ export default function AdminDashboardPage() {
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
+                  className="px-3 py-1.5 bg-white border border-stone-300/80 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
                 />
               </div>
             </div>
@@ -446,7 +446,7 @@ export default function AdminDashboardPage() {
                   setCustomStartDate(seven.toISOString().split('T')[0]);
                   setCustomEndDate(now.toISOString().split('T')[0]);
                 }}
-                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs"
+                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs active:scale-95 transition-transform"
               >
                 Last 7 Days
               </button>
@@ -459,7 +459,7 @@ export default function AdminDashboardPage() {
                   setCustomStartDate(thirty.toISOString().split('T')[0]);
                   setCustomEndDate(now.toISOString().split('T')[0]);
                 }}
-                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs"
+                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs active:scale-95 transition-transform"
               >
                 Last 30 Days
               </button>
@@ -474,18 +474,18 @@ export default function AdminDashboardPage() {
       {/* Low Stock Watchlist & Recent Orders */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Low Stock Inventory Watchlist (5 cols) */}
-        <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/80 flex items-center justify-center">
+        <div className="lg:col-span-5 bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-200/50 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-amber-500/10 text-amber-800 border border-amber-500/20 backdrop-blur-md flex items-center justify-center shadow-2xs">
                 <AlertTriangle className="w-4.5 h-4.5" />
               </div>
               <div>
-                <h3 className="font-extrabold tracking-tight text-base text-stone-900">Low Stock Inventory</h3>
-                <p className="text-[10px] text-stone-400">Products requiring kitchen restock</p>
+                <h3 className="font-extrabold tracking-tight text-base text-stone-950">Low Stock Inventory</h3>
+                <p className="text-[10px] text-stone-400 font-medium">Products requiring kitchen restock</p>
               </div>
             </div>
-            <Link href="/admin/products" className="text-xs font-extrabold text-[#166534] hover:underline flex items-center gap-0.5 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200/60">
+            <Link href="/admin/products" className="text-xs font-extrabold text-[#166534] hover:underline flex items-center gap-0.5 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20 active:scale-95 transition-all">
               <span>Manage All</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </Link>
@@ -503,10 +503,10 @@ export default function AdminDashboardPage() {
                 return (
                   <div
                     key={prod.id}
-                    className="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-stone-100/80 border border-stone-200/80 transition-all flex items-center justify-between gap-3 text-xs group"
+                    className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-stone-200/70 transition-all duration-200 flex items-center justify-between gap-3 text-xs group shadow-2xs"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-white border border-stone-200 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                      <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-300">
                         <Image
                           src={prod.images?.[0] || '/images/pickles/hero.jpg'}
                           alt={prod.name}
@@ -517,13 +517,13 @@ export default function AdminDashboardPage() {
                       <div className="min-w-0 space-y-1">
                         <p className="font-bold text-stone-900 truncate">{prod.name}</p>
                         <div className="flex items-center gap-2">
-                          <div className="w-20 h-1.5 bg-stone-200 rounded-full overflow-hidden">
+                          <div className="w-20 h-1.5 bg-stone-200/80 rounded-full overflow-hidden">
                             <div
                               className={`h-full ${prod.stock_quantity <= 5 ? 'bg-rose-500' : 'bg-amber-500'}`}
                               style={{ width: `${pct}%` }}
                             />
                           </div>
-                          <span className="font-extrabold text-[10px] text-amber-800 bg-amber-100/80 px-1.5 py-0.5 rounded-md border border-amber-200">
+                          <span className="font-extrabold text-[10px] text-amber-900 bg-amber-500/15 px-2 py-0.5 rounded-md border border-amber-500/20">
                             {prod.stock_quantity} left
                           </span>
                         </div>
@@ -532,7 +532,7 @@ export default function AdminDashboardPage() {
 
                     <button
                       onClick={() => handleRestock(prod)}
-                      className="px-3.5 py-2 bg-[#166534] hover:bg-[#14532d] text-white rounded-xl font-bold text-[11px] transition-all shrink-0 shadow-xs flex items-center gap-1 hover:scale-105"
+                      className="px-3.5 py-2 bg-linear-to-r from-[#166534] to-[#15803d] text-white rounded-xl font-extrabold text-[11px] transition-all shrink-0 shadow-md shadow-emerald-900/20 flex items-center gap-1 active:scale-95 hover:scale-105"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>+25 Jars</span>
@@ -545,18 +545,18 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Recent Customer Orders (7 cols) */}
-        <div className="lg:col-span-7 bg-white p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-[#166534] border border-emerald-200/80 flex items-center justify-center">
+        <div className="lg:col-span-7 bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-200/50 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-500/10 text-[#166534] border border-emerald-500/20 backdrop-blur-md flex items-center justify-center shadow-2xs">
                 <ShoppingBag className="w-4.5 h-4.5" />
               </div>
               <div>
-                <h3 className="font-extrabold tracking-tight text-base text-stone-900">Recent Customer Orders</h3>
-                <p className="text-[10px] text-stone-400">Latest orders awaiting packaging & dispatch</p>
+                <h3 className="font-extrabold tracking-tight text-base text-stone-950">Recent Customer Orders</h3>
+                <p className="text-[10px] text-stone-400 font-medium">Latest orders awaiting packaging & dispatch</p>
               </div>
             </div>
-            <Link href="/admin/orders" className="text-xs font-extrabold text-[#166534] hover:underline flex items-center gap-0.5 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200/60">
+            <Link href="/admin/orders" className="text-xs font-extrabold text-[#166534] hover:underline flex items-center gap-0.5 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20 active:scale-95 transition-all">
               <span>View All</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </Link>
@@ -568,24 +568,24 @@ export default function AdminDashboardPage() {
               return (
                 <div
                   key={o.id}
-                  className="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-stone-100/80 border border-stone-200/80 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs group"
+                  className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-stone-200/70 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs group shadow-2xs"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-stone-100 border border-stone-200 text-[#166534] font-extrabold text-base flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-[#166534] font-extrabold text-base flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-300">
                       {o.customer_name ? o.customer_name[0].toUpperCase() : 'C'}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <Link href={`/admin/orders/${o.id}`} className="font-mono font-extrabold text-stone-900 hover:text-[#166534]">
+                        <Link href={`/admin/orders/${o.id}`} className="font-mono font-extrabold text-stone-950 hover:text-[#166534] transition-colors">
                           #{o.id}
                         </Link>
                         <span
                           className={`px-2.5 py-0.5 rounded-full font-extrabold text-[10px] border ${
                             o.order_status === 'Delivered'
-                              ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                              ? 'bg-emerald-500/15 text-emerald-900 border-emerald-500/20'
                               : o.order_status === 'Shipped'
-                              ? 'bg-blue-100 text-blue-800 border-blue-200'
-                              : 'bg-amber-100 text-amber-800 border-amber-200'
+                              ? 'bg-blue-500/15 text-blue-900 border-blue-500/20'
+                              : 'bg-amber-500/15 text-amber-900 border-amber-500/20'
                           }`}
                         >
                           {o.order_status}
@@ -597,7 +597,7 @@ export default function AdminDashboardPage() {
 
                   <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/60">
                     <div className="text-right">
-                      <p className="font-extrabold text-stone-900 text-sm">₹{o.total_amount}</p>
+                      <p className="font-extrabold text-stone-950 text-sm">₹{o.total_amount}</p>
                       <p className="text-[10px] text-stone-400 font-semibold">
                         {new Date(o.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
                       </p>
@@ -610,7 +610,7 @@ export default function AdminDashboardPage() {
                           href={`https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=Hello%20${encodeURIComponent(o.customer_name || '')},%20regarding%20your%20order%20%23${o.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 bg-emerald-100/80 hover:bg-emerald-600 text-emerald-800 hover:text-white rounded-xl transition-colors border border-emerald-200"
+                          className="p-2 bg-emerald-500/15 hover:bg-emerald-600 text-emerald-800 hover:text-white rounded-xl transition-colors border border-emerald-500/20 active:scale-90"
                           title="Chat with Customer on WhatsApp"
                         >
                           <MessageCircle className="w-3.5 h-3.5" />
@@ -619,7 +619,7 @@ export default function AdminDashboardPage() {
 
                       <Link
                         href={`/admin/orders/${o.id}`}
-                        className="p-2 bg-white hover:bg-stone-900 hover:text-white border border-stone-200 rounded-xl text-stone-700 transition-colors shadow-2xs"
+                        className="p-2 bg-stone-100 hover:bg-stone-950 hover:text-white border border-stone-200/80 rounded-xl text-stone-700 transition-colors shadow-2xs active:scale-90"
                         title="View Order Invoice & Details"
                       >
                         <Eye className="w-3.5 h-3.5" />

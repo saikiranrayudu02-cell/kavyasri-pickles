@@ -73,14 +73,22 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Info (2 Columns wide) */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-block">
-              <div className="relative w-52 h-11">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border border-slate-700 bg-slate-900 shadow-md">
                 <Image
-                  src="/images/logo-white.svg"
+                  src="/images/logo.png"
                   alt="Kavyasri Pickles"
                   fill
-                  className="object-contain object-left"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-serif font-black text-white text-lg tracking-tight leading-tight group-hover:text-amber-400 transition-colors">
+                  Kavyasri <span className="text-rose-500">Pickles</span>
+                </span>
+                <span className="text-[10px] font-medium text-slate-400 tracking-wider uppercase">
+                  Traditional • Homemade
+                </span>
               </div>
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">

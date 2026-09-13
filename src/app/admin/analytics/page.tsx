@@ -375,21 +375,20 @@ export default function AdminAnalyticsPage() {
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-12">
-      {/* Top Header & Time Filter */}
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs">
+      {/* Top Header & Time Filter (Apple Glass Hero) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 sm:p-7 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
+          <h1 className="text-2xl sm:text-3.5xl font-extrabold tracking-[-0.03em] text-stone-950">
             Sales & Customer Analytics
           </h1>
-          <p className="text-xs text-stone-500 mt-1">
+          <p className="text-xs text-stone-500 mt-1 font-medium">
             Real-time revenue metrics, order velocity, category distribution, and top sellers.
           </p>
         </div>
 
         <button
           onClick={loadAnalytics}
-          className="p-2.5 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-2xl text-stone-600 hover:text-black flex items-center gap-1.5 text-xs font-semibold self-start sm:self-auto"
+          className="p-3 bg-stone-100/80 hover:bg-stone-200/80 border border-stone-200/60 rounded-2xl text-stone-600 hover:text-black flex items-center gap-2 text-xs font-bold self-start sm:self-auto active:scale-95 transition-all shadow-2xs backdrop-blur-md"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>
@@ -408,27 +407,27 @@ export default function AdminAnalyticsPage() {
       />
 
       {/* Executive Sales & Revenue Interactive Chart Section */}
-      <div className="bg-white p-5 sm:p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-100 pb-4">
+      <div className="bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-5 sm:p-7 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-200/50 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#166534]/10 text-[#166534] flex items-center justify-center font-bold">
-              <BarChart3 className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-[#166534] border border-emerald-500/20 backdrop-blur-md shadow-2xs flex items-center justify-center font-bold">
+              <BarChart3 className="w-5.5 h-5.5" />
             </div>
             <div>
-              <h3 className="font-bold text-lg text-stone-900 tracking-tight">Revenue Analytics & Trend Visualization</h3>
-              <p className="text-xs text-stone-500">Filter period performance or select a custom date range</p>
+              <h3 className="font-extrabold tracking-tight text-lg text-stone-950">Revenue Analytics & Trend Visualization</h3>
+              <p className="text-xs text-stone-500 font-medium">Filter period performance or select a custom date range</p>
             </div>
           </div>
 
           {/* Time Filter Buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-stone-100/90 p-1.5 rounded-2xl border border-stone-200 text-xs font-bold self-start lg:self-auto">
+          <div className="flex flex-wrap items-center gap-1 bg-stone-100/90 p-1.5 rounded-2xl border border-stone-200/80 text-xs font-bold self-start lg:self-auto backdrop-blur-md">
             {(['today', 'yesterday', 'weekly', 'monthly', 'quarter', 'all', 'custom'] as TimeFilter[]).map((tf) => (
               <button
                 key={tf}
                 onClick={() => setTimeFilter(tf)}
-                className={`px-3 py-1.5 rounded-xl capitalize transition-all ${
+                className={`px-3 py-1.5 rounded-xl capitalize transition-all active:scale-95 ${
                   timeFilter === tf
-                    ? 'bg-[#166534] text-white shadow-xs font-extrabold'
+                    ? 'bg-linear-to-r from-[#166534] to-[#15803d] text-white shadow-md shadow-emerald-900/20 font-extrabold'
                     : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
                 }`}
               >
@@ -440,7 +439,7 @@ export default function AdminAnalyticsPage() {
 
         {/* Custom Date Range Picker Bar */}
         {timeFilter === 'custom' && (
-          <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200/80 flex flex-wrap items-center justify-between gap-3 text-xs animate-fade-in shadow-2xs">
+          <div className="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 text-xs animate-fade-in shadow-2xs">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-extrabold text-[#166534] flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
@@ -452,7 +451,7 @@ export default function AdminAnalyticsPage() {
                   type="date"
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
-                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
+                  className="px-3 py-1.5 bg-white border border-stone-300/80 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -461,7 +460,7 @@ export default function AdminAnalyticsPage() {
                   type="date"
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
-                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
+                  className="px-3 py-1.5 bg-white border border-stone-300/80 rounded-xl text-stone-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#166534] shadow-2xs"
                 />
               </div>
             </div>
@@ -477,7 +476,7 @@ export default function AdminAnalyticsPage() {
                   setCustomStartDate(seven.toISOString().split('T')[0]);
                   setCustomEndDate(now.toISOString().split('T')[0]);
                 }}
-                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs"
+                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs active:scale-95 transition-transform"
               >
                 Last 7 Days
               </button>
@@ -490,7 +489,7 @@ export default function AdminAnalyticsPage() {
                   setCustomStartDate(thirty.toISOString().split('T')[0]);
                   setCustomEndDate(now.toISOString().split('T')[0]);
                 }}
-                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs"
+                className="px-3 py-1 bg-white hover:bg-emerald-100 text-[#166534] font-extrabold rounded-xl border border-emerald-200 text-[11px] shadow-2xs active:scale-95 transition-transform"
               >
                 Last 30 Days
               </button>
@@ -505,31 +504,31 @@ export default function AdminAnalyticsPage() {
       {/* Category Performance & Top Sellers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Sales by Category */}
-        <div className="bg-white p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 text-[#166534] border border-emerald-200/80 flex items-center justify-center">
+        <div className="bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-200/50 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-500/10 text-[#166534] border border-emerald-500/20 backdrop-blur-md flex items-center justify-center shadow-2xs">
                 <PieChart className="w-4.5 h-4.5" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-stone-900 tracking-tight">Sales By Category</h3>
-                <p className="text-[10px] text-stone-400">Revenue contribution per product line</p>
+                <h3 className="font-extrabold tracking-tight text-base text-stone-950">Sales By Category</h3>
+                <p className="text-[10px] text-stone-400 font-medium">Revenue contribution per product line</p>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
             {categoryPerf.map((cat) => (
-              <div key={cat.name} className="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-stone-100/80 border border-stone-200/80 transition-all space-y-2">
+              <div key={cat.name} className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-stone-200/70 transition-all duration-200 space-y-2 shadow-2xs">
                 <div className="flex justify-between items-center text-xs font-semibold">
                   <span className="text-stone-900 font-extrabold flex items-center gap-2">
                     <span className={`w-2.5 h-2.5 rounded-full ${cat.color}`} />
                     <span>{cat.name}</span>
                   </span>
-                  <span className="text-stone-900 font-extrabold">₹{cat.rev.toLocaleString('en-IN')} <span className="text-stone-400 font-normal text-[11px]">({cat.pct}%)</span></span>
+                  <span className="text-stone-950 font-extrabold">₹{cat.rev.toLocaleString('en-IN')} <span className="text-stone-400 font-normal text-[11px]">({cat.pct}%)</span></span>
                 </div>
-                <div className="w-full h-2.5 bg-stone-200/70 rounded-full overflow-hidden">
-                  <div className={`h-full ${cat.color} rounded-full transition-all`} style={{ width: `${Math.max(cat.pct, 4)}%` }} />
+                <div className="w-full h-2.5 bg-stone-200/60 rounded-full overflow-hidden backdrop-blur-xs">
+                  <div className={`h-full ${cat.color} rounded-full transition-all duration-500`} style={{ width: `${Math.max(cat.pct, 4)}%` }} />
                 </div>
               </div>
             ))}
@@ -537,27 +536,27 @@ export default function AdminAnalyticsPage() {
         </div>
 
         {/* Top Selling Pickles */}
-        <div className="bg-white p-6 rounded-3xl border border-stone-200/90 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/80 flex items-center justify-center">
+        <div className="bg-linear-to-br from-white/90 via-white/80 to-white/60 backdrop-blur-2xl backdrop-saturate-150 p-6 rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
+          <div className="flex items-center justify-between border-b border-stone-200/50 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-amber-500/10 text-amber-800 border border-amber-500/20 backdrop-blur-md flex items-center justify-center shadow-2xs">
                 <Award className="w-4.5 h-4.5" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-stone-900 tracking-tight">Top Selling Pickles</h3>
-                <p className="text-[10px] text-stone-400">Best-performing recipe rankings</p>
+                <h3 className="font-extrabold tracking-tight text-base text-stone-950">Top Selling Pickles</h3>
+                <p className="text-[10px] text-stone-400 font-medium">Best-performing recipe rankings</p>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
             {topProducts.map((prod) => (
-              <div key={prod.name} className="p-3.5 rounded-2xl bg-stone-50/80 hover:bg-stone-100/80 border border-stone-200/80 transition-all flex items-center justify-between text-xs group">
+              <div key={prod.name} className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-stone-200/70 transition-all duration-200 flex items-center justify-between text-xs group shadow-2xs">
                 <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-xl bg-amber-100 text-amber-900 font-extrabold flex items-center justify-center text-xs shadow-2xs border border-amber-200">
+                  <span className="w-7.5 h-7.5 rounded-2xl bg-amber-500/15 text-amber-900 font-extrabold flex items-center justify-center text-xs shadow-2xs border border-amber-500/20 backdrop-blur-xs">
                     #{prod.rank}
                   </span>
-                  <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-white border border-stone-200 shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                  <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-white border border-stone-200 shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-300">
                     <Image
                       src={prod.image || '/images/pickles/hero.jpg'}
                       alt={prod.name}
@@ -570,7 +569,7 @@ export default function AdminAnalyticsPage() {
                     <p className="text-[10px] text-stone-400 font-semibold">{prod.sales} jar(s) ordered</p>
                   </div>
                 </div>
-                <span className="font-extrabold text-stone-900 text-sm bg-white px-3 py-1 rounded-xl border border-stone-200 shadow-2xs">₹{prod.rev.toLocaleString('en-IN')}</span>
+                <span className="font-extrabold text-stone-950 text-sm bg-white/90 px-3 py-1 rounded-xl border border-stone-200/80 shadow-2xs">₹{prod.rev.toLocaleString('en-IN')}</span>
               </div>
             ))}
           </div>

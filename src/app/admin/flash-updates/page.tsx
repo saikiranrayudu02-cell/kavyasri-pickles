@@ -356,24 +356,24 @@ export default function AdminFlashUpdatesPage() {
   const activeCount = updates.filter((u) => u.is_active).length;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
+    <div className="space-y-8 max-w-7xl mx-auto pb-12">
       {/* 1. Header Command Ribbon */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white rounded-3xl border border-stone-200 p-6 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-linear-to-br from-amber-500 to-red-600 text-white shadow-md shadow-red-900/20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/70 backdrop-blur-2xl border border-white/80 p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-2xl bg-linear-to-br from-amber-500 to-[#166534] text-white shadow-md shadow-emerald-900/10 shrink-0">
             <Zap className="w-6 h-6 fill-white" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
                 Flash Update Command Center
               </h1>
-              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300">
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-semibold uppercase bg-emerald-100/90 text-emerald-800 border border-emerald-300/60 shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
                 Live Broadcast Active
               </span>
             </div>
-            <p className="text-xs sm:text-sm text-stone-500 mt-0.5">
+            <p className="text-xs sm:text-sm text-stone-500 font-medium mt-0.5">
               Instantly broadcast announcements, restock alerts, and limited-batch deals under the Navbar.
             </p>
           </div>
@@ -383,7 +383,7 @@ export default function AdminFlashUpdatesPage() {
           <button
             type="button"
             onClick={handleResetDefaults}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-stone-600 bg-stone-100 hover:bg-stone-200 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-stone-700 bg-stone-100/80 hover:bg-stone-200/80 border border-stone-200/60 transition-all active:scale-95 shadow-2xs"
             title="Restore original preset updates"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -393,7 +393,7 @@ export default function AdminFlashUpdatesPage() {
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-700 bg-white border border-stone-200 hover:bg-stone-50 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-xs font-semibold text-stone-700 bg-white/90 border border-stone-200/80 hover:bg-stone-50 transition-all active:scale-95 shadow-2xs"
           >
             <Eye className="w-4 h-4 text-stone-500" />
             <span>View Public Site</span>
@@ -403,7 +403,7 @@ export default function AdminFlashUpdatesPage() {
           <button
             type="button"
             onClick={handleNewUpdate}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#9e1b1e] hover:bg-[#851619] transition-all shadow-md shadow-red-900/20 active:scale-95"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-2xl text-xs font-semibold text-white bg-linear-to-r from-[#166534] to-[#15803d] hover:from-[#14532d] hover:to-[#166534] transition-all shadow-[0_4px_16px_rgba(22,101,52,0.25)] active:scale-95"
           >
             <Plus className="w-4 h-4" />
             <span>Create New Flash</span>

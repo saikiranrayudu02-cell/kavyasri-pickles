@@ -62,9 +62,9 @@ function LoginForm() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-linear-to-tr from-emerald-100/30 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10 animate-fade-in-up">
-        <Link href="/" className="inline-block mb-6">
-          <div className="relative w-64 h-12 mx-auto">
-            <Image src="/images/logo.svg" alt="Kavyasri Pickles" fill className="object-contain" priority />
+        <Link href="/" className="inline-flex flex-col items-center mb-4 group">
+          <div className="relative w-20 h-20 rounded-full overflow-hidden shadow-md border-2 border-amber-200/80 bg-amber-50">
+            <Image src="/images/logo.png" alt="Kavyasri Pickles" fill className="object-cover transition-transform duration-300 group-hover:scale-105" priority />
           </div>
         </Link>
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">

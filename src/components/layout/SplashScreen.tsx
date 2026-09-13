@@ -95,13 +95,13 @@ export default function SplashScreen() {
       {/* Center Brand Identity */}
       <div className="flex flex-col items-center px-6 text-center max-w-sm sm:max-w-md w-full animate-fade-in">
         {/* Official Brand Logo */}
-        <div className="relative w-56 xs:w-68 sm:w-80 h-13 xs:h-16 sm:h-18 mb-3.5">
+        <div className="relative w-28 h-28 xs:w-36 xs:h-36 sm:w-44 sm:h-44 mb-4 rounded-full overflow-hidden shadow-lg border-2 border-amber-200/80 bg-amber-50">
           <Image
-            src="/images/logo.svg"
+            src="/images/logo.png"
             alt="Kavyasri Pickles"
             fill
             priority
-            className="object-contain"
+            className="object-cover"
           />
         </div>
 

@@ -118,90 +118,96 @@ export default function AdminCustomersPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 backdrop-blur-2xl border border-white/80 p-5 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+              CRM & Profiles
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-stone-900 mt-0.5">
             Customer Directory ({customers.length})
           </h1>
-          <p className="text-xs text-stone-500 mt-1">
+          <p className="text-xs text-stone-500 font-medium">
             View customer order histories, contact information, and total lifetime spend.
           </p>
         </div>
-      </div>
 
-      {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-2xs">
+        {/* Filter / Search Bar */}
         <div className="relative w-full sm:w-80">
           <input
             type="text"
-            placeholder="Search by customer name, email, or phone..."
+            placeholder="Search customer name, email, or phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#166534]/20"
+            className="w-full pl-9 pr-4 py-2.5 text-xs rounded-2xl border border-stone-200/80 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-medium transition-all shadow-2xs text-stone-800"
           />
-          <Search className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+          <Search className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
         </div>
       </div>
 
-      {/* Customers Table */}
-      <div className="bg-white rounded-2xl sm:rounded-3xl border border-stone-200 shadow-2xs overflow-hidden">
+      {/* Customers Table Container */}
+      <div className="bg-white/70 backdrop-blur-2xl rounded-3xl border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-xs text-stone-500">Loading customer directory...</div>
+          <div className="p-12 text-center text-xs text-stone-500 font-medium animate-pulse">
+            Fetching customer directory & lifetime analytics...
+          </div>
         ) : (
           <>
             {/* Desktop Table View */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-stone-50 text-stone-500 font-semibold border-b border-stone-200">
+                <thead className="bg-stone-50/80 text-stone-500 font-semibold border-b border-stone-200/60">
                   <tr>
-                    <th className="p-4">Customer Name</th>
-                    <th className="p-4">Contact Details</th>
-                    <th className="p-4">Total Orders</th>
-                    <th className="p-4">Total Spent</th>
-                    <th className="p-4">Last Order</th>
-                    <th className="p-4">Status</th>
+                    <th className="py-3.5 px-5">Customer Name</th>
+                    <th className="py-3.5 px-5">Contact Details</th>
+                    <th className="py-3.5 px-5">Total Orders</th>
+                    <th className="py-3.5 px-5">Lifetime Spend</th>
+                    <th className="py-3.5 px-5">Last Activity</th>
+                    <th className="py-3.5 px-5">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-100">
                   {filtered.map((cust) => (
-                    <tr key={cust.id} className="hover:bg-stone-50/70 transition-colors">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-[#faf7f2] border border-stone-300 flex items-center justify-center font-bold text-[#166534]">
-                            {cust.name.charAt(0)}
+                    <tr key={cust.id} className="hover:bg-white/90 transition-colors duration-150 group">
+                      <td className="py-4 px-5">
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-10 h-10 rounded-2xl bg-linear-to-br from-emerald-100 to-emerald-200 border border-emerald-300/60 flex items-center justify-center font-bold text-[#166534] shadow-xs text-sm shrink-0 group-hover:scale-105 transition-transform">
+                            {cust.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="font-bold text-stone-900 text-sm">{cust.name}</p>
-                            <p className="text-[10px] text-stone-400">Customer since {cust.created_at}</p>
+                            <p className="font-bold text-stone-900 text-sm tracking-tight">{cust.name}</p>
+                            <p className="text-[10px] text-stone-400 font-medium">Member since {cust.created_at}</p>
                           </div>
                         </div>
                       </td>
 
-                      <td className="p-4 space-y-1">
-                        <div className="flex items-center gap-1.5 text-stone-600">
+                      <td className="py-4 px-5 space-y-1">
+                        <div className="flex items-center gap-1.5 text-stone-700 font-medium">
                           <Mail className="w-3.5 h-3.5 text-stone-400" />
                           <span>{cust.email}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-stone-600">
+                        <div className="flex items-center gap-1.5 text-stone-600 font-medium">
                           <Phone className="w-3.5 h-3.5 text-stone-400" />
                           <span>{cust.phone}</span>
                         </div>
                       </td>
 
-                      <td className="p-4">
+                      <td className="py-4 px-5">
                         <span className="font-bold text-stone-900 text-sm">{cust.orders_count}</span>{' '}
-                        <span className="text-stone-400">orders</span>
+                        <span className="text-stone-400 font-medium">orders</span>
                       </td>
 
-                      <td className="p-4 font-extrabold text-stone-900 text-sm">
+                      <td className="py-4 px-5 font-extrabold text-stone-900 text-sm">
                         ₹{cust.total_spent.toLocaleString('en-IN')}
                       </td>
 
-                      <td className="p-4 text-stone-500">{cust.last_order_date}</td>
+                      <td className="py-4 px-5 text-stone-500 font-medium">{cust.last_order_date}</td>
 
-                      <td className="p-4">
-                        <span className="bg-emerald-50 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full text-[10px] border border-emerald-200">
+                      <td className="py-4 px-5">
+                        <span className="bg-emerald-50 text-emerald-800 font-semibold px-3 py-1 rounded-full text-[10px] border border-emerald-200/80 shadow-2xs">
                           {cust.status}
                         </span>
                       </td>
@@ -212,25 +218,25 @@ export default function AdminCustomersPage() {
             </div>
 
             {/* Mobile Card List View */}
-            <div className="md:hidden divide-y divide-stone-100 p-3">
+            <div className="md:hidden divide-y divide-stone-100 p-4">
               {filtered.map((cust) => (
-                <div key={cust.id} className="py-3 flex flex-col gap-2">
+                <div key={cust.id} className="py-4 flex flex-col gap-2.5">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-full bg-[#faf7f2] border border-stone-300 flex items-center justify-center font-bold text-sm text-[#166534] shrink-0">
-                        {cust.name.charAt(0)}
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-emerald-100 to-emerald-200 border border-emerald-300/60 flex items-center justify-center font-bold text-xs text-[#166534] shrink-0">
+                        {cust.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-bold text-stone-900 text-xs">{cust.name}</p>
+                        <p className="font-bold text-stone-900 text-xs tracking-tight">{cust.name}</p>
                         <p className="text-[10px] text-stone-400">Since {cust.created_at}</p>
                       </div>
                     </div>
-                    <span className="bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full text-[10px] border border-emerald-200">
+                    <span className="bg-emerald-50 text-emerald-800 font-semibold px-2.5 py-0.5 rounded-full text-[10px] border border-emerald-200">
                       {cust.status}
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-xs text-stone-600 pl-1">
+                  <div className="space-y-1 text-xs text-stone-600 pl-1 font-medium">
                     <div className="flex items-center gap-1.5 truncate">
                       <Mail className="w-3.5 h-3.5 text-stone-400 shrink-0" />
                       <span className="truncate">{cust.email}</span>
@@ -241,9 +247,9 @@ export default function AdminCustomersPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-2 border-t border-stone-50 text-xs">
-                    <span className="text-stone-500">
-                      <strong className="text-stone-900">{cust.orders_count}</strong> orders • Last: {cust.last_order_date}
+                  <div className="flex items-center justify-between pt-2 border-t border-stone-200/50 text-xs">
+                    <span className="text-stone-500 font-medium">
+                      <strong className="text-stone-900">{cust.orders_count}</strong> orders • {cust.last_order_date}
                     </span>
                     <span className="font-extrabold text-stone-900">
                       ₹{cust.total_spent.toLocaleString('en-IN')}

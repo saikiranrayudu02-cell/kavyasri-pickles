@@ -67,6 +67,10 @@ h1, h2, h3, h4, .font-serif {
   font-family: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
+.font-rounded {
+  font-family: var(--font-rounded), var(--font-sans), system-ui, sans-serif;
+}
+
 /* ===================================================================
    ADMIN PORTAL ULTRA-CLEAN MODERN TYPOGRAPHY
    =================================================================== */
