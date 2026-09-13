@@ -30,6 +30,8 @@ export default function AdminProductsPage() {
 
   const loadProducts = async () => {
     setLoading(true);
+    const storeProducts = DataStore.getProducts();
+
     if (isSupabaseConfigured && supabase) {
       try {
         const { data: dbProducts, error } = await supabase
@@ -37,11 +39,11 @@ export default function AdminProductsPage() {
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (!error && dbProducts) {
+        if (!error && dbProducts && dbProducts.length > 0) {
           const mapped: Product[] = dbProducts.map((p) => ({
             id: p.id,
             category_id: p.category_id || 'cat-veg',
-            category_name: p.category_name || 'Traditional Pickles',
+            category_name: p.category_name || 'Veg Pickles',
             name: p.name,
             slug: p.slug,
             short_description: p.short_description || '',
@@ -68,7 +70,10 @@ export default function AdminProductsPage() {
             created_at: p.created_at,
           }));
 
-          setProducts(mapped);
+          // Merge with local store products so all seed products are present
+          const dbIds = new Set(mapped.map((p) => p.id));
+          const missing = storeProducts.filter((sp) => !dbIds.has(sp.id));
+          setProducts([...mapped, ...missing]);
           setLoading(false);
           return;
         }
@@ -77,7 +82,7 @@ export default function AdminProductsPage() {
       }
     }
 
-    setProducts(DataStore.getProducts());
+    setProducts(storeProducts);
     setLoading(false);
   };
 

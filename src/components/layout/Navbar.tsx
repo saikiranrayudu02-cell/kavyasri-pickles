@@ -97,13 +97,14 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Home', href: '/' },
+    { label: 'Veg Pickles', href: '/veg-pickles' },
     { label: 'Shop All', href: '/shop' },
     { label: 'About Us', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ];
 
   const categoryLinks = [
-    { name: 'Traditional Veg Pickles', href: '/shop?category=cat-veg' },
+    { name: 'Traditional Veg Pickles (20)', href: '/veg-pickles' },
     { name: 'Authentic Non-Veg Pickles', href: '/shop?category=cat-nonveg' },
     { name: 'Spicy Andhra Delights', href: '/shop?category=cat-andhra' },
     { name: 'Seasonal Specials', href: '/shop?category=cat-seasonal' },
