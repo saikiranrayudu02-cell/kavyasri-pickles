@@ -2,6 +2,15 @@ import { Category, Product, Order, Coupon, Review, Customer, StoreSettings, Flas
 
 export const INITIAL_CATEGORIES: Category[] = [
   {
+    id: 'cat-spices',
+    name: 'Spices',
+    slug: 'spices',
+    description: 'Authentic homemade Andhra-style karam powders and traditional spice blends prepared with carefully selected ingredients.',
+    image_url: '/images/pickles/spices_category.jpg',
+    is_active: true,
+    display_order: 6,
+  },
+  {
     id: 'cat-veg',
     name: 'Veg Pickles',
     slug: 'veg-pickles',
@@ -1277,33 +1286,34 @@ export const INITIAL_PRODUCTS: Product[] = [
     "created_at": "2026-08-20T10:00:00Z"
   },
   {
-    "id": "prod-chicken",
+    "id": "prod-chicken-boneless",
     "category_id": "cat-nonveg",
     "category_name": "Authentic Non-Veg Pickles",
-    "name": "Country Style Boneless Chicken Pickle",
-    "slug": "country-style-chicken-pickle",
-    "short_description": "Crisp-fried juicy tender boneless chicken bites tossed in fiery Andhra masala gravy.",
-    "description": "An absolute non-veg delicacy! Fresh boneless chicken cubes are marinated in lemon juice and organic turmeric, crisp-fried till golden, and folded into a rich gravy.",
-    "price": 349,
-    "mrp": 399,
-    "discount_percent": 13,
-    "weight": "250g",
-    "stock_quantity": 38,
-    "sku": "KP-CHK-250",
+    "name": "Chicken Boneless Pickle",
+    "slug": "chicken-boneless-pickle",
+    "short_description": "Tender boneless chicken morsels crisp-fried and tossed in rich Andhra spicy masala.",
+    "description": "Authentic homemade Andhra-style boneless chicken pickle prepared with fresh, tender chicken morsels marinated in lemon juice and organic turmeric, crisp-fried till golden and slow-reduced in a rich Guntur red chilli and cold-pressed oil gravy.",
+    "price": 900,
+    "mrp": 1099,
+    "discount_percent": 18,
+    "weight": "1kg",
+    "stock_quantity": 50,
+    "sku": "KP-CHK-BL-1KG",
     "spice_level": "Hot",
     "dietary": "non-veg",
     "shelf_life": "6 Months",
-    "storage_instructions": "Refrigeration recommended after opening.",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
     "ingredients": [
       "Fresh Boneless Chicken",
-      "Cold-Pressed Oil",
+      "Cold-Pressed Sesame Oil",
+      "Guntur Red Chilli Powder",
       "Ginger-Garlic Paste",
-      "Red Chilli Powder",
-      "Spices",
-      "Salt"
+      "Curry Leaves",
+      "Coriander & Cumin Spices",
+      "Sea Salt"
     ],
     "images": [
-      "/images/pickles/chicken.jpg"
+      "/images/pickles/chicken_boneless.jpg"
     ],
     "is_featured": true,
     "is_active": true,
@@ -1311,60 +1321,183 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 196,
     "variants": [
       {
-        "id": "var-chk-250",
-        "product_id": "prod-chicken",
-        "weight": "250g",
-        "price": 349,
-        "mrp": 399,
-        "stock_quantity": 38
-      },
-      {
-        "id": "var-chk-500",
-        "product_id": "prod-chicken",
-        "weight": "500g",
-        "price": 599,
-        "mrp": 699,
-        "stock_quantity": 25
-      },
-      {
-        "id": "var-chk-1kg",
-        "product_id": "prod-chicken",
+        "id": "var-chk-bl-1kg",
+        "product_id": "prod-chicken-boneless",
         "weight": "1kg",
-        "price": 1099,
-        "mrp": 1249,
-        "stock_quantity": 12
+        "price": 900,
+        "mrp": 1099,
+        "stock_quantity": 50
       }
     ],
-    "created_at": "2026-08-10T12:00:00Z"
+    "created_at": "2026-09-01T10:00:00Z"
   },
   {
-    "id": "prod-mutton",
+    "id": "prod-fish-boneless",
     "category_id": "cat-nonveg",
     "category_name": "Authentic Non-Veg Pickles",
-    "name": "Royal Hyderabadi Mutton Pickle (Gosht ka Achar)",
-    "slug": "royal-hyderabadi-mutton-pickle",
-    "short_description": "Tender boneless mutton cubes slow-braised in aromatic Nizami roasted spices.",
-    "description": "Boneless morsels of fresh, tender mutton slow-braised in their own juices and infused with Tellicherry black pepper and roasted Kashmiri chillies.",
-    "price": 449,
-    "mrp": 499,
-    "discount_percent": 10,
-    "weight": "250g",
-    "stock_quantity": 24,
-    "sku": "KP-MTN-250",
+    "name": "Fish Boneless Pickle",
+    "slug": "fish-boneless-pickle",
+    "short_description": "Delicate boneless fish fillets crisp-fried and steeped in tangy mustard masala gravy.",
+    "description": "Premium boneless sea fish fillets marinated in rock salt and turmeric, crisp-fried to perfection, and infused with roasted fenugreek, mustard, Guntur chillies, and sesame oil.",
+    "price": 1000,
+    "mrp": 1199,
+    "discount_percent": 16,
+    "weight": "1kg",
+    "stock_quantity": 40,
+    "sku": "KP-FSH-BL-1KG",
+    "spice_level": "Medium",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Fresh Boneless Fish Fillets",
+      "Cold-Pressed Oil",
+      "Mustard Powder",
+      "Fenugreek Powder",
+      "Red Chilli Powder",
+      "Garlic",
+      "Lemon Juice",
+      "Salt"
+    ],
+    "images": [
+      "/images/pickles/fish_boneless.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.8,
+    "reviews_count": 84,
+    "variants": [
+      {
+        "id": "var-fish-bl-1kg",
+        "product_id": "prod-fish-boneless",
+        "weight": "1kg",
+        "price": 1000,
+        "mrp": 1199,
+        "stock_quantity": 40
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
+    "id": "prod-natu-kodi-bone",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Natu Kodi with Bone Pickle",
+    "slug": "natu-kodi-with-bone-pickle",
+    "short_description": "Traditional country chicken with bone slow-cooked in fiery Rayalaseema spices.",
+    "description": "Authentic free-range country chicken (Natu Kodi) with bone, slow-cooked in cold-pressed gingelly oil, whole fried garlic cloves, fresh curry leaves, and roasted heirloom spices for an intense nostalgic flavor.",
+    "price": 1400,
+    "mrp": 1699,
+    "discount_percent": 17,
+    "weight": "1kg",
+    "stock_quantity": 35,
+    "sku": "KP-NKB-1KG",
+    "spice_level": "Extra Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Country Chicken with Bone",
+      "Gingelly Oil",
+      "Guntur Red Chilli",
+      "Roasted Garlic",
+      "Curry Leaves",
+      "Homemade Masala Blend",
+      "Sea Salt"
+    ],
+    "images": [
+      "/images/pickles/natu_kodi_bone.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 112,
+    "variants": [
+      {
+        "id": "var-nk-bone-1kg",
+        "product_id": "prod-natu-kodi-bone",
+        "weight": "1kg",
+        "price": 1400,
+        "mrp": 1699,
+        "stock_quantity": 35
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
+    "id": "prod-natu-kodi-boneless",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Natu Kodi Boneless Pickle",
+    "slug": "natu-kodi-boneless-pickle",
+    "short_description": "Juicy boneless country chicken morsels wok-tossed in robust spicy Andhra gravy.",
+    "description": "Free-range country chicken meat hand-picked boneless and wok-tossed in sun-dried red chili oil, roasted coriander, cloves, and ginger-garlic paste for a premium non-veg treat.",
+    "price": 1200,
+    "mrp": 1499,
+    "discount_percent": 20,
+    "weight": "1kg",
+    "stock_quantity": 35,
+    "sku": "KP-NKBL-1KG",
+    "spice_level": "Extra Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Boneless Country Chicken",
+      "Cold-Pressed Oil",
+      "Guntur Red Chilli Powder",
+      "Ginger-Garlic",
+      "Coriander & Cloves",
+      "Salt"
+    ],
+    "images": [
+      "/images/pickles/natu_kodi_boneless.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 128,
+    "variants": [
+      {
+        "id": "var-nk-bl-1kg",
+        "product_id": "prod-natu-kodi-boneless",
+        "weight": "1kg",
+        "price": 1200,
+        "mrp": 1499,
+        "stock_quantity": 35
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
+    "id": "prod-mutton-boneless",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Mutton Boneless Pickle",
+    "slug": "mutton-boneless-pickle",
+    "short_description": "Royal Hyderabadi boneless mutton cubes slow-braised in Nizami black pepper masala.",
+    "description": "Tender boneless morsels of fresh, premium mutton slow-braised in their natural juices and folded into a dark, fragrant black pepper and red chilli spice oil reduction.",
+    "price": 1800,
+    "mrp": 2199,
+    "discount_percent": 18,
+    "weight": "1kg",
+    "stock_quantity": 30,
+    "sku": "KP-MTN-BL-1KG",
     "spice_level": "Hot",
     "dietary": "non-veg",
     "shelf_life": "6 Months",
-    "storage_instructions": "Refrigeration recommended after opening.",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
     "ingredients": [
       "Boneless Mutton",
       "Mustard Oil",
       "Black Pepper",
-      "Red Chilli",
+      "Kashmiri & Guntur Chilli",
       "Ginger-Garlic",
-      "Spices"
+      "Whole Spices",
+      "Salt"
     ],
     "images": [
-      "/images/pickles/mutton.jpg"
+      "/images/pickles/mutton_boneless.jpg"
     ],
     "is_featured": true,
     "is_active": true,
@@ -1372,32 +1505,643 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 145,
     "variants": [
       {
-        "id": "var-mtn-250",
-        "product_id": "prod-mutton",
-        "weight": "250g",
-        "price": 449,
-        "mrp": 499,
-        "stock_quantity": 24
-      },
-      {
-        "id": "var-mtn-500",
-        "product_id": "prod-mutton",
-        "weight": "500g",
-        "price": 799,
-        "mrp": 899,
-        "stock_quantity": 15
-      },
-      {
-        "id": "var-mtn-1kg",
-        "product_id": "prod-mutton",
+        "id": "var-mtn-bl-1kg",
+        "product_id": "prod-mutton-boneless",
         "weight": "1kg",
-        "price": 1499,
-        "mrp": 1699,
-        "stock_quantity": 8
+        "price": 1800,
+        "mrp": 2199,
+        "stock_quantity": 30
       }
     ],
-    "created_at": "2026-08-20T10:00:00Z"
-  }
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
+    "id": "prod-chicken-gongura",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Chicken Gongura Pickle",
+    "slug": "chicken-gongura-pickle",
+    "short_description": "Tangy red sorrel (Gongura) leaves blended with crisp-fried chicken in spicy Andhra oil.",
+    "description": "A celebrated Andhra culinary invention combining tender fried chicken pieces with fresh hand-picked Gongura (red sorrel) leaves slow-cooked into a tangy, spicy, and irresistible pickle paste.",
+    "price": 1000,
+    "mrp": 1199,
+    "discount_percent": 16,
+    "weight": "1kg",
+    "stock_quantity": 45,
+    "sku": "KP-CHK-GNG-1KG",
+    "spice_level": "Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Fresh Chicken",
+      "Gongura Sorrel Leaves",
+      "Cold-Pressed Oil",
+      "Red Chilli Powder",
+      "Roasted Garlic",
+      "Mustard Seeds",
+      "Salt"
+    ],
+    "images": [
+      "/images/pickles/chicken_gongura.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 162,
+    "variants": [
+      {
+        "id": "var-chk-gng-1kg",
+        "product_id": "prod-chicken-gongura",
+        "weight": "1kg",
+        "price": 1000,
+        "mrp": 1199,
+        "stock_quantity": 45
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+{
+  "id": "prod-idly-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Idly Karam",
+  "slug": "idly-karam",
+  "short_description": "Authentic homemade Andhra-style Idly Karam podi prepared with roasted lentils and red chillies.",
+  "description": "Our traditional Idly Karam is crafted with stone-ground chana dal, urad dal, roasted Guntur red chillies, cumin seeds, garlic, and sea salt. Perfect condiment for hot idlis, dosa, and vada drizzled with melted desi ghee.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 60,
+  "sku": "KP-IDL-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Bengal Gram Dal",
+    "Black Gram Dal",
+    "Guntur Red Chilli",
+    "Cumin Seeds",
+    "Garlic",
+    "Sea Salt"
+  ],
+  "images": [
+    "/images/pickles/idly_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-idly-karam-250g",
+      "product_id": "prod-idly-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 60
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-nalla-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Nalla Karam",
+  "slug": "nalla-karam",
+  "short_description": "Authentic dark roasted Andhra Nalla Karam with rich roasted coriander, garlic, and chillies.",
+  "description": "Nalla Karam is a prized ancestral recipe made by slow-roasting unhulled black gram, coriander seeds, dry red chillies, tamarind, and garlic to a dark, intensely savory podi powder.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 50,
+  "sku": "KP-NLA-KRM-250G",
+  "spice_level": "Hot",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Unhulled Black Gram",
+    "Coriander Seeds",
+    "Red Chillies",
+    "Tamarind",
+    "Garlic",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/nalla_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-nalla-karam-250g",
+      "product_id": "prod-nalla-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 50
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-karivepaku-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Karivepaku Karam",
+  "slug": "karivepaku-karam",
+  "short_description": "Authentic homemade Curry Leaves Karam podi rich in fresh sun-dried karivepaku and roasted spices.",
+  "description": "Nutritious and flavorful karivepaku podi prepared with fresh sun-dried organic curry leaves, roasted lentils, Guntur red chillies, and asafoetida. Excellent for digestion and hair health.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 50,
+  "sku": "KP-KVP-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Fresh Organic Curry Leaves",
+    "Toor Dal",
+    "Urad Dal",
+    "Red Chillies",
+    "Cumin",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/karivepaku_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-karivepaku-karam-250g",
+      "product_id": "prod-karivepaku-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 50
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-munagaku-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Munagaku Karam",
+  "slug": "munagaku-karam",
+  "short_description": "Superfood Drumstick Leaves Karam podi prepared with shade-dried munagaku and roasted lentils.",
+  "description": "Power-packed with iron and vitamins, our Munagaku Karam blends shade-dried drumstick (moringa) leaves with slow-roasted lentils, garlic, and mild spices for a healthy daily side dish.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 45,
+  "sku": "KP-MNG-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Organic Drumstick Leaves",
+    "Chana Dal",
+    "Urad Dal",
+    "Garlic",
+    "Red Chillies",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/munagaku_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-munagaku-karam-250g",
+      "product_id": "prod-munagaku-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 45
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-avisa-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Avisa Karam",
+  "slug": "avisa-karam",
+  "short_description": "Healthy Flaxseed Karam podi slow-roasted with aromatic spices for rich Omega-3 nutrition.",
+  "description": "Avisa (flaxseed) Karam is a wholesome traditional condiment rich in plant-based Omega-3 fatty acids, prepared by roasting brown flaxseeds with dry chillies, garlic, and sea salt.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 40,
+  "sku": "KP-AVS-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Brown Flaxseeds",
+    "Red Chillies",
+    "Garlic",
+    "Cumin Seeds",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/avisa_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-avisa-karam-250g",
+      "product_id": "prod-avisa-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 40
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-nuvvula-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Nuvvula Karam",
+  "slug": "nuvvula-karam",
+  "short_description": "Fragrant Sesame Seed Karam podi roasted to a golden nutty perfection.",
+  "description": "Nuvvula (sesame seed) Karam podi delivers a rich nutty warmth to rice and rotis, made by roasting white sesame seeds with whole red chillies, garlic, and rock salt.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 50,
+  "sku": "KP-NVL-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "White Sesame Seeds",
+    "Red Chillies",
+    "Garlic",
+    "Cumin",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/nuvvula_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-nuvvula-karam-250g",
+      "product_id": "prod-nuvvula-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 50
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-vellulli-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Vellulli Karam",
+  "slug": "vellulli-karam",
+  "short_description": "Fiery Andhra Garlic Karam podi prepared with abundant fried garlic and red chillies.",
+  "description": "Bold, pungent, and irresistibly aromatic! Vellulli (garlic) Karam podi is coarsely ground with heaps of garlic, sun-dried Guntur chillies, and roasted coriander.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 60,
+  "sku": "KP-VLL-KRM-250G",
+  "spice_level": "Hot",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Garlic Cloves",
+    "Guntur Red Chillies",
+    "Coriander Seeds",
+    "Cumin",
+    "Sea Salt"
+  ],
+  "images": [
+    "/images/pickles/vellulli_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-vellulli-karam-250g",
+      "product_id": "prod-vellulli-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 60
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-kandhi-podi",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Kandhi Podi",
+  "slug": "kandhi-podi",
+  "short_description": "Classic Andhra Gunpowder Kandhi Podi made with slow-roasted yellow toor dal.",
+  "description": "The quintessential Andhra comfort food! Kandhi Podi (Toor Dal Gunpowder) is made from slow-roasted golden split pigeon peas, red chillies, and cumin. Tastes heavenly with steaming hot rice and ghee.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 70,
+  "sku": "KP-KND-PDI-250G",
+  "spice_level": "Mild",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Yellow Toor Dal",
+    "Red Chillies",
+    "Cumin Seeds",
+    "Black Pepper",
+    "Asafoetida",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/kandhi_podi.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-kandhi-podi-250g",
+      "product_id": "prod-kandhi-podi",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 70
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-putnala-podi",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Putnala Podi",
+  "slug": "putnala-podi",
+  "short_description": "Savory Roasted Gram Putnala Podi prepared with roasted chana and dry coconut.",
+  "description": "Mild, creamy, and fragrant Putnala (roasted dalia) Podi crafted with crispy roasted gram, dry coconut flakes, garlic, and cumin. Perfect for sprinkles on upma, dosa, and rice.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 50,
+  "sku": "KP-PTN-PDI-250G",
+  "spice_level": "Mild",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Roasted Dalia Gram",
+    "Dry Coconut",
+    "Garlic",
+    "Red Chillies",
+    "Cumin",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/putnala_podi.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-putnala-podi-250g",
+      "product_id": "prod-putnala-podi",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 50
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-kobbari-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Kobbari Karam",
+  "slug": "kobbari-karam",
+  "short_description": "Sweet & spicy Coconut Karam podi made with dry copra and Guntur chillies.",
+  "description": "Kobbari (dry coconut) Karam podi blends grated copra coconut with whole red chillies, garlic, and spices for a rich, aromatic side dish for tiffins and meals.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 55,
+  "sku": "KP-KBR-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Dry Copra Coconut",
+    "Red Chillies",
+    "Garlic",
+    "Cumin",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/kobbari_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-kobbari-karam-250g",
+      "product_id": "prod-kobbari-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 55
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-pappula-podi",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Pappula Podi",
+  "slug": "pappula-podi",
+  "short_description": "Traditional heirloom Mixed Lentil Pappula Podi slow-roasted for comforting flavor.",
+  "description": "An authentic blend of roasted split chana dal and black gram with garlic and whole spices, Pappula Podi brings rich nostalgia to everyday South Indian breakfast and lunch spreads.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 50,
+  "sku": "KP-PPL-PDI-250G",
+  "spice_level": "Mild",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Roasted Chana Dal",
+    "Urad Dal",
+    "Garlic",
+    "Red Chillies",
+    "Asafoetida",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/pappula_podi.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-pappula-podi-250g",
+      "product_id": "prod-pappula-podi",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 50
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-pudina-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Pudina Karam",
+  "slug": "pudina-karam",
+  "short_description": "Refreshing Mint Karam podi made with dried pudina leaves and roasted lentils.",
+  "description": "A cooling yet spicy herbal karam made from shade-dried garden fresh mint (pudina) leaves roasted with lentils, red chillies, and cumin for a refreshing herbal taste.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 45,
+  "sku": "KP-PDN-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Fresh Shade-Dried Mint Leaves",
+    "Toor Dal",
+    "Urad Dal",
+    "Red Chillies",
+    "Garlic",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/pudina_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-pudina-karam-250g",
+      "product_id": "prod-pudina-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 45
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+},
+{
+  "id": "prod-kothimeera-karam",
+  "category_id": "cat-spices",
+  "category_name": "Spices",
+  "name": "Kothimeera Karam",
+  "slug": "kothimeera-karam",
+  "short_description": "Aromatic Fresh Coriander Karam podi prepared with sun-cured coriander leaves.",
+  "description": "Handcrafted with fragrant sun-cured coriander (kothimeera) leaves, coriander seeds, lentils, and garlic, offering a burst of fresh herbal aroma with every spoon.",
+  "price": 150,
+  "mrp": 199,
+  "discount_percent": 24,
+  "weight": "250g",
+  "stock_quantity": 45,
+  "sku": "KP-KTM-KRM-250G",
+  "spice_level": "Medium",
+  "dietary": "veg",
+  "shelf_life": "6 Months",
+  "storage_instructions": "Store in an airtight container in a cool dry place.",
+  "ingredients": [
+    "Sun-Cured Coriander Leaves",
+    "Coriander Seeds",
+    "Urad Dal",
+    "Red Chillies",
+    "Garlic",
+    "Salt"
+  ],
+  "images": [
+    "/images/pickles/kothimeera_karam.jpg"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.9,
+  "reviews_count": 80,
+  "variants": [
+    {
+      "id": "var-kothimeera-karam-250g",
+      "product_id": "prod-kothimeera-karam",
+      "weight": "250g",
+      "price": 150,
+      "mrp": 199,
+      "stock_quantity": 45
+    }
+  ],
+  "created_at": "2026-09-05T10:00:00Z"
+}
 ];
 
 export const INITIAL_ORDERS: Order[] = [
@@ -1421,7 +2165,7 @@ export const INITIAL_ORDERS: Order[] = [
         product_id: 'prod-mango',
         product_name: 'Avakaya Mango Pickle (Spicy Andhra Style)',
         image: '/images/pickles/mango.jpg',
-        variant_weight: '500g',
+        variant_weight: '1kg',
         price: 449,
         quantity: 2,
         total: 898,
@@ -1474,20 +2218,20 @@ export const INITIAL_ORDERS: Order[] = [
     items: [
       {
         id: 'item-3',
-        product_id: 'prod-chicken',
-        product_name: 'Country Style Boneless Chicken Pickle',
-        image: '/images/pickles/chicken.jpg',
-        variant_weight: '500g',
-        price: 599,
+        product_id: 'prod-chicken-boneless',
+        product_name: 'Chicken Boneless Pickle',
+        image: '/images/pickles/chicken_boneless.jpg',
+        variant_weight: '1kg',
+        price: 900,
         quantity: 1,
-        total: 599,
+        total: 900,
       },
       {
         id: 'item-4',
         product_id: 'prod-mutton',
         product_name: 'Royal Hyderabadi Mutton Pickle',
         image: '/images/pickles/mutton.jpg',
-        variant_weight: '500g',
+        variant_weight: '1kg',
         price: 799,
         quantity: 1,
         total: 799,
@@ -1531,7 +2275,7 @@ export const INITIAL_ORDERS: Order[] = [
         product_id: 'prod-lemon',
         product_name: 'Traditional Tangy Lemon Pickle',
         image: '/images/pickles/lemon.jpg',
-        variant_weight: '500g',
+        variant_weight: '1kg',
         price: 349,
         quantity: 1,
         total: 349,
@@ -1676,8 +2420,8 @@ export const INITIAL_REVIEWS: Review[] = [
   },
   {
     id: 'rev-2',
-    product_id: 'prod-chicken',
-    product_name: 'Country Style Boneless Chicken Pickle',
+    product_id: 'prod-chicken-boneless',
+    product_name: 'Chicken Boneless Pickle',
     user_id: 'usr-2',
     customer_name: 'Vikram R.',
     rating: 5,

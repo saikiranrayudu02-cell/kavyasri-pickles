@@ -12,8 +12,8 @@ import {
 } from './seed-data';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'kp_products_v7',
-  CATEGORIES: 'kp_categories_v7',
+  PRODUCTS: 'kp_products_v9',
+  CATEGORIES: 'kp_categories_v9',
   ORDERS: 'kp_orders_v1',
   COUPONS: 'kp_coupons_v1',
   REVIEWS: 'kp_reviews_v1',
