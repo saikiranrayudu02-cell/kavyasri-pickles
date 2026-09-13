@@ -7,7 +7,7 @@ export function ProductCardSkeleton() {
       <Skeleton className="aspect-square w-full rounded-none" />
       
       {/* Body Content */}
-      <div className="p-4 sm:p-5 flex flex-col gap-3">
+      <div className="p-2.5 sm:p-5 flex flex-col gap-2 sm:gap-3">
         {/* Category & Heat */}
         <div className="flex justify-between items-center">
           <Skeleton className="h-3 w-20" />

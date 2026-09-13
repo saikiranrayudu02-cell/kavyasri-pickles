@@ -79,58 +79,58 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   const cardContent = (
-    <div className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ede8de] hover:border-[#c4b9a8] shadow-sm hover:shadow-2xl hover:shadow-stone-300/40 transition-all duration-400 transform hover:-translate-y-1.5 h-full">
+    <div className="group relative flex flex-col bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-[#ede8de] hover:border-[#c4b9a8] shadow-xs hover:shadow-xl hover:shadow-stone-300/40 transition-all duration-400 transform hover:-translate-y-1.5 h-full">
       {/* Top Image Container */}
       <Link href={`/products/${product.slug}`} className="relative aspect-square w-full bg-stone-100 overflow-hidden block">
         <Image
           src={product.images[0] || '/images/pickles/hero.jpg'}
           alt={product.name}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1200px) 33vw, 25vw"
           className="object-cover object-center group-hover:scale-106 transition-transform duration-600 ease-out"
         />
 
         {/* Floating Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-10">
           {discountPercent > 0 && (
-            <span className="bg-[#9e1b1e] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md tracking-wider">
+            <span className="bg-[#9e1b1e] text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full shadow-md tracking-wider">
               {discountPercent}% OFF
             </span>
           )}
           {product.is_featured && (
-            <span className="bg-[#d97706] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md tracking-wider uppercase">
+            <span className="bg-[#d97706] text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full shadow-md tracking-wider uppercase">
               Bestseller
             </span>
           )}
         </div>
 
         {/* Dietary symbol & Wishlist button */}
-        <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
-          <DietaryBadge type={product.dietary} size="md" />
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-1.5 sm:gap-2 z-10">
+          <DietaryBadge type={product.dietary} size="sm" />
 
           <button
             onClick={handleWishlistToggle}
-            className={`p-2 rounded-full backdrop-blur-md transition-all shadow-md ${
+            className={`p-1.5 sm:p-2 rounded-full backdrop-blur-md transition-all shadow-md ${
               isFavorited
                 ? 'bg-rose-50 text-rose-600'
                 : 'bg-white/90 text-stone-600 hover:text-rose-600 hover:bg-white'
             }`}
             aria-label="Add to wishlist"
           >
-            <Heart className={`w-4 h-4 ${isFavorited ? 'fill-current' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isFavorited ? 'fill-current' : ''}`} />
           </button>
         </div>
 
         {/* Stock Alert Badge */}
         {isOutOfStock ? (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-20">
-            <span className="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+            <span className="bg-red-600 text-white text-[10px] sm:text-xs font-bold px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-wider shadow">
               Out of Stock
             </span>
           </div>
         ) : isLowStock ? (
           <div className="absolute bottom-2 left-2 z-10">
-            <span className="bg-amber-500/90 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm">
+            <span className="bg-amber-500/90 text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded backdrop-blur-xs">
               Only {currentStock} left!
             </span>
           </div>
@@ -138,11 +138,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       {/* Body Content */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between font-sans">
+      <div className="p-2.5 sm:p-5 flex-1 flex flex-col justify-between font-sans">
         <div>
           {/* Category & Spice Level */}
-          <div className="flex items-center justify-between text-xs text-stone-500 mb-2">
-            <span className="font-semibold text-[11px] text-[#9e1b1e] tracking-wide uppercase bg-red-50/80 px-2 py-0.5 rounded-md border border-red-100/60">
+          <div className="flex items-center justify-between text-xs text-stone-500 mb-1.5 sm:mb-2">
+            <span className="font-semibold text-[9px] sm:text-[11px] text-[#9e1b1e] tracking-wide uppercase bg-red-50/80 px-1.5 sm:px-2 py-0.5 rounded-md border border-red-100/60 truncate max-w-[65%]">
               {product.category_name}
             </span>
             <SpiceMeter level={product.spice_level} showText={false} />
@@ -150,30 +150,32 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Product Name */}
           <Link href={`/products/${product.slug}`} className="block transition-colors">
-            <h3 className="font-semibold text-stone-900 text-sm sm:text-[15px] leading-snug line-clamp-2 group-hover:text-[#9e1b1e] tracking-tight">
+            <h3 className="font-semibold text-stone-900 text-xs sm:text-[15px] leading-snug line-clamp-2 group-hover:text-[#9e1b1e] tracking-tight min-h-8 sm:min-h-10">
               {product.name}
             </h3>
           </Link>
 
           {/* Star Rating */}
-          <div className="flex items-center gap-1.5 mt-2 text-xs">
-            <div className="flex items-center text-amber-500 bg-amber-50/80 px-2 py-0.5 rounded-md border border-amber-200/50">
-              <Star className="w-3.5 h-3.5 fill-current" />
-              <span className="font-semibold ml-1 text-stone-900 text-xs">{product.rating}</span>
+          <div className="flex items-center gap-1 sm:gap-1.5 mt-1.5 sm:mt-2 text-xs">
+            <div className="flex items-center text-amber-500 bg-amber-50/80 px-1.5 sm:px-2 py-0.5 rounded-md border border-amber-200/50">
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
+              <span className="font-semibold ml-0.5 sm:ml-1 text-stone-900 text-[11px] sm:text-xs">{product.rating}</span>
             </div>
-            <span className="text-stone-400 font-normal">({product.reviews_count} reviews)</span>
+            <span className="text-stone-400 font-normal text-[10px] sm:text-xs">
+              ({product.reviews_count}<span className="hidden sm:inline"> reviews</span>)
+            </span>
           </div>
 
           {/* Weight Variant Selector */}
           {product.variants && product.variants.length > 1 && (
-            <div className="flex items-center gap-1.5 mt-3">
-              <span className="text-[11px] font-medium text-stone-400">Pack:</span>
-              <div className="flex flex-wrap gap-1.5">
+            <div className="flex items-center gap-1 sm:gap-1.5 mt-2 sm:mt-3">
+              <span className="text-[10px] sm:text-[11px] font-medium text-stone-400 hidden xs:inline">Pack:</span>
+              <div className="flex flex-wrap gap-1 sm:gap-1.5">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.id}
                     onClick={() => setSelectedWeight(variant.weight)}
-                    className={`text-xs px-2.5 py-1 rounded-lg font-semibold transition-all min-h-7 ${
+                    className={`text-[10px] sm:text-xs px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg font-semibold transition-all min-h-6 sm:min-h-7 ${
                       selectedWeight === variant.weight
                         ? 'bg-[#9e1b1e] text-white shadow-xs'
                         : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -188,36 +190,36 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Pricing & Actions */}
-        <div className="mt-4 pt-3 border-t border-stone-100">
-          <div className="flex items-baseline justify-between mb-3">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg font-bold text-stone-900 tracking-tight">₹{currentPrice}</span>
+        <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-stone-100">
+          <div className="flex items-baseline justify-between mb-2 sm:mb-3">
+            <div className="flex items-baseline gap-1 sm:gap-2">
+              <span className="text-sm sm:text-lg font-bold text-stone-900 tracking-tight">₹{currentPrice}</span>
               {currentMrp > currentPrice && (
-                <span className="text-xs text-stone-400 line-through font-medium">₹{currentMrp}</span>
+                <span className="text-[10px] sm:text-xs text-stone-400 line-through font-medium">₹{currentMrp}</span>
               )}
             </div>
-            <span className="text-[11px] text-stone-500 font-semibold">{selectedWeight} jar</span>
+            <span className="text-[9px] sm:text-[11px] text-stone-500 font-semibold">{selectedWeight}</span>
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
             <button
               onClick={handleAddToCart}
               disabled={isOutOfStock}
-              className={`flex items-center justify-center gap-1.5 py-3 px-2 xs:px-3 rounded-xl font-bold text-xs transition-all border border-stone-200/80 min-h-10.5 ${
+              className={`flex items-center justify-center gap-1 py-2 sm:py-3 px-1 sm:px-3 rounded-lg sm:rounded-xl font-bold text-[10px] sm:text-xs transition-all border border-stone-200/80 min-h-8 sm:min-h-10.5 ${
                 isOutOfStock
                   ? 'bg-stone-100 text-stone-400 cursor-not-allowed border-transparent'
                   : 'bg-stone-100/90 hover:bg-stone-200/90 text-stone-800 hover:text-stone-950 active:scale-95'
               }`}
             >
-              <ShoppingBag className="w-4 h-4 shrink-0 text-[#166534]" />
-              <span className="truncate">Add to Cart</span>
+              <ShoppingBag className="w-3.5 h-3.5 shrink-0 text-[#166534]" />
+              <span className="truncate">Add</span>
             </button>
 
             <button
               onClick={handleBuyNow}
               disabled={isOutOfStock}
-              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1 py-3 px-2 xs:px-3 rounded-xl font-bold text-xs text-white transition-all shadow-md active:scale-95 min-h-10.5 ${
+              className={`group/btn relative overflow-hidden flex items-center justify-center gap-1 py-2 sm:py-3 px-1 sm:px-3 rounded-lg sm:rounded-xl font-bold text-[10px] sm:text-xs text-white transition-all shadow-xs active:scale-95 min-h-8 sm:min-h-10.5 ${
                 isOutOfStock
                   ? 'bg-stone-300 text-stone-500 cursor-not-allowed shadow-none'
                   : 'bg-linear-to-r from-[#9e1b1e] via-[#b91c1c] to-[#c2410c] hover:from-[#881316] hover:via-[#9e1b1e] hover:to-[#b91c1c] shadow-red-950/20 hover:shadow-lg hover:shadow-red-900/35 hover:-translate-y-0.5'
@@ -227,9 +229,9 @@ export default function ProductCard({ product }: ProductCardProps) {
               {!isOutOfStock && (
                 <span className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-out bg-linear-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
               )}
-              <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300 drop-shadow-[0_0_6px_rgba(252,211,77,0.85)] group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300 shrink-0" />
+              <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-amber-300 text-amber-300 drop-shadow-[0_0_6px_rgba(252,211,77,0.85)] group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300 shrink-0" />
               <span className="tracking-tight whitespace-nowrap">Buy Now</span>
-              <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 group-hover/btn:text-white transition-transform duration-200 shrink-0 hidden xs:inline" />
+              <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 group-hover/btn:text-white transition-transform duration-200 shrink-0 hidden sm:inline" />
             </button>
           </div>
         </div>
