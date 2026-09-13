@@ -94,7 +94,7 @@ export default function VegPicklesPage() {
                 placeholder="Search veg pickles or ingredients..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#166534]/20 focus:bg-white transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#166534]/20 transition-all"
               />
               {searchQuery && (
                 <button
