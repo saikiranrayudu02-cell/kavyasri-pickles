@@ -12,6 +12,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import SpiceMeter from './SpiceMeter';
 import DietaryBadge from './DietaryBadge';
+import { ShineBorder } from '@/components/ui/shine-border';
 
 interface ProductCardProps {
   product: Product;
@@ -77,8 +78,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     toggleWishlist(product.id, product.name);
   };
 
-  return (
-    <div className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ede8de] hover:border-[#c4b9a8] shadow-sm hover:shadow-2xl hover:shadow-stone-300/40 transition-all duration-400 transform hover:-translate-y-1.5">
+  const cardContent = (
+    <div className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-[#ede8de] hover:border-[#c4b9a8] shadow-sm hover:shadow-2xl hover:shadow-stone-300/40 transition-all duration-400 transform hover:-translate-y-1.5 h-full">
       {/* Top Image Container */}
       <Link href={`/products/${product.slug}`} className="relative aspect-square w-full bg-stone-100 overflow-hidden block">
         <Image
@@ -149,7 +150,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Product Name */}
           <Link href={`/products/${product.slug}`} className="block transition-colors">
-            <h3 className="font-sans font-bold text-stone-900 text-sm sm:text-[15px] leading-snug line-clamp-2 group-hover:text-[#9e1b1e] tracking-tight">
+            <h3 className="font-semibold text-stone-900 text-sm sm:text-[15px] leading-snug line-clamp-2 group-hover:text-[#9e1b1e] tracking-tight">
               {product.name}
             </h3>
           </Link>
@@ -158,21 +159,21 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center gap-1.5 mt-2 text-xs">
             <div className="flex items-center text-amber-500 bg-amber-50/80 px-2 py-0.5 rounded-md border border-amber-200/50">
               <Star className="w-3.5 h-3.5 fill-current" />
-              <span className="font-bold ml-1 text-stone-900 text-xs">{product.rating}</span>
+              <span className="font-semibold ml-1 text-stone-900 text-xs">{product.rating}</span>
             </div>
-            <span className="text-stone-400 font-medium">({product.reviews_count} reviews)</span>
+            <span className="text-stone-400 font-normal">({product.reviews_count} reviews)</span>
           </div>
 
           {/* Weight Variant Selector */}
           {product.variants && product.variants.length > 1 && (
             <div className="flex items-center gap-1.5 mt-3">
-              <span className="text-[11px] font-semibold text-stone-400">Pack:</span>
+              <span className="text-[11px] font-medium text-stone-400">Pack:</span>
               <div className="flex flex-wrap gap-1.5">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.id}
                     onClick={() => setSelectedWeight(variant.weight)}
-                    className={`text-xs px-2.5 py-1 rounded-lg font-bold transition-all min-h-7 ${
+                    className={`text-xs px-2.5 py-1 rounded-lg font-semibold transition-all min-h-7 ${
                       selectedWeight === variant.weight
                         ? 'bg-[#9e1b1e] text-white shadow-xs'
                         : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -190,7 +191,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="mt-4 pt-3 border-t border-stone-100">
           <div className="flex items-baseline justify-between mb-3">
             <div className="flex items-baseline gap-2">
-              <span className="text-xl font-extrabold text-stone-950 tracking-tight">₹{currentPrice}</span>
+              <span className="text-lg font-bold text-stone-900 tracking-tight">₹{currentPrice}</span>
               {currentMrp > currentPrice && (
                 <span className="text-xs text-stone-400 line-through font-medium">₹{currentMrp}</span>
               )}
@@ -235,4 +236,19 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
     </div>
   );
+
+  if (product.is_featured) {
+    return (
+      <ShineBorder
+        borderWidth={2}
+        duration={4}
+        gradient="from-amber-500 via-red-600 to-emerald-600"
+        className="w-full h-full"
+      >
+        {cardContent}
+      </ShineBorder>
+    );
+  }
+
+  return cardContent;
 }

@@ -72,30 +72,30 @@ export default function HomePage() {
                   <span>Handmade in Small Batches • Zero Preservatives</span>
                 </div>
 
-                <h1 className="animate-fade-in-up stagger-1 font-rounded text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-extrabold text-[#1c1917] tracking-tight leading-[1.08]">
-                  <span className="block font-black tracking-tight text-stone-900 drop-shadow-2xs">
+                <h1 className="animate-fade-in-up stagger-1 font-rounded text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1c1917] tracking-tight leading-[1.10]">
+                  <span className="block font-bold tracking-tight text-stone-900">
                     Traditional Taste
                   </span>
-                  <span className="block mt-1 sm:mt-2 font-black bg-linear-to-r from-[#9e1b1e] via-[#c2410c] to-[#d97706] bg-clip-text text-transparent tracking-tight">
+                  <span className="block mt-1 sm:mt-2 font-bold bg-linear-to-r from-[#9e1b1e] via-[#c2410c] to-[#d97706] bg-clip-text text-transparent tracking-tight">
                     Homemade Love.
                   </span>
                 </h1>
 
-                <p className="animate-fade-in-up stagger-2 text-stone-600 text-sm sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <p className="animate-fade-in-up stagger-2 text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
                   Authentic homemade pickles crafted with 70-year-old traditional family recipes, pure cold-pressed oils, sun-cured spices, and carefully selected hand-cut ingredients.
                 </p>
 
                 <div className="animate-fade-in-up stagger-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
                   <Link
                     href="/shop"
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-bold rounded-2xl shadow-lg shadow-red-900/25 flex items-center justify-center gap-2 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] btn-press text-sm sm:text-base"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-[#9e1b1e] hover:bg-[#7f1d1d] text-white font-semibold rounded-2xl shadow-md shadow-red-900/20 flex items-center justify-center gap-2 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] btn-press text-sm sm:text-base"
                   >
                     <span>Shop All Pickles</span>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Link>
                   <Link
                     href="/shop?category=cat-combos"
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-white hover:bg-stone-50 text-stone-900 font-bold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-xs text-sm sm:text-base"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-white hover:bg-stone-50 text-stone-900 font-semibold rounded-2xl border-2 border-stone-300 flex items-center justify-center gap-2 transition-colors shadow-xs text-sm sm:text-base"
                   >
                     <span>Explore Gift Combos</span>
                   </Link>
@@ -104,15 +104,15 @@ export default function HomePage() {
                 {/* Trust Highlights */}
                 <div className="animate-fade-in-up stagger-4 grid grid-cols-3 gap-2 sm:gap-3 pt-6 border-t border-stone-200/80 max-w-md mx-auto lg:mx-0 text-left">
                   <div>
-                    <div className="text-base xs:text-xl font-extrabold text-[#9e1b1e]">70+ Yrs</div>
+                    <div className="text-base xs:text-lg font-bold text-[#9e1b1e]">70+ Yrs</div>
                     <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Heirloom Recipe</div>
                   </div>
                   <div>
-                    <div className="text-base xs:text-xl font-extrabold text-[#d97706]">10,000+</div>
+                    <div className="text-base xs:text-lg font-bold text-[#d97706]">10,000+</div>
                     <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Jars Shipped</div>
                   </div>
                   <div>
-                    <div className="text-base xs:text-xl font-extrabold text-emerald-700">4.9 ★</div>
+                    <div className="text-base xs:text-lg font-bold text-emerald-700">4.9 ★</div>
                     <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Customer Rating</div>
                   </div>
                 </div>
@@ -143,10 +143,10 @@ export default function HomePage() {
         <section className="py-16 bg-white border-b border-[#ede5d8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12 reveal-on-scroll">
-              <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
+              <span className="text-xs font-semibold tracking-widest text-[#9e1b1e] uppercase">
                 Handcrafted Varieties
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-1">
+              <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 mt-1 tracking-tight">
                 Explore By Category
               </h2>
               <p className="text-sm text-stone-500 mt-2">
@@ -169,7 +169,7 @@ export default function HomePage() {
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <h3 className="font-serif font-bold text-sm text-stone-900 group-hover:text-[#9e1b1e] transition-colors">
+                  <h3 className="font-rounded font-semibold text-sm text-stone-900 group-hover:text-[#9e1b1e] transition-colors">
                     {cat.name}
                   </h3>
                   <span className="text-[11px] text-stone-500 mt-1 flex items-center gap-1 group-hover:text-[#d97706] font-medium">
@@ -186,10 +186,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 reveal-on-scroll">
               <div>
-                <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
+                <span className="text-xs font-semibold tracking-wider text-[#9e1b1e] uppercase">
                   Most Loved Delicacies
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-1">
+                <h2 className="font-rounded text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 mt-1 tracking-tight">
                   Signature Homemade Pickles
                 </h2>
               </div>
@@ -223,7 +223,7 @@ export default function HomePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#9e1b1e] animate-pulse" />
                 The Kavyasri Promise
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight">
+              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight">
                 Why Our Pickles Taste Like Home
               </h2>
               <div className="w-16 h-0.5 bg-linear-to-r from-transparent via-[#9e1b1e] to-transparent mx-auto my-4" />
@@ -241,9 +241,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#9e1b1e] group-hover:bg-[#9e1b1e] group-hover:text-white group-hover:border-[#9e1b1e] transition-all duration-300 shadow-sm group-hover:scale-110">
                     <Award className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">01</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">01</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-[#9e1b1e] transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-[#9e1b1e] transition-colors">
                   Homemade Taste
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -258,9 +258,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-[#d97706] group-hover:bg-[#d97706] group-hover:text-white group-hover:border-[#d97706] transition-all duration-300 shadow-sm group-hover:scale-110">
                     <Leaf className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">02</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">02</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-[#d97706] transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-[#d97706] transition-colors">
                   Quality Ingredients
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -275,9 +275,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-emerald-700 group-hover:bg-emerald-700 group-hover:text-white group-hover:border-emerald-700 transition-all duration-300 shadow-sm group-hover:scale-110">
                     <HeartHandshake className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">03</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">03</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-emerald-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-emerald-700 transition-colors">
                   Traditional Recipes
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -292,9 +292,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 transition-all duration-300 shadow-sm group-hover:scale-110">
                     <Sun className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">04</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">04</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-orange-600 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-orange-600 transition-colors">
                   Freshly Prepared
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -309,9 +309,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-sky-700 group-hover:bg-sky-700 group-hover:text-white group-hover:border-sky-700 transition-all duration-300 shadow-sm group-hover:scale-110">
                     <PackageCheck className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">05</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">05</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-sky-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-sky-700 transition-colors">
                   Hygienically Packed
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -326,9 +326,9 @@ export default function HomePage() {
                   <div className="w-13 h-13 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-purple-700 group-hover:bg-purple-700 group-hover:text-white group-hover:border-purple-700 transition-all duration-300 shadow-sm group-hover:scale-110">
                     <Truck className="w-6 h-6 stroke-2" />
                   </div>
-                  <span className="font-serif text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">06</span>
+                  <span className="font-rounded text-2xl font-bold text-stone-300 group-hover:text-amber-500/40 transition-colors">06</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl text-stone-900 mb-2 group-hover:text-purple-700 transition-colors">
+                <h3 className="font-rounded font-bold text-xl text-stone-900 mb-2 group-hover:text-purple-700 transition-colors">
                   Delivered to Your Door
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
@@ -346,7 +346,7 @@ export default function HomePage() {
               <span className="text-xs font-bold tracking-widest text-[#d97706] uppercase">
                 Find Your Perfect Heat
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
+              <h2 className="font-rounded text-2xl sm:text-3xl font-bold text-stone-900 mt-1 tracking-tight">
                 Kavyasri Spice Level Guide
               </h2>
             </div>
@@ -381,7 +381,7 @@ export default function HomePage() {
               <span className="text-xs font-bold tracking-widest text-[#9e1b1e] uppercase">
                 Customer Stories
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-1">
+              <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 mt-1 tracking-tight">
                 Loved by 10,000+ Food Lovers
               </h2>
             </div>
@@ -441,7 +441,7 @@ export default function HomePage() {
               Authentic Kitchen Tradition
             </span>
 
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
+            <h2 className="font-rounded text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight leading-tight">
               Handcrafted Homemade Pickles Delivered Fresh to Your Doorstep.
             </h2>
 

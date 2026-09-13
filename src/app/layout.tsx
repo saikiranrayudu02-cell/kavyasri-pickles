@@ -7,7 +7,7 @@ export const viewport: Viewport = {
   themeColor: '#eba715',
   viewportFit: 'cover',
 };
-import { Playfair_Display, Outfit, Nunito, Inter } from 'next/font/google';
+import { Outfit, Nunito, Inter } from 'next/font/google';
 import './globals.css';
 import { ToastProvider } from '@/context/ToastContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -15,15 +15,16 @@ import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import SplashScreen from '@/components/layout/SplashScreen';
 
-const serifFont = Playfair_Display({
+const serifFont = Outfit({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-serif',
   display: 'swap',
 });
 
 const sansFont = Outfit({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-sans',
   display: 'swap',
 });
