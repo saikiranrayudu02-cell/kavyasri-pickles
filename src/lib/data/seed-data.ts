@@ -1561,6 +1561,52 @@ export const INITIAL_PRODUCTS: Product[] = [
     ],
     "created_at": "2026-09-01T10:00:00Z"
   },
+  {
+    "id": "prod-prawns-boneless",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Prawns Boneless Pickle",
+    "slug": "prawns-boneless-pickle",
+    "short_description": "Succulent fresh ocean prawns crisp-fried & marinated in traditional heirloom Andhra spices.",
+    "description": "Our artisanal Prawns Boneless Pickle is prepared with fresh sea-caught prawns, sun-cured with stone-ground Guntur red chillies, fragrant garlic, ginger, and sesame oil following an heirloom coastal Andhra recipe.",
+    "price": 1100,
+    "mrp": 1299,
+    "discount_percent": 15,
+    "weight": "1kg",
+    "stock_quantity": 40,
+    "sku": "KP-PRW-BL-1KG",
+    "spice_level": "Extra Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Fresh Ocean Prawns",
+      "Cold-Pressed Sesame Oil",
+      "Guntur Red Chilli Powder",
+      "Garlic & Ginger",
+      "Mustard Powder",
+      "Sea Salt",
+      "Turmeric"
+    ],
+    "images": [
+      "/images/pickles/hero.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 178,
+    "variants": [
+      {
+        "id": "var-prw-bl-1kg",
+        "product_id": "prod-prawns-boneless",
+        "weight": "1kg",
+        "price": 1100,
+        "mrp": 1299,
+        "stock_quantity": 40
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
 {
   "id": "prod-idly-karam",
   "category_id": "cat-spices",
