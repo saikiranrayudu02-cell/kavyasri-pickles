@@ -1562,50 +1562,44 @@ export const INITIAL_PRODUCTS: Product[] = [
     "created_at": "2026-09-01T10:00:00Z"
   },
   {
-    "id": "prod-prawns-boneless",
-    "category_id": "cat-nonveg",
-    "category_name": "Authentic Non-Veg Pickles",
-    "name": "Prawns Boneless Pickle",
-    "slug": "prawns-boneless-pickle",
-    "short_description": "Succulent fresh ocean prawns crisp-fried & marinated in traditional heirloom Andhra spices.",
-    "description": "Our artisanal Prawns Boneless Pickle is prepared with fresh sea-caught prawns, sun-cured with stone-ground Guntur red chillies, fragrant garlic, ginger, and sesame oil following an heirloom coastal Andhra recipe.",
-    "price": 1100,
-    "mrp": 1299,
-    "discount_percent": 15,
-    "weight": "1kg",
-    "stock_quantity": 40,
-    "sku": "KP-PRW-BL-1KG",
-    "spice_level": "Extra Hot",
-    "dietary": "non-veg",
-    "shelf_life": "6 Months",
-    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "id": "32810da2-382f-469f-b634-3003e1733f04",
+    "category_id": "cat-veg",
+    "category_name": "Veg Pickles",
+    "name": "testing product",
+    "slug": "testing-product",
+    "short_description": "Custom testing product.",
+    "description": "Custom testing product created for verification.",
+    "price": 1,
+    "mrp": 100,
+    "discount_percent": 99,
+    "weight": "250g",
+    "stock_quantity": 50,
+    "sku": "KP-TST-001",
+    "spice_level": "Hot",
+    "dietary": "veg",
+    "shelf_life": "12 Months",
+    "storage_instructions": "Store in a cool dry place.",
     "ingredients": [
-      "Fresh Ocean Prawns",
-      "Cold-Pressed Sesame Oil",
-      "Guntur Red Chilli Powder",
-      "Garlic & Ginger",
-      "Mustard Powder",
-      "Sea Salt",
-      "Turmeric"
+      "Testing Ingredient"
     ],
     "images": [
       "/images/pickles/hero.jpg"
     ],
     "is_featured": true,
     "is_active": true,
-    "rating": 4.9,
-    "reviews_count": 178,
+    "rating": 5.0,
+    "reviews_count": 1,
     "variants": [
       {
-        "id": "var-prw-bl-1kg",
-        "product_id": "prod-prawns-boneless",
-        "weight": "1kg",
-        "price": 1100,
-        "mrp": 1299,
-        "stock_quantity": 40
+        "id": "var-tst-250g",
+        "product_id": "32810da2-382f-469f-b634-3003e1733f04",
+        "weight": "250g",
+        "price": 1,
+        "mrp": 100,
+        "stock_quantity": 50
       }
     ],
-    "created_at": "2026-09-01T10:00:00Z"
+    "created_at": "2026-09-14T10:00:00Z"
   },
 {
   "id": "prod-idly-karam",
