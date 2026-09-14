@@ -28,7 +28,7 @@ function ShopContent() {
   const [selectedDietary, setSelectedDietary] = useState<DietaryType | 'all'>('all');
   const [selectedSpice, setSelectedSpice] = useState<SpiceLevel | 'all'>('all');
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [maxPrice, setMaxPrice] = useState<number>(1500);
+  const [maxPrice, setMaxPrice] = useState<number>(2500);
   const [sortBy, setSortBy] = useState<'popular' | 'newest' | 'price-low' | 'price-high' | 'rating'>('popular');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
@@ -108,7 +108,7 @@ function ShopContent() {
     setSelectedDietary('all');
     setSelectedSpice('all');
     setInStockOnly(false);
-    setMaxPrice(1500);
+    setMaxPrice(2500);
     setSortBy('popular');
   };
 
@@ -118,7 +118,7 @@ function ShopContent() {
     selectedDietary !== 'all' ||
     selectedSpice !== 'all' ||
     inStockOnly ||
-    maxPrice < 1500;
+    maxPrice < 2500;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#faf7f2]">
@@ -339,7 +339,7 @@ function ShopContent() {
                 <input
                   type="range"
                   min="150"
-                  max="1500"
+                  max="2500"
                   step="50"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
@@ -347,7 +347,7 @@ function ShopContent() {
                 />
                 <div className="flex justify-between text-[10px] text-stone-400 mt-1">
                   <span>₹150</span>
-                  <span>₹1500</span>
+                  <span>₹2500</span>
                 </div>
               </div>
 
@@ -587,7 +587,7 @@ function ShopContent() {
                   <input
                     type="range"
                     min="150"
-                    max="1500"
+                    max="2500"
                     step="50"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
@@ -595,7 +595,7 @@ function ShopContent() {
                   />
                   <div className="flex justify-between text-[10px] text-stone-400 mt-1">
                     <span>₹150</span>
-                    <span>₹1500</span>
+                    <span>₹2500</span>
                   </div>
                 </div>
 
