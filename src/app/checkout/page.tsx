@@ -283,9 +283,23 @@ function CheckoutContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          user_id: user?.id,
+          customer_name: fullName,
+          customer_email: email,
+          customer_phone: phone,
+          shipping_address: {
+            fullName,
+            phone,
+            addressLine1,
+            addressLine2,
+            city,
+            state,
+            pincode,
+          },
           items: checkoutItems.map((it) => ({
             product_id: it.product_id,
             product_name: it.product_name,
+            image: it.image,
             weight: it.weight,
             price: it.price,
             quantity: it.quantity,

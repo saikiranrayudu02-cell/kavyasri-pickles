@@ -46,7 +46,7 @@ export default function MyOrdersPage() {
           const { data: dbOrders, error } = await supabase
             .from('orders')
             .select('*')
-            .or(`user_id.eq.${user.id},customer_email.eq.${user.email}`)
+            .or(`user_id.eq.${user.id},customer_email.ilike.${user.email}`)
             .order('created_at', { ascending: false });
 
           if (!error && dbOrders && dbOrders.length > 0 && isMounted) {

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { DataStore } from '@/lib/data/store';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { OrderTimelineItem } from '@/lib/types';
 
 // Set runtime configuration to Node.js for crypto & raw body support
 export const runtime = 'nodejs';
@@ -67,6 +69,15 @@ export async function POST(req: Request) {
     }
 
     // 4. Process Webhook Event Types
+    const formattedNow = new Date().toLocaleString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    // 4. Process Webhook Event Types
     switch (eventType) {
       case 'payment.captured':
       case 'payment.authorized': {
@@ -74,11 +85,133 @@ export async function POST(req: Request) {
         if (payment) {
           const rzpOrderId = payment.order_id;
           const rzpPaymentId = payment.id;
+          const customerEmail = payment.email || '';
+          const customerPhone = payment.contact || '';
+          const amountInRupees = Number(payment.amount || 0) / 100;
+          const notes = payment.notes || {};
 
-          const existingOrder = DataStore.getOrderByRazorpayId(rzpOrderId) || DataStore.getOrderByRazorpayId(rzpPaymentId);
+          let orderIdToUpdate: string | null = null;
+          let existingOrderTimeline: OrderTimelineItem[] = [];
 
-          if (existingOrder) {
-            DataStore.updateOrderPaymentStatus(existingOrder.id, 'Paid', rzpPaymentId);
+          // Query Supabase DB for matching order
+          if (isSupabaseConfigured && supabase) {
+            const { data: dbOrders } = await supabase
+              .from('orders')
+              .select('*')
+              .or(`razorpay_order_id.eq.${rzpOrderId},razorpay_payment_id.eq.${rzpPaymentId}`)
+              .limit(1);
+
+            if (dbOrders && dbOrders.length > 0) {
+              const dbOrder = dbOrders[0];
+              orderIdToUpdate = dbOrder.id;
+              existingOrderTimeline = dbOrder.timeline || [];
+
+              if (dbOrder.payment_status !== 'Paid') {
+                const updatedTimeline = [
+                  ...existingOrderTimeline,
+                  {
+                    status: 'Confirmed' as const,
+                    timestamp: formattedNow,
+                    note: `Payment captured via Razorpay Webhook (ID: ${rzpPaymentId})`,
+                  },
+                ];
+
+                await supabase
+                  .from('orders')
+                  .update({
+                    payment_status: 'Paid',
+                    order_status: 'Confirmed',
+                    razorpay_payment_id: rzpPaymentId,
+                    timeline: updatedTimeline,
+                  })
+                  .eq('id', dbOrder.id);
+              }
+            }
+          }
+
+          // Fallback: If not found in Supabase DB, check local DataStore
+          const localOrder = DataStore.getOrderByRazorpayId(rzpOrderId) || DataStore.getOrderByRazorpayId(rzpPaymentId);
+          if (localOrder) {
+            DataStore.updateOrderPaymentStatus(localOrder.id, 'Paid', rzpPaymentId);
+            orderIdToUpdate = localOrder.id;
+          }
+
+          // RECONCILIATION SAFETY NET: If no order exists for this captured payment, create one!
+          if (!orderIdToUpdate && isSupabaseConfigured && supabase) {
+            const recoveredOrderId = notes.app_order_id || `KP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            // Lookup profile by email or phone if possible
+            let matchingUserId: string | null = null;
+            if (customerEmail) {
+              const { data: profs } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('email', customerEmail)
+                .limit(1);
+              if (profs && profs.length > 0) matchingUserId = profs[0].id;
+            }
+
+            const rawAddress = notes.shipping_address || 'Customer Delivery Address';
+            const shippingAddressObj = {
+              fullName: notes.customer_name || 'Customer',
+              phone: customerPhone,
+              addressLine1: rawAddress,
+              city: 'City',
+              state: 'State',
+              pincode: '000000',
+            };
+
+            const timeline = [
+              {
+                status: 'Pending' as const,
+                timestamp: formattedNow,
+                note: 'Order auto-recovered via Webhook',
+              },
+              {
+                status: 'Confirmed' as const,
+                timestamp: formattedNow,
+                note: `Payment captured via Webhook (ID: ${rzpPaymentId})`,
+              },
+            ];
+
+            const { error: recErr } = await supabase.from('orders').upsert(
+              {
+                id: recoveredOrderId,
+                user_id: matchingUserId,
+                customer_name: notes.customer_name || 'Valued Customer',
+                customer_email: customerEmail,
+                customer_phone: customerPhone,
+                shipping_address: shippingAddressObj,
+                subtotal: amountInRupees,
+                discount: 0,
+                coupon_code: null,
+                shipping_fee: Number(notes.shipping_fee || 0),
+                tax: Number(notes.tax_amount || 0),
+                gst_percentage: Number(notes.gst_percentage || 0),
+                total_amount: amountInRupees,
+                payment_status: 'Paid',
+                payment_method: 'Razorpay Online Payment',
+                razorpay_order_id: rzpOrderId,
+                razorpay_payment_id: rzpPaymentId,
+                order_status: 'Confirmed',
+                timeline,
+                created_at: new Date().toISOString(),
+              },
+              { onConflict: 'id' }
+            );
+
+            if (!recErr) {
+              await supabase.from('order_items').insert({
+                order_id: recoveredOrderId,
+                product_name: 'Homemade Pickles & Spices',
+                image: '/images/pickles/hero.jpg',
+                variant_weight: 'Standard',
+                price: amountInRupees,
+                quantity: 1,
+                total: amountInRupees,
+              });
+              console.log(`Razorpay Webhook: Successfully auto-reconciled missing order ${recoveredOrderId} for payment ${rzpPaymentId}`);
+            }
           }
         }
         break;
@@ -86,35 +219,35 @@ export async function POST(req: Request) {
 
       case 'order.paid': {
         const orderEntity = payload.payload?.order?.entity;
-        if (orderEntity) {
+        if (orderEntity && isSupabaseConfigured && supabase) {
           const rzpOrderId = orderEntity.id;
-          const existingOrder = DataStore.getOrderByRazorpayId(rzpOrderId);
+          await supabase
+            .from('orders')
+            .update({ payment_status: 'Paid', order_status: 'Confirmed' })
+            .eq('razorpay_order_id', rzpOrderId);
 
-          if (existingOrder) {
-            DataStore.updateOrderPaymentStatus(existingOrder.id, 'Paid');
-          }
+          const localOrder = DataStore.getOrderByRazorpayId(rzpOrderId);
+          if (localOrder) DataStore.updateOrderPaymentStatus(localOrder.id, 'Paid');
         }
         break;
       }
 
       case 'payment.failed': {
         const payment = payload.payload?.payment?.entity;
-        if (payment) {
+        if (payment && isSupabaseConfigured && supabase) {
           const rzpOrderId = payment.order_id;
           const rzpPaymentId = payment.id;
-          const existingOrder = DataStore.getOrderByRazorpayId(rzpOrderId) || DataStore.getOrderByRazorpayId(rzpPaymentId);
-
-          if (existingOrder && existingOrder.payment_status !== 'Paid') {
-            DataStore.updateOrderPaymentStatus(existingOrder.id, 'Failed', rzpPaymentId);
-          }
+          await supabase
+            .from('orders')
+            .update({ payment_status: 'Failed', razorpay_payment_id: rzpPaymentId })
+            .eq('razorpay_order_id', rzpOrderId)
+            .neq('payment_status', 'Paid');
         }
         break;
       }
 
-      default: {
-        // Unhandled or informational events
+      default:
         break;
-      }
     }
 
     return NextResponse.json({ status: 'ok', event: eventType });
