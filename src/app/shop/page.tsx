@@ -35,10 +35,13 @@ function ShopContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setProducts(DataStore.getProducts().filter((p) => p.is_active));
-    setCategories(DataStore.getCategories().filter((c) => c.is_active));
-    const timer = setTimeout(() => setIsLoading(false), 400);
-    return () => clearTimeout(timer);
+    async function loadShopData() {
+      const syncedProducts = await DataStore.syncProductsFromSupabase();
+      setProducts(syncedProducts.filter((p) => p.is_active));
+      setCategories(DataStore.getCategories().filter((c) => c.is_active));
+      setIsLoading(false);
+    }
+    loadShopData();
   }, []);
 
   useEffect(() => {

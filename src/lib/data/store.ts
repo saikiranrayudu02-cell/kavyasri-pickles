@@ -74,9 +74,65 @@ export const DataStore = {
     return stored;
   },
 
+  async syncProductsFromSupabase(): Promise<Product[]> {
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data: dbProducts, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && dbProducts && dbProducts.length > 0) {
+          const mapped: Product[] = dbProducts.map((p) => ({
+            id: p.id,
+            category_id: p.category_id || 'cat-veg',
+            category_name: p.category_name || 'Veg Pickles',
+            name: p.name,
+            slug: p.slug,
+            short_description: p.short_description || '',
+            description: p.description || '',
+            price: Number(p.price),
+            mrp: Number(p.mrp),
+            discount_percent: Number(p.discount_percent || 0),
+            weight: p.weight || '250g',
+            stock_quantity: Number(p.stock_quantity || 0),
+            sku: p.sku || '',
+            spice_level: p.spice_level || 'Hot',
+            dietary: p.dietary || 'veg',
+            shelf_life: p.shelf_life || '12 Months',
+            storage_instructions: p.storage_instructions || '',
+            ingredients: p.ingredients || [],
+            images: p.images && p.images.length > 0 ? p.images : ['/images/pickles/hero.jpg'],
+            is_featured: Boolean(p.is_featured),
+            is_active: Boolean(p.is_active),
+            rating: Number(p.rating || 4.8),
+            reviews_count: Number(p.reviews_count || 0),
+            variants: [
+              { id: `var-${p.id}-250`, product_id: p.id, weight: '250g', price: Number(p.price), mrp: Number(p.mrp), stock_quantity: Number(p.stock_quantity || 0) },
+            ],
+            created_at: p.created_at,
+          }));
+
+          const local = this.getProducts();
+          const dbSlugs = new Set(mapped.map((p) => p.slug));
+          const missingLocal = local.filter((lp) => !dbSlugs.has(lp.slug));
+          const fullList = [...mapped, ...missingLocal];
+
+          setStored(STORAGE_KEYS.PRODUCTS, fullList);
+          memoryStore.products = fullList;
+          return fullList;
+        }
+      } catch (err) {
+        console.error('Failed to sync products from Supabase:', err);
+      }
+    }
+    return this.getProducts();
+  },
+
   getProductBySlug(slug: string): Product | undefined {
     const products = this.getProducts();
-    return products.find((p) => p.slug === slug && p.is_active);
+    const clean = slug.trim().toLowerCase();
+    return products.find((p) => p.slug.trim().toLowerCase() === clean && p.is_active);
   },
 
   getProductById(id: string): Product | undefined {

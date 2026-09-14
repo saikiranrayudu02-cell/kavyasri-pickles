@@ -54,13 +54,20 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (!slug) return;
-    const found = DataStore.getProductBySlug(slug);
-    if (found) {
-      setProduct(found);
-      setSelectedImage(found.images[0] || '/images/pickles/hero.jpg');
-      setSelectedWeight(found.variants?.[0]?.weight || found.weight || '250g');
-      setReviews(DataStore.getReviews(found.id));
+    async function loadProduct() {
+      let found = DataStore.getProductBySlug(slug);
+      if (!found) {
+        await DataStore.syncProductsFromSupabase();
+        found = DataStore.getProductBySlug(slug);
+      }
+      if (found) {
+        setProduct(found);
+        setSelectedImage(found.images[0] || '/images/pickles/hero.jpg');
+        setSelectedWeight(found.variants?.[0]?.weight || found.weight || '250g');
+        setReviews(DataStore.getReviews(found.id));
+      }
     }
+    loadProduct();
   }, [slug]);
 
   if (!product) {
