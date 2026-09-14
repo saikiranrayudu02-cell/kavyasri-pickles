@@ -36,10 +36,6 @@ export default function SocialFloatingWidget() {
           className="relative w-11 h-11 sm:w-13 sm:h-13 bg-transparent rounded-[22%] shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:shadow-emerald-500/40 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center cursor-pointer"
           aria-label="Chat on WhatsApp (9705222744)"
         >
-          {/* Live Online Pulse Dot */}
-          <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full z-10 shadow-xs" />
-          <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-400 rounded-full animate-ping opacity-75" />
-
           <div className="relative w-full h-full overflow-hidden rounded-[22%]">
             <Image
               src="/images/whatsapp.svg"
