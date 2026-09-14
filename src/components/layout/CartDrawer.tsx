@@ -34,6 +34,7 @@ export default function CartDrawer() {
     total,
     freeShippingRemaining,
     appliedCoupon,
+    storeSettings,
     isCartDrawerOpen,
     setIsCartDrawerOpen,
     updateQuantity,
@@ -152,18 +153,15 @@ export default function CartDrawer() {
                     Add <strong className="text-[#166534]">₹{freeShippingRemaining}</strong> more for{' '}
                     <strong className="text-emerald-700">FREE Delivery</strong>
                   </span>
-                  <span>₹{subtotal} / ₹{DataStore.getStoreSettings().free_shipping_threshold ?? 499}</span>
+                  <span>₹{subtotal} / ₹{storeSettings.free_shipping_threshold}</span>
                 </div>
                 <div className="w-full h-1.5 bg-amber-200 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-linear-to-r from-amber-500 to-[#166534] transition-all duration-500 rounded-full"
                     style={{
                       width: `${
-                        (DataStore.getStoreSettings().free_shipping_threshold ?? 499) > 0
-                          ? Math.min(
-                              100,
-                              (subtotal / (DataStore.getStoreSettings().free_shipping_threshold ?? 499)) * 100
-                            )
+                        storeSettings.free_shipping_threshold > 0
+                          ? Math.min(100, (subtotal / storeSettings.free_shipping_threshold) * 100)
                           : 100
                       }%`,
                     }}
@@ -336,7 +334,7 @@ export default function CartDrawer() {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Estimated GST ({DataStore.getStoreSettings().gst_enabled ?? true ? `${DataStore.getStoreSettings().gst_percentage ?? 5}%` : 'Tax Exempt'})</span>
+                  <span>Estimated GST ({storeSettings.gst_enabled ? `${storeSettings.gst_percentage}%` : 'Tax Exempt'})</span>
                   <span>₹{tax}</span>
                 </div>
                 <div className="flex justify-between text-base font-extrabold text-stone-900 pt-2 border-t border-stone-200">

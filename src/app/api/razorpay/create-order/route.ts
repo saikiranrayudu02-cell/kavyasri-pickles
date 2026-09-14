@@ -21,10 +21,10 @@ export async function POST(req: Request) {
     }
 
     const settings = await DataStore.syncSettingsFromSupabase();
-    const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold ?? 499;
-    const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee ?? 50;
-    const GST_ENABLED = settings.gst_enabled ?? true;
-    const GST_PERCENTAGE = settings.gst_percentage ?? 5;
+    const FREE_SHIPPING_THRESHOLD = Number(settings.free_shipping_threshold ?? 0);
+    const STANDARD_SHIPPING_FEE = Number(settings.standard_shipping_fee ?? 0);
+    const GST_ENABLED = Boolean(settings.gst_enabled ?? true);
+    const GST_PERCENTAGE = Number(settings.gst_percentage ?? 0);
 
     // 1. Calculate item subtotal from authoritative product database
     const allProducts = DataStore.getProducts();
@@ -96,28 +96,15 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. Shipping Fee resolution (Prioritize client-calculated fee if valid)
-    let shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
-    if (typeof client_shipping_fee === 'number' && client_shipping_fee >= 0) {
-      shipping = client_shipping_fee;
-    }
+    // 3. Authoritative Shipping Fee calculation from DB settings
+    const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
 
-    // 4. GST Tax resolution
+    // 4. Authoritative GST Tax calculation from DB settings
     const taxableAmount = Math.max(0, subtotal - discount);
-    let tax = GST_ENABLED ? Math.round(taxableAmount * (GST_PERCENTAGE / 100)) : 0;
-    if (typeof client_tax === 'number' && client_tax >= 0) {
-      tax = client_tax;
-    }
+    const tax = GST_ENABLED ? Math.round(taxableAmount * (GST_PERCENTAGE / 100)) : 0;
 
-    // 5. Final total calculation (Ensure EXACT match with checkout screen)
-    let totalAmount = Math.max(0, subtotal - discount + shipping + tax);
-    if (
-      typeof client_total === 'number' &&
-      client_total >= 0 &&
-      Math.abs(client_total - totalAmount) <= 100
-    ) {
-      totalAmount = client_total;
-    }
+    // 5. Authoritative Final Total calculation
+    const totalAmount = Math.max(0, subtotal - discount + shipping + tax);
 
     const amountInPaise = Math.round(totalAmount * 100);
 

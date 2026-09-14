@@ -115,6 +115,8 @@ export interface Order {
   coupon_code?: string;
   shipping_fee: number;
   tax: number;
+  gst_percentage?: number;
+  gst_enabled?: boolean;
   total_amount: number;
   payment_status: PaymentStatus;
   payment_method: string;

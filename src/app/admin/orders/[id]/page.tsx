@@ -294,7 +294,13 @@ export default function AdminOrderDetailPage() {
               <span className="font-bold text-stone-950">{order.shipping_fee === 0 ? 'FREE' : `₹${order.shipping_fee}`}</span>
             </div>
             <div className="flex justify-between">
-              <span>CGST (2.5%) + SGST (2.5%)</span>
+              <span>
+                {typeof order.gst_percentage === 'number' && order.gst_percentage > 0
+                  ? `CGST (${(order.gst_percentage / 2).toFixed(1).replace(/\.0$/, '')}%) + SGST (${(order.gst_percentage / 2).toFixed(1).replace(/\.0$/, '')}%)`
+                  : order.tax > 0
+                  ? 'CGST + SGST Tax'
+                  : 'GST Tax (Exempt)'}
+              </span>
               <span className="font-bold text-stone-950">₹{order.tax}</span>
             </div>
             <div className="flex justify-between text-base font-extrabold text-stone-950 pt-2.5 border-t-2 border-stone-950">

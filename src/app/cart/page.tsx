@@ -35,6 +35,7 @@ export default function CartPage() {
     total,
     freeShippingRemaining,
     appliedCoupon,
+    storeSettings,
     updateQuantity,
     removeFromCart,
     clearCart,
@@ -259,7 +260,7 @@ export default function CartPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Estimated GST ({DataStore.getStoreSettings().gst_enabled ?? true ? `${DataStore.getStoreSettings().gst_percentage ?? 5}%` : 'Tax Exempt'})</span>
+                    <span>Estimated GST ({storeSettings.gst_enabled ? `${storeSettings.gst_percentage}%` : 'Tax Exempt'})</span>
                     <span>₹{tax}</span>
                   </div>
                   <div className="flex justify-between text-lg font-extrabold text-stone-900 pt-3 border-t border-stone-200">

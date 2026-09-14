@@ -47,12 +47,17 @@ function CheckoutContent() {
   useEffect(() => {
     async function loadLiveSettings() {
       const live = await DataStore.syncSettingsFromSupabase();
-      setStoreSettings(live);
+      if (live) setStoreSettings(live);
     }
     loadLiveSettings();
 
-    const handleSettingsChange = () => {
-      setStoreSettings(DataStore.getStoreSettings());
+    const handleSettingsChange = (e?: Event) => {
+      const customEvent = e as CustomEvent<StoreSettings>;
+      if (customEvent && customEvent.detail) {
+        setStoreSettings(customEvent.detail);
+      } else {
+        setStoreSettings(DataStore.getStoreSettings());
+      }
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('kp_settings_changed', handleSettingsChange);
@@ -66,16 +71,16 @@ function CheckoutContent() {
     };
   }, []);
 
-  const freeThreshold = storeSettings.free_shipping_threshold ?? 499;
-  const standardShippingFee = storeSettings.standard_shipping_fee ?? 50;
+  const freeThreshold = Number(storeSettings.free_shipping_threshold ?? 0);
+  const standardShippingFee = Number(storeSettings.standard_shipping_fee ?? 0);
   const gstEnabled = storeSettings.gst_enabled ?? true;
-  const gstPercentage = storeSettings.gst_percentage ?? 5;
+  const gstPercentage = Number(storeSettings.gst_percentage ?? 0);
 
   const checkoutItems = isBuyNow && buyNowItem ? [buyNowItem] : items;
   const checkoutSubtotal = isBuyNow && buyNowItem ? buyNowItem.price * buyNowItem.quantity : subtotal;
   const checkoutDiscount = isBuyNow ? 0 : discount;
   const checkoutShipping = isBuyNow && buyNowItem
-    ? (checkoutSubtotal >= freeThreshold ? 0 : standardShippingFee)
+    ? (checkoutSubtotal === 0 || checkoutSubtotal >= freeThreshold ? 0 : standardShippingFee)
     : shipping;
   const checkoutTax = isBuyNow && buyNowItem
     ? (gstEnabled ? Math.round((checkoutSubtotal - checkoutDiscount) * (gstPercentage / 100)) : 0)
@@ -168,8 +173,20 @@ function CheckoutContent() {
     );
   }
 
-  // Final Order Finalization logic
-  const finalizeOrder = (paymentId: string, razorpayOrderId: string) => {
+  // Final Order Finalization logic using authoritative server calculations
+  const finalizeOrder = (
+    paymentId: string,
+    razorpayOrderId: string,
+    serverTotals?: {
+      subtotal: number;
+      discount: number;
+      shipping: number;
+      tax: number;
+      totalAmount: number;
+      gstPercentage: number;
+      gstEnabled: boolean;
+    }
+  ) => {
     // 1. Verify stock before creating order
     for (const item of checkoutItems) {
       const liveProduct = DataStore.getProductById(item.product_id);
@@ -180,7 +197,15 @@ function CheckoutContent() {
       }
     }
 
-    // 2. Create the order
+    const finalSubtotal = serverTotals ? serverTotals.subtotal : checkoutSubtotal;
+    const finalDiscount = serverTotals ? serverTotals.discount : checkoutDiscount;
+    const finalShipping = serverTotals ? serverTotals.shipping : checkoutShipping;
+    const finalTax = serverTotals ? serverTotals.tax : checkoutTax;
+    const finalTotal = serverTotals ? serverTotals.totalAmount : checkoutTotal;
+    const finalGstPercentage = serverTotals ? serverTotals.gstPercentage : gstPercentage;
+    const finalGstEnabled = serverTotals ? serverTotals.gstEnabled : gstEnabled;
+
+    // 2. Create the order with immutable snapshot of values
     const newOrder = DataStore.createOrder({
       user_id: user?.id || 'usr-guest',
       customer_name: fullName,
@@ -205,12 +230,14 @@ function CheckoutContent() {
         quantity: it.quantity,
         total: it.price * it.quantity,
       })),
-      subtotal: checkoutSubtotal,
-      discount: checkoutDiscount,
+      subtotal: finalSubtotal,
+      discount: finalDiscount,
       coupon_code: isBuyNow ? undefined : appliedCoupon?.code,
-      shipping_fee: checkoutShipping,
-      tax: checkoutTax,
-      total_amount: checkoutTotal,
+      shipping_fee: finalShipping,
+      tax: finalTax,
+      gst_percentage: finalGstPercentage,
+      gst_enabled: finalGstEnabled,
+      total_amount: finalTotal,
       payment_status: paymentMethod === 'cod' ? 'Pending' : 'Paid',
       payment_method: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay UPI / Cards',
       razorpay_order_id: razorpayOrderId,
@@ -250,23 +277,8 @@ function CheckoutContent() {
 
     setIsProcessing(true);
 
-    if (paymentMethod === 'cod') {
-      setTimeout(() => {
-        finalizeOrder('COD_PENDING', 'order_cod_' + Date.now());
-      }, 1000);
-      return;
-    }
-
-    // Razorpay Flow
-    const isLoaded = await loadRazorpayScript();
-
-    // Check if live Razorpay keys are configured
-    const hasLiveKeys =
-      process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID &&
-      !process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes('yourKey');
-
     try {
-      // 1. Create order authoritatively on server
+      // 1. Initialize order authoritatively on server to get exact DB settings & totals
       const orderRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -279,19 +291,27 @@ function CheckoutContent() {
             quantity: it.quantity,
           })),
           coupon_code: isBuyNow ? undefined : appliedCoupon?.code,
-          client_shipping_fee: checkoutShipping,
-          client_tax: checkoutTax,
-          client_total: checkoutTotal,
         }),
       });
 
       const orderData = await orderRes.json();
 
       if (!orderRes.ok) {
-        showToast(orderData.error || 'Failed to initialize payment.', 'error');
+        showToast(orderData.error || 'Failed to initialize order calculations.', 'error');
         setIsProcessing(false);
         return;
       }
+
+      if (paymentMethod === 'cod') {
+        finalizeOrder('COD_PENDING', 'order_cod_' + Date.now(), orderData.totals);
+        return;
+      }
+
+      // Razorpay Flow
+      const isLoaded = await loadRazorpayScript();
+      const hasLiveKeys =
+        process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID &&
+        !process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes('yourKey');
 
       if (hasLiveKeys && isLoaded && (window as unknown as { Razorpay: unknown }).Razorpay) {
         // 2. Open Official Razorpay Checkout Modal

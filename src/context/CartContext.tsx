@@ -16,6 +16,7 @@ interface CartContextType {
   total: number;
   freeShippingRemaining: number;
   appliedCoupon: Coupon | null;
+  storeSettings: StoreSettings;
   isCartDrawerOpen: boolean;
   setIsCartDrawerOpen: (isOpen: boolean) => void;
   addToCart: (product: Product, variantWeight?: string, quantity?: number) => void;
@@ -45,12 +46,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function loadLiveSettings() {
       const live = await DataStore.syncSettingsFromSupabase();
-      setStoreSettings(live);
+      if (live) {
+        setStoreSettings(live);
+      }
     }
     loadLiveSettings();
 
-    const syncSettings = () => {
-      setStoreSettings(DataStore.getStoreSettings());
+    const syncSettings = (e?: Event) => {
+      const customEvent = e as CustomEvent<StoreSettings>;
+      if (customEvent && customEvent.detail) {
+        setStoreSettings(customEvent.detail);
+      } else {
+        setStoreSettings(DataStore.getStoreSettings());
+      }
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('kp_settings_changed', syncSettings);
@@ -64,8 +72,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const FREE_SHIPPING_THRESHOLD = storeSettings.free_shipping_threshold ?? 499;
-  const STANDARD_SHIPPING_FEE = storeSettings.standard_shipping_fee ?? 50;
+  const FREE_SHIPPING_THRESHOLD = Number(storeSettings.free_shipping_threshold ?? 0);
+  const STANDARD_SHIPPING_FEE = Number(storeSettings.standard_shipping_fee ?? 0);
 
   // Clean versioned storage keys to isolate from any corrupt or stale legacy keys (v3)
   const cartKey = user?.id ? `kp_cart_v3_${user.id}` : 'kp_cart_v3_guest';
@@ -387,6 +395,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         total,
         freeShippingRemaining,
         appliedCoupon,
+        storeSettings,
         isCartDrawerOpen,
         setIsCartDrawerOpen,
         addToCart,

@@ -268,8 +268,11 @@ export const DataStore = {
       minute: '2-digit',
     });
 
+    const activeSettings = memoryStore.settings;
     const newOrder: Order = {
       ...orderData,
+      gst_percentage: orderData.gst_percentage ?? activeSettings.gst_percentage ?? 0,
+      gst_enabled: orderData.gst_enabled ?? activeSettings.gst_enabled ?? true,
       id: newId,
       created_at: now,
       timeline: [
@@ -330,6 +333,7 @@ export const DataStore = {
           coupon_code: newOrder.coupon_code || null,
           shipping_fee: newOrder.shipping_fee,
           tax: newOrder.tax,
+          gst_percentage: newOrder.gst_percentage,
           total_amount: newOrder.total_amount,
           payment_status: newOrder.payment_status,
           payment_method: newOrder.payment_method,
@@ -613,28 +617,32 @@ export const DataStore = {
 
         if (!error && data) {
           const val = data.value || data;
+          const current = memoryStore.settings;
           const s: StoreSettings = {
-            store_name: val.store_name || data.store_name || memoryStore.settings.store_name,
-            tagline: val.tagline || data.tagline || memoryStore.settings.tagline,
-            store_email: val.store_email || data.store_email || memoryStore.settings.store_email,
-            store_phone: val.store_phone || data.store_phone || memoryStore.settings.store_phone,
-            whatsapp_number: val.whatsapp_number || data.whatsapp_number || memoryStore.settings.whatsapp_number,
-            fssai_number: val.fssai_number || data.fssai_number || memoryStore.settings.fssai_number,
-            gst_number: val.gst_number || data.gst_number || memoryStore.settings.gst_number,
-            address: val.address || data.address || memoryStore.settings.address,
-            city: val.city || data.city || memoryStore.settings.city,
-            state: val.state || data.state || memoryStore.settings.state,
-            pincode: val.pincode || data.pincode || memoryStore.settings.pincode,
-            free_shipping_threshold: Number(val.free_shipping_threshold ?? data.free_shipping_threshold ?? 499),
-            standard_shipping_fee: Number(val.standard_shipping_fee ?? data.standard_shipping_fee ?? 50),
-            gst_percentage: Number(val.gst_percentage ?? data.gst_percentage ?? 5),
+            store_name: val.store_name || data.store_name || current.store_name,
+            tagline: val.tagline || data.tagline || current.tagline,
+            store_email: val.store_email || data.store_email || current.store_email,
+            store_phone: val.store_phone || data.store_phone || current.store_phone,
+            whatsapp_number: val.whatsapp_number || data.whatsapp_number || current.whatsapp_number,
+            fssai_number: val.fssai_number || data.fssai_number || current.fssai_number,
+            gst_number: val.gst_number || data.gst_number || current.gst_number,
+            address: val.address || data.address || current.address,
+            city: val.city || data.city || current.city,
+            state: val.state || data.state || current.state,
+            pincode: val.pincode || data.pincode || current.pincode,
+            free_shipping_threshold: Number(val.free_shipping_threshold ?? data.free_shipping_threshold ?? 0),
+            standard_shipping_fee: Number(val.standard_shipping_fee ?? data.standard_shipping_fee ?? 0),
+            gst_percentage: Number(val.gst_percentage ?? data.gst_percentage ?? 0),
             gst_enabled: Boolean(val.gst_enabled ?? data.gst_enabled ?? true),
-            razorpay_key_id: val.razorpay_key_id || data.razorpay_key_id || memoryStore.settings.razorpay_key_id,
+            razorpay_key_id: val.razorpay_key_id || data.razorpay_key_id || current.razorpay_key_id,
             is_razorpay_live: Boolean(val.is_razorpay_live ?? data.is_razorpay_live ?? false),
             enable_cod: Boolean(val.enable_cod ?? data.enable_cod ?? true),
           };
           setStored(STORAGE_KEYS.SETTINGS, s);
           memoryStore.settings = s;
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('kp_settings_changed', { detail: s }));
+          }
           return s;
         }
       } catch (err) {
@@ -654,7 +662,6 @@ export const DataStore = {
       supabase
         .from('store_settings')
         .upsert({
-          id: 1,
           key: 'general',
           value: settings,
           store_name: settings.store_name,

@@ -35,7 +35,7 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
 
   const { user } = useAuth();
-  const { addToCart, startBuyNow } = useCart();
+  const { addToCart, startBuyNow, storeSettings } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { showToast } = useToast();
 
@@ -211,7 +211,11 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-stone-100 text-xs text-stone-600">
               <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Free delivery on ₹{DataStore.getStoreSettings().free_shipping_threshold ?? 499}+</span>
+                <span>
+                  {storeSettings.free_shipping_threshold > 0
+                    ? `Free delivery on ₹${storeSettings.free_shipping_threshold}+`
+                    : 'Free Express Delivery!'}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />

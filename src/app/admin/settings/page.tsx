@@ -21,51 +21,18 @@ export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<StoreSettings | null>(null);
 
   const loadSettings = async () => {
-    // 1. Always populate local DataStore settings first
+    // 1. Populate local settings first for instant render
     const current = DataStore.getStoreSettings();
     setSettings(current);
 
-    // 2. Only fetch from Supabase if local storage key has not been customized yet
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const localStored = typeof window !== 'undefined' ? localStorage.getItem('kp_settings_v1') : null;
-        if (!localStored) {
-          const { data: dbSettings, error } = await supabase
-            .from('store_settings')
-            .select('*')
-            .limit(1)
-            .single();
-
-          if (dbSettings && !error) {
-            const loaded: StoreSettings = {
-              store_name: dbSettings.store_name || current.store_name,
-              tagline: dbSettings.tagline || current.tagline,
-              store_email: dbSettings.store_email || dbSettings.support_email || current.store_email,
-              store_phone: dbSettings.store_phone || dbSettings.support_phone || current.store_phone,
-              whatsapp_number: dbSettings.whatsapp_number || current.whatsapp_number,
-              fssai_number: dbSettings.fssai_number || dbSettings.fssai_license || current.fssai_number,
-              gst_number: dbSettings.gst_number || current.gst_number,
-              address: dbSettings.address || dbSettings.kitchen_address || current.address,
-              city: dbSettings.city || current.city,
-              state: dbSettings.state || current.state,
-              pincode: dbSettings.pincode || current.pincode,
-              free_shipping_threshold: Number(dbSettings.free_shipping_threshold ?? current.free_shipping_threshold),
-              standard_shipping_fee: Number(
-                dbSettings.standard_shipping_fee ?? dbSettings.default_shipping_fee ?? current.standard_shipping_fee
-              ),
-              gst_percentage: Number(dbSettings.gst_percentage ?? current.gst_percentage),
-              gst_enabled: Boolean(dbSettings.gst_enabled ?? current.gst_enabled),
-              razorpay_key_id: dbSettings.razorpay_key_id || current.razorpay_key_id,
-              is_razorpay_live: Boolean(dbSettings.is_razorpay_live ?? dbSettings.razorpay_enabled ?? current.is_razorpay_live),
-              enable_cod: Boolean(dbSettings.enable_cod ?? dbSettings.cod_available ?? current.enable_cod),
-            };
-            setSettings(loaded);
-            DataStore.updateStoreSettings(loaded);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching settings from Supabase:', err);
+    // 2. ALWAYS fetch live DB configuration directly from Supabase / API
+    try {
+      const liveSettings = await DataStore.syncSettingsFromSupabase();
+      if (liveSettings) {
+        setSettings(liveSettings);
       }
+    } catch (err) {
+      console.error('Error fetching settings from database:', err);
     }
   };
 
@@ -79,40 +46,46 @@ export default function AdminSettingsPage() {
     e.preventDefault();
     if (!settings) return;
 
-    // 1. Authoritative local DataStore update & event broadcast
-    const updated = DataStore.updateStoreSettings(settings);
-    setSettings({ ...updated });
-
-    // 2. Async sync to Supabase without overwriting local state
-    if (isSupabaseConfigured && supabase) {
-      try {
-        await supabase.from('store_settings').upsert({
-          id: 1,
-          store_name: settings.store_name,
-          tagline: settings.tagline,
-          store_email: settings.store_email,
-          store_phone: settings.store_phone,
-          whatsapp_number: settings.whatsapp_number,
-          fssai_number: settings.fssai_number,
-          gst_number: settings.gst_number,
-          address: settings.address,
-          city: settings.city,
-          state: settings.state,
-          pincode: settings.pincode,
-          free_shipping_threshold: settings.free_shipping_threshold,
-          standard_shipping_fee: settings.standard_shipping_fee,
-          gst_percentage: settings.gst_percentage,
-          gst_enabled: settings.gst_enabled,
-          razorpay_key_id: settings.razorpay_key_id,
-          is_razorpay_live: settings.is_razorpay_live,
-          enable_cod: settings.enable_cod,
-        });
-      } catch (err) {
-        console.error('Supabase settings sync error:', err);
-      }
+    // Validate inputs before saving
+    if (settings.free_shipping_threshold < 0) {
+      showToast('Free Shipping Threshold cannot be negative.', 'error');
+      return;
+    }
+    if (settings.standard_shipping_fee < 0) {
+      showToast('Standard Shipping Charge cannot be negative.', 'error');
+      return;
+    }
+    if (settings.gst_percentage < 0 || settings.gst_percentage > 100) {
+      showToast('GST Rate Percentage must be between 0% and 100%.', 'error');
+      return;
     }
 
-    showToast('Store settings saved successfully!', 'success');
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || 'Failed to save store settings to database.', 'error');
+        return;
+      }
+
+      if (data.settings) {
+        setSettings(data.settings);
+        DataStore.updateStoreSettings(data.settings);
+      }
+
+      showToast('Store settings saved to database successfully! 🌶️', 'success');
+    } catch (err) {
+      console.error('Error saving store settings:', err);
+      // Fallback local update
+      DataStore.updateStoreSettings(settings);
+      showToast('Saved settings locally.', 'info');
+    }
   };
 
   const handleResetData = () => {

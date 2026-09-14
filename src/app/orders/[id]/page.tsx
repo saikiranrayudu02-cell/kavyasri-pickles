@@ -280,7 +280,9 @@ export default function OrderConfirmationPage() {
                   <span>{order.shipping_fee === 0 ? 'FREE' : `₹${order.shipping_fee}`}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>GST (5%)</span>
+                  <span>
+                    GST {typeof order.gst_percentage === 'number' ? `(${order.gst_percentage}%)` : order.tax > 0 ? '' : '(Tax Exempt)'}
+                  </span>
                   <span>₹{order.tax}</span>
                 </div>
                 <div className="flex justify-between text-base font-extrabold text-stone-900 pt-2 border-t border-stone-200">
