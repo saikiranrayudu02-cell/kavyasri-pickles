@@ -12,8 +12,8 @@ import {
 } from './seed-data';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'kp_products_v10',
-  CATEGORIES: 'kp_categories_v10',
+  PRODUCTS: 'kp_products_v11',
+  CATEGORIES: 'kp_categories_v11',
   ORDERS: 'kp_orders_v1',
   COUPONS: 'kp_coupons_v1',
   REVIEWS: 'kp_reviews_v1',
@@ -21,6 +21,27 @@ const STORAGE_KEYS = {
   SETTINGS: 'kp_settings_v1',
   FLASH_UPDATES: 'kp_flash_updates_v1',
 };
+
+const UUID_TO_CATEGORY_MAP: Record<string, { id: string; name: string }> = {
+  '10000000-0000-0000-0000-000000000001': { id: 'cat-veg', name: 'Veg Pickles' },
+  '10000000-0000-0000-0000-000000000002': { id: 'cat-nonveg', name: 'Authentic Non-Veg Pickles' },
+  '10000000-0000-0000-0000-000000000003': { id: 'cat-andhra', name: 'Spicy Andhra Delights' },
+  '10000000-0000-0000-0000-000000000004': { id: 'cat-seasonal', name: 'Seasonal & Gourmet Specials' },
+  '10000000-0000-0000-0000-000000000005': { id: 'cat-combos', name: 'Handcrafted Combo Jars' },
+  '10000000-0000-0000-0000-000000000006': { id: 'cat-spices', name: 'Spices' },
+};
+
+function normalizeCategoryId(rawCatId: string | null | undefined): string {
+  if (!rawCatId) return 'cat-veg';
+  if (UUID_TO_CATEGORY_MAP[rawCatId]) return UUID_TO_CATEGORY_MAP[rawCatId].id;
+  if (rawCatId.startsWith('cat-')) return rawCatId;
+  return 'cat-veg';
+}
+
+function normalizeCategoryName(rawCatId: string | null | undefined, rawName?: string): string {
+  if (rawCatId && UUID_TO_CATEGORY_MAP[rawCatId]) return UUID_TO_CATEGORY_MAP[rawCatId].name;
+  return rawName || 'Veg Pickles';
+}
 
 // Safe localStorage access helper
 function getStored<T>(key: string, fallback: T): T {
@@ -83,35 +104,39 @@ export const DataStore = {
           .order('created_at', { ascending: false });
 
         if (!error && dbProducts && dbProducts.length > 0) {
-          const mapped: Product[] = dbProducts.map((p) => ({
-            id: p.id,
-            category_id: p.category_id || 'cat-veg',
-            category_name: p.category_name || 'Veg Pickles',
-            name: p.name,
-            slug: p.slug,
-            short_description: p.short_description || '',
-            description: p.description || '',
-            price: Number(p.price),
-            mrp: Number(p.mrp),
-            discount_percent: Number(p.discount_percent || 0),
-            weight: p.weight || '250g',
-            stock_quantity: Number(p.stock_quantity || 0),
-            sku: p.sku || '',
-            spice_level: p.spice_level || 'Hot',
-            dietary: p.dietary || 'veg',
-            shelf_life: p.shelf_life || '12 Months',
-            storage_instructions: p.storage_instructions || '',
-            ingredients: p.ingredients || [],
-            images: p.images && p.images.length > 0 ? p.images : ['/images/pickles/hero.jpg'],
-            is_featured: Boolean(p.is_featured),
-            is_active: Boolean(p.is_active),
-            rating: Number(p.rating || 4.8),
-            reviews_count: Number(p.reviews_count || 0),
-            variants: [
-              { id: `var-${p.id}-250`, product_id: p.id, weight: '250g', price: Number(p.price), mrp: Number(p.mrp), stock_quantity: Number(p.stock_quantity || 0) },
-            ],
-            created_at: p.created_at,
-          }));
+          const mapped: Product[] = dbProducts.map((p) => {
+            const catId = normalizeCategoryId(p.category_id);
+            const catName = normalizeCategoryName(p.category_id, p.category_name);
+            return {
+              id: p.id,
+              category_id: catId,
+              category_name: catName,
+              name: p.name,
+              slug: p.slug,
+              short_description: p.short_description || '',
+              description: p.description || '',
+              price: Number(p.price),
+              mrp: Number(p.mrp),
+              discount_percent: Number(p.discount_percent || 0),
+              weight: p.weight || '250g',
+              stock_quantity: Number(p.stock_quantity || 0),
+              sku: p.sku || '',
+              spice_level: p.spice_level || 'Hot',
+              dietary: p.dietary || 'veg',
+              shelf_life: p.shelf_life || '12 Months',
+              storage_instructions: p.storage_instructions || '',
+              ingredients: p.ingredients || [],
+              images: p.images && p.images.length > 0 ? p.images : ['/images/pickles/hero.jpg'],
+              is_featured: Boolean(p.is_featured),
+              is_active: Boolean(p.is_active),
+              rating: Number(p.rating || 4.8),
+              reviews_count: Number(p.reviews_count || 0),
+              variants: [
+                { id: `var-${p.id}-250`, product_id: p.id, weight: '250g', price: Number(p.price), mrp: Number(p.mrp), stock_quantity: Number(p.stock_quantity || 0) },
+              ],
+              created_at: p.created_at,
+            };
+          });
 
           const local = this.getProducts();
           const dbSlugs = new Set(mapped.map((p) => p.slug));

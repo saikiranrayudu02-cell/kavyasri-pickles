@@ -10,7 +10,16 @@ import { DataStore } from '@/lib/data/store';
 import { Product } from '@/lib/types';
 
 export default function SpicesPage() {
-  const allProducts = DataStore.getProducts();
+  const [allProducts, setAllProducts] = useState<Product[]>(() => DataStore.getProducts());
+
+  React.useEffect(() => {
+    async function loadData() {
+      const synced = await DataStore.syncProductsFromSupabase();
+      setAllProducts(synced);
+    }
+    loadData();
+  }, []);
+
   const spicesProducts = useMemo(() => {
     return allProducts.filter((p) => p.category_id === 'cat-spices');
   }, [allProducts]);
