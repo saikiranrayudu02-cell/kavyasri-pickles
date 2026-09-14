@@ -661,29 +661,14 @@ export const DataStore = {
     if (isSupabaseConfigured && supabase) {
       supabase
         .from('store_settings')
-        .upsert({
-          key: 'general',
-          value: settings,
-          store_name: settings.store_name,
-          tagline: settings.tagline,
-          store_email: settings.store_email,
-          store_phone: settings.store_phone,
-          whatsapp_number: settings.whatsapp_number,
-          fssai_number: settings.fssai_number,
-          gst_number: settings.gst_number,
-          address: settings.address,
-          city: settings.city,
-          state: settings.state,
-          pincode: settings.pincode,
-          free_shipping_threshold: settings.free_shipping_threshold,
-          standard_shipping_fee: settings.standard_shipping_fee,
-          gst_percentage: settings.gst_percentage,
-          gst_enabled: settings.gst_enabled,
-          razorpay_key_id: settings.razorpay_key_id,
-          is_razorpay_live: settings.is_razorpay_live,
-          enable_cod: settings.enable_cod,
-          updated_at: new Date().toISOString(),
-        })
+        .upsert(
+          {
+            key: 'general',
+            value: settings,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'key' }
+        )
         .then(({ error }) => {
           if (error) console.error('Supabase update store_settings error:', error.message);
         });

@@ -73,29 +73,14 @@ export async function PUT(req: Request) {
 
     // Update in live Supabase Database
     if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.from('store_settings').upsert({
-        key: 'general',
-        value: updatedSettings,
-        store_name: updatedSettings.store_name,
-        tagline: updatedSettings.tagline,
-        store_email: updatedSettings.store_email,
-        store_phone: updatedSettings.store_phone,
-        whatsapp_number: updatedSettings.whatsapp_number,
-        fssai_number: updatedSettings.fssai_number,
-        gst_number: updatedSettings.gst_number,
-        address: updatedSettings.address,
-        city: updatedSettings.city,
-        state: updatedSettings.state,
-        pincode: updatedSettings.pincode,
-        free_shipping_threshold: updatedSettings.free_shipping_threshold,
-        standard_shipping_fee: updatedSettings.standard_shipping_fee,
-        gst_percentage: updatedSettings.gst_percentage,
-        gst_enabled: updatedSettings.gst_enabled,
-        razorpay_key_id: updatedSettings.razorpay_key_id,
-        is_razorpay_live: updatedSettings.is_razorpay_live,
-        enable_cod: updatedSettings.enable_cod,
-        updated_at: new Date().toISOString(),
-      });
+      const { error } = await supabase.from('store_settings').upsert(
+        {
+          key: 'general',
+          value: updatedSettings,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'key' }
+      );
 
       if (error) {
         console.error('Supabase admin settings update error:', error.message);
