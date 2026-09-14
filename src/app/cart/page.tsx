@@ -19,6 +19,7 @@ import SubpageHeader from '@/components/layout/SubpageHeader';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
+import { DataStore } from '@/lib/data/store';
 
 export default function CartPage() {
   const router = useRouter();
@@ -258,7 +259,7 @@ export default function CartPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Estimated GST (5%)</span>
+                    <span>Estimated GST ({DataStore.getStoreSettings().gst_enabled ?? true ? `${DataStore.getStoreSettings().gst_percentage ?? 5}%` : 'Tax Exempt'})</span>
                     <span>₹{tax}</span>
                   </div>
                   <div className="flex justify-between text-lg font-extrabold text-stone-900 pt-3 border-t border-stone-200">

@@ -1,14 +1,132 @@
 import { NextResponse } from 'next/server';
+import { DataStore } from '@/lib/data/store';
 
 export async function POST(req: Request) {
   try {
-    const { amount, currency = 'INR' } = await req.json();
+    const body = await req.json();
+    const {
+      items,
+      coupon_code,
+      client_shipping_fee,
+      client_tax,
+      client_total,
+    } = body;
+
+    // Validate request items
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return NextResponse.json(
+        { error: 'Cart items are required for creating an order' },
+        { status: 400 }
+      );
+    }
+
+    const settings = DataStore.getStoreSettings();
+    const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold ?? 499;
+    const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee ?? 50;
+    const GST_ENABLED = settings.gst_enabled ?? true;
+    const GST_PERCENTAGE = settings.gst_percentage ?? 5;
+
+    // 1. Calculate item subtotal from authoritative product database
+    const allProducts = DataStore.getProducts();
+    let subtotal = 0;
+    const itemsVerified: Array<{
+      product_id: string;
+      product_name: string;
+      weight: string;
+      price: number;
+      quantity: number;
+    }> = [];
+
+    for (const item of items) {
+      // Robust lookup by ID, Name, or Slug
+      const prod = allProducts.find(
+        (p) =>
+          p.id === item.product_id ||
+          (item.product_name && p.name.toLowerCase() === item.product_name.toLowerCase()) ||
+          (item.slug && p.slug === item.slug)
+      );
+
+      let unitPrice = item.price || 0;
+
+      if (prod) {
+        // Stock Check
+        if (prod.stock_quantity > 0 && prod.stock_quantity < item.quantity) {
+          return NextResponse.json(
+            { error: `Insufficient stock for ${prod.name}. Available: ${prod.stock_quantity}` },
+            { status: 400 }
+          );
+        }
+
+        // Determine price from variant or base price
+        if (item.weight && prod.variants) {
+          const variant = prod.variants.find((v) => v.weight === item.weight);
+          if (variant) {
+            unitPrice = variant.price;
+          } else {
+            unitPrice = prod.price;
+          }
+        } else {
+          unitPrice = prod.price;
+        }
+      } else if (!unitPrice || unitPrice <= 0) {
+        return NextResponse.json(
+          { error: `Product "${item.product_name || item.product_id}" details invalid.` },
+          { status: 400 }
+        );
+      }
+
+      const itemTotal = unitPrice * item.quantity;
+      subtotal += itemTotal;
+
+      itemsVerified.push({
+        product_id: prod?.id || item.product_id || 'prod-custom',
+        product_name: prod?.name || item.product_name || 'Homemade Pickle',
+        weight: item.weight || prod?.weight || '250g',
+        price: unitPrice,
+        quantity: item.quantity,
+      });
+    }
+
+    // 2. Server-side coupon discount calculation
+    let discount = 0;
+    if (coupon_code) {
+      const couponResult = DataStore.validateCoupon(coupon_code, subtotal);
+      if (couponResult.valid) {
+        discount = couponResult.discount;
+      }
+    }
+
+    // 3. Shipping Fee resolution (Prioritize client-calculated fee if valid)
+    let shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
+    if (typeof client_shipping_fee === 'number' && client_shipping_fee >= 0) {
+      shipping = client_shipping_fee;
+    }
+
+    // 4. GST Tax resolution
+    const taxableAmount = Math.max(0, subtotal - discount);
+    let tax = GST_ENABLED ? Math.round(taxableAmount * (GST_PERCENTAGE / 100)) : 0;
+    if (typeof client_tax === 'number' && client_tax >= 0) {
+      tax = client_tax;
+    }
+
+    // 5. Final total calculation (Ensure EXACT match with checkout screen)
+    let totalAmount = Math.max(0, subtotal - discount + shipping + tax);
+    if (
+      typeof client_total === 'number' &&
+      client_total >= 0 &&
+      Math.abs(client_total - totalAmount) <= 2
+    ) {
+      totalAmount = client_total;
+    }
+
+    const amountInPaise = Math.round(totalAmount * 100);
 
     const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
-    // If live credentials are provided, call Razorpay API
-    if (keyId && keySecret && !keyId.includes('yourKey')) {
+    const hasLiveCredentials = keyId && keySecret && !keyId.includes('yourKey') && !keySecret.includes('yourKey');
+
+    if (hasLiveCredentials) {
       const authHeader = 'Basic ' + Buffer.from(`${keyId}:${keySecret}`).toString('base64');
       const response = await fetch('https://api.razorpay.com/v1/orders', {
         method: 'POST',
@@ -17,25 +135,68 @@ export async function POST(req: Request) {
           Authorization: authHeader,
         },
         body: JSON.stringify({
-          amount: Math.round(amount),
-          currency,
-          receipt: `rcpt_${Date.now()}`,
+          amount: amountInPaise,
+          currency: 'INR',
+          receipt: `rcpt_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+          notes: {
+            item_count: itemsVerified.length.toString(),
+            shipping_address_required: 'true',
+            shipping_fee: shipping.toString(),
+            tax_amount: tax.toString(),
+            gst_percentage: GST_PERCENTAGE.toString(),
+          },
         }),
       });
 
-      const order = await response.json();
-      return NextResponse.json(order);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Razorpay API Order Creation Error:', errorData);
+        return NextResponse.json(
+          { error: errorData.error?.description || 'Razorpay order creation failed' },
+          { status: response.status }
+        );
+      }
+
+      const rzpOrder = await response.json();
+      return NextResponse.json({
+        id: rzpOrder.id,
+        amount: rzpOrder.amount,
+        currency: rzpOrder.currency,
+        key: keyId,
+        totals: {
+          subtotal,
+          discount,
+          shipping,
+          tax,
+          totalAmount,
+          gstPercentage: GST_PERCENTAGE,
+          gstEnabled: GST_ENABLED,
+        },
+      });
     }
 
-    // Fallback sandbox order ID
+    // Sandbox / Development fallback order
+    const mockOrderId = `order_sbx_${Date.now()}_${Math.random().toString(36).substring(7)}`;
     return NextResponse.json({
-      id: `order_sbx_${Date.now()}`,
-      amount: Math.round(amount),
-      currency,
-      status: 'created',
+      id: mockOrderId,
+      amount: amountInPaise,
+      currency: 'INR',
+      key: keyId || 'rzp_test_fallback',
+      totals: {
+        subtotal,
+        discount,
+        shipping,
+        tax,
+        totalAmount,
+        gstPercentage: GST_PERCENTAGE,
+        gstEnabled: GST_ENABLED,
+      },
     });
   } catch (error) {
-    console.error('Create Razorpay Order Error:', error);
-    return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
+    console.error('Server Create Razorpay Order Exception:', error);
+    return NextResponse.json(
+      { error: 'An unexpected error occurred while initializing Razorpay order.' },
+      { status: 500 }
+    );
   }
 }

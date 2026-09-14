@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product, CartItem, Coupon } from '@/lib/types';
+import { Product, CartItem, Coupon, StoreSettings } from '@/lib/types';
 import { DataStore } from '@/lib/data/store';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
@@ -40,9 +40,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { showToast } = useToast();
 
-  const settings = DataStore.getStoreSettings();
-  const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold || 499;
-  const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee || 50;
+  const [storeSettings, setStoreSettings] = useState<StoreSettings>(() => DataStore.getStoreSettings());
+
+  useEffect(() => {
+    const syncSettings = () => {
+      setStoreSettings(DataStore.getStoreSettings());
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('kp_settings_changed', syncSettings);
+      window.addEventListener('storage', syncSettings);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('kp_settings_changed', syncSettings);
+        window.removeEventListener('storage', syncSettings);
+      }
+    };
+  }, []);
+
+  const FREE_SHIPPING_THRESHOLD = storeSettings.free_shipping_threshold ?? 499;
+  const STANDARD_SHIPPING_FEE = storeSettings.standard_shipping_fee ?? 50;
 
   // Clean versioned storage keys to isolate from any corrupt or stale legacy keys (v3)
   const cartKey = user?.id ? `kp_cart_v3_${user.id}` : 'kp_cart_v3_guest';
@@ -346,7 +363,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const shipping = subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
   const taxableAmount = Math.max(0, subtotal - discount);
-  const tax = Math.round(taxableAmount * 0.05); // 5% GST on packaged food
+  const gstEnabled = storeSettings.gst_enabled ?? true;
+  const gstPercentage = storeSettings.gst_percentage ?? 5;
+  const tax = gstEnabled ? Math.round(taxableAmount * (gstPercentage / 100)) : 0;
   const total = taxableAmount + shipping + tax;
   const freeShippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 

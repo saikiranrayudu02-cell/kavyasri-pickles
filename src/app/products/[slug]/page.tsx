@@ -204,7 +204,7 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-stone-100 text-xs text-stone-600">
               <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Free delivery on ₹499+</span>
+                <span>Free delivery on ₹{DataStore.getStoreSettings().free_shipping_threshold ?? 499}+</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />

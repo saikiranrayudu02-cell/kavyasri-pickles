@@ -19,6 +19,7 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { DataStore } from '@/lib/data/store';
+import { StoreSettings } from '@/lib/types';
 import { loadRazorpayScript } from '@/lib/razorpay';
 import confetti from 'canvas-confetti';
 
@@ -41,11 +42,38 @@ function CheckoutContent() {
   } = useCart();
   const { showToast } = useToast();
 
+  const [storeSettings, setStoreSettings] = useState<StoreSettings>(() => DataStore.getStoreSettings());
+
+  useEffect(() => {
+    const handleSettingsChange = () => {
+      setStoreSettings(DataStore.getStoreSettings());
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('kp_settings_changed', handleSettingsChange);
+      window.addEventListener('storage', handleSettingsChange);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('kp_settings_changed', handleSettingsChange);
+        window.removeEventListener('storage', handleSettingsChange);
+      }
+    };
+  }, []);
+
+  const freeThreshold = storeSettings.free_shipping_threshold ?? 499;
+  const standardShippingFee = storeSettings.standard_shipping_fee ?? 50;
+  const gstEnabled = storeSettings.gst_enabled ?? true;
+  const gstPercentage = storeSettings.gst_percentage ?? 5;
+
   const checkoutItems = isBuyNow && buyNowItem ? [buyNowItem] : items;
   const checkoutSubtotal = isBuyNow && buyNowItem ? buyNowItem.price * buyNowItem.quantity : subtotal;
   const checkoutDiscount = isBuyNow ? 0 : discount;
-  const checkoutShipping = isBuyNow && buyNowItem ? (checkoutSubtotal >= 999 ? 0 : 70) : shipping;
-  const checkoutTax = isBuyNow && buyNowItem ? Math.round((checkoutSubtotal - checkoutDiscount) * 0.05) : tax;
+  const checkoutShipping = isBuyNow && buyNowItem
+    ? (checkoutSubtotal >= freeThreshold ? 0 : standardShippingFee)
+    : shipping;
+  const checkoutTax = isBuyNow && buyNowItem
+    ? (gstEnabled ? Math.round((checkoutSubtotal - checkoutDiscount) * (gstPercentage / 100)) : 0)
+    : tax;
   const checkoutTotal = isBuyNow && buyNowItem
     ? Math.max(0, checkoutSubtotal - checkoutDiscount + checkoutShipping + checkoutTax)
     : total;
@@ -225,50 +253,150 @@ function CheckoutContent() {
 
     // Razorpay Flow
     const isLoaded = await loadRazorpayScript();
-    const settings = DataStore.getStoreSettings();
 
     // Check if live Razorpay keys are configured
     const hasLiveKeys =
       process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID &&
       !process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes('yourKey');
 
-    if (hasLiveKeys && isLoaded && (window as unknown as { Razorpay: unknown }).Razorpay) {
-      // Call actual Razorpay Checkout modal
-      try {
-        const res = await fetch('/api/razorpay/create-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: total * 100, currency: 'INR' }),
-        });
-        const orderData = await res.json();
+    try {
+      // 1. Create order authoritatively on server
+      const orderRes = await fetch('/api/razorpay/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: checkoutItems.map((it) => ({
+            product_id: it.product_id,
+            product_name: it.product_name,
+            weight: it.weight,
+            price: it.price,
+            quantity: it.quantity,
+          })),
+          coupon_code: isBuyNow ? undefined : appliedCoupon?.code,
+          client_shipping_fee: checkoutShipping,
+          client_tax: checkoutTax,
+          client_total: checkoutTotal,
+        }),
+      });
 
+      const orderData = await orderRes.json();
+
+      if (!orderRes.ok) {
+        showToast(orderData.error || 'Failed to initialize payment.', 'error');
+        setIsProcessing(false);
+        return;
+      }
+
+      if (hasLiveKeys && isLoaded && (window as unknown as { Razorpay: unknown }).Razorpay) {
+        // 2. Open Official Razorpay Checkout Modal
         const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          key: orderData.key || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: orderData.amount,
-          currency: 'INR',
+          currency: orderData.currency || 'INR',
           name: 'Kavyasri Pickles',
-          description: 'Payment for authentic homemade pickles',
+          description: 'Authentic Homemade Pickles & Spices',
           order_id: orderData.id,
           prefill: {
             name: fullName,
-            email,
+            email: email,
             contact: phone,
           },
+          notes: {
+            shipping_address: `${addressLine1}, ${city}, ${state} - ${pincode}`,
+          },
           theme: { color: '#9e1b1e' },
-          handler: function (response: { razorpay_payment_id: string; razorpay_order_id: string }) {
-            finalizeOrder(response.razorpay_payment_id, response.razorpay_order_id);
+          handler: async function (response: {
+            razorpay_payment_id: string;
+            razorpay_order_id: string;
+            razorpay_signature: string;
+          }) {
+            // 3. Mandatory Server-Side Payment Signature Verification
+            try {
+              const verifyRes = await fetch('/api/razorpay/verify-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  order_details: {
+                    user_id: user?.id || 'usr-guest',
+                    customer_name: fullName,
+                    customer_email: email,
+                    customer_phone: phone,
+                    shipping_address: {
+                      fullName,
+                      phone,
+                      addressLine1,
+                      addressLine2,
+                      city,
+                      state,
+                      pincode,
+                    },
+                    items: checkoutItems.map((it) => ({
+                      id: `item-${Date.now()}-${Math.random()}`,
+                      product_id: it.product_id,
+                      product_name: it.product_name,
+                      image: it.image,
+                      variant_weight: it.weight,
+                      price: it.price,
+                      quantity: it.quantity,
+                      total: it.price * it.quantity,
+                    })),
+                    subtotal: checkoutSubtotal,
+                    discount: checkoutDiscount,
+                    coupon_code: isBuyNow ? undefined : appliedCoupon?.code,
+                    shipping_fee: checkoutShipping,
+                    tax: checkoutTax,
+                    total_amount: checkoutTotal,
+                  },
+                }),
+              });
+
+              const verifyData = await verifyRes.json();
+
+              if (verifyData.success) {
+                if (verifyData.order) {
+                  DataStore.saveOrder(verifyData.order);
+                }
+                if (isBuyNow) clearBuyNow();
+                else clearCart();
+
+                try {
+                  confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                } catch {
+                  // ignore
+                }
+
+                showToast('Order placed & payment verified successfully! 🌶️', 'success');
+                router.push(`/orders/${verifyData.orderId}`);
+              } else {
+                showToast(verifyData.message || 'Payment signature verification failed.', 'error');
+              }
+            } catch (err) {
+              console.error('Payment verification error:', err);
+              showToast('An error occurred while verifying your payment.', 'error');
+            } finally {
+              setIsProcessing(false);
+            }
+          },
+          modal: {
+            ondismiss: function () {
+              setIsProcessing(false);
+              showToast('Payment window closed. You can retry anytime.', 'info');
+            },
           },
         };
+
         const rzp = new (window as unknown as { Razorpay: new (opts: unknown) => { open: () => void } }).Razorpay(options);
         rzp.open();
-        setIsProcessing(false);
-      } catch (err) {
-        console.error('Razorpay invocation error:', err);
-        setShowRazorpayModal(true); // Fallback to sandbox modal
+      } else {
+        // Fallback to interactive test sandbox modal when keys are unconfigured
+        setShowRazorpayModal(true);
         setIsProcessing(false);
       }
-    } else {
-      // Show interactive test sandbox modal
+    } catch (err) {
+      console.error('Razorpay initialization exception:', err);
       setShowRazorpayModal(true);
       setIsProcessing(false);
     }
@@ -545,7 +673,7 @@ function CheckoutContent() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Estimated GST (5%)</span>
+                    <span>Estimated GST ({gstEnabled ? `${gstPercentage}%` : 'Tax Exempt'})</span>
                     <span>₹{checkoutTax}</span>
                   </div>
                   <div className="flex justify-between text-lg font-extrabold text-stone-900 pt-3 border-t border-stone-200">

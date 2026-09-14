@@ -1,4 +1,4 @@
-import { Product, Category, Order, Coupon, Review, Customer, StoreSettings, OrderStatus, FlashUpdate } from '../types';
+import { Product, Category, Order, Coupon, Review, Customer, StoreSettings, OrderStatus, PaymentStatus, FlashUpdate } from '../types';
 import { supabase, isSupabaseConfigured } from '../supabase/client';
 import {
   INITIAL_CATEGORIES,
@@ -145,8 +145,25 @@ export const DataStore = {
   },
 
   getOrderById(id: string): Order | undefined {
+    if (!id) return undefined;
     const orders = this.getOrders();
-    return orders.find((o) => o.id.toLowerCase() === id.toLowerCase());
+    const cleanId = id.trim().toLowerCase();
+    return orders.find((o) => o.id.toLowerCase() === cleanId);
+  },
+
+  saveOrder(order: Order): Order {
+    const orders = this.getOrders();
+    const index = orders.findIndex((o) => o.id.toLowerCase() === order.id.toLowerCase());
+    let updated: Order[];
+    if (index >= 0) {
+      updated = [...orders];
+      updated[index] = order;
+    } else {
+      updated = [order, ...orders];
+    }
+    setStored(STORAGE_KEYS.ORDERS, updated);
+    memoryStore.orders = updated;
+    return order;
   },
 
   createOrder(orderData: Omit<Order, 'id' | 'created_at' | 'timeline'>): Order {
@@ -257,6 +274,77 @@ export const DataStore = {
     }
 
     return newOrder;
+  },
+
+  getOrderByRazorpayId(rzpId: string): Order | undefined {
+    if (!rzpId) return undefined;
+    const orders = this.getOrders();
+    const cleanId = rzpId.trim();
+    return orders.find(
+      (o) =>
+        (o.razorpay_order_id && o.razorpay_order_id === cleanId) ||
+        (o.razorpay_payment_id && o.razorpay_payment_id === cleanId)
+    );
+  },
+
+  updateOrderPaymentStatus(
+    orderId: string,
+    paymentStatus: PaymentStatus,
+    razorpayPaymentId?: string
+  ): Order | undefined {
+    const orders = this.getOrders();
+    const index = orders.findIndex((o) => o.id.toLowerCase() === orderId.toLowerCase());
+    if (index === -1) return undefined;
+
+    const order = orders[index];
+    // Avoid redundant state mutations
+    if (order.payment_status === paymentStatus && (!razorpayPaymentId || order.razorpay_payment_id === razorpayPaymentId)) {
+      return order;
+    }
+
+    const timestampFormatted = new Date().toLocaleString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const updatedOrder: Order = {
+      ...order,
+      payment_status: paymentStatus,
+      order_status: paymentStatus === 'Paid' ? 'Confirmed' : order.order_status,
+      razorpay_payment_id: razorpayPaymentId || order.razorpay_payment_id,
+      timeline: [
+        ...order.timeline,
+        {
+          status: paymentStatus === 'Paid' ? 'Confirmed' : 'Pending',
+          timestamp: timestampFormatted,
+          note: `Payment status updated to ${paymentStatus}${razorpayPaymentId ? ` (ID: ${razorpayPaymentId})` : ''}`,
+        },
+      ],
+    };
+
+    orders[index] = updatedOrder;
+    setStored(STORAGE_KEYS.ORDERS, orders);
+    memoryStore.orders = orders;
+
+    // Sync status change to Supabase if configured
+    if (isSupabaseConfigured && supabase) {
+      supabase
+        .from('orders')
+        .update({
+          payment_status: paymentStatus,
+          order_status: paymentStatus === 'Paid' ? 'Confirmed' : order.order_status,
+          razorpay_payment_id: razorpayPaymentId || order.razorpay_payment_id,
+        })
+        .eq('id', order.id)
+        .then(({ error }) => {
+          if (error) console.error('Supabase update order payment status:', error.message);
+        });
+    }
+
+    return updatedOrder;
   },
 
   updateOrderStatus(orderId: string, newStatus: OrderStatus, note?: string): Order | undefined {
@@ -413,12 +501,20 @@ export const DataStore = {
 
   // SETTINGS
   getStoreSettings(): StoreSettings {
-    return getStored<StoreSettings>(STORAGE_KEYS.SETTINGS, memoryStore.settings);
+    const s = getStored<StoreSettings>(STORAGE_KEYS.SETTINGS, memoryStore.settings);
+    return {
+      ...s,
+      gst_percentage: typeof s.gst_percentage === 'number' ? s.gst_percentage : 5,
+      gst_enabled: typeof s.gst_enabled === 'boolean' ? s.gst_enabled : true,
+    };
   },
 
   updateStoreSettings(settings: StoreSettings): StoreSettings {
     setStored(STORAGE_KEYS.SETTINGS, settings);
     memoryStore.settings = settings;
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('kp_settings_changed', { detail: settings }));
+    }
     return settings;
   },
 

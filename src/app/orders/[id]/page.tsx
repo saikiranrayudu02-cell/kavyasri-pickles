@@ -34,13 +34,62 @@ export default function OrderConfirmationPage() {
   const params = useParams();
   const orderId = params?.id as string;
   const [order, setOrder] = useState<Order | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (orderId) {
-      const found = DataStore.getOrderById(orderId);
-      if (found) setOrder(found);
-    }
+    let isMounted = true;
+
+    const resolveOrder = async () => {
+      if (!orderId) {
+        if (isMounted) setIsLoading(false);
+        return;
+      }
+
+      // 1. Check local DataStore
+      const foundLocal = DataStore.getOrderById(orderId);
+      if (foundLocal) {
+        if (isMounted) {
+          setOrder(foundLocal);
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      // 2. Fetch from Server API route if not in local storage
+      try {
+        const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.order && isMounted) {
+            setOrder(data.order);
+            DataStore.saveOrder(data.order);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch order from server:', err);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    resolveOrder();
+
+    return () => {
+      isMounted = false;
+    };
   }, [orderId]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#faf7f2]">
+        <SubpageHeader />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-10 h-10 border-3 border-[#166534] border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-sm font-semibold text-stone-700">Verifying order details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!order) {
     return (

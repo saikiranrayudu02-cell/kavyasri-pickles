@@ -9,6 +9,7 @@ import {
   RotateCcw,
   CheckCircle2,
   Lock,
+  Percent,
 } from 'lucide-react';
 import { DataStore } from '@/lib/data/store';
 import { StoreSettings } from '@/lib/types';
@@ -20,36 +21,52 @@ export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<StoreSettings | null>(null);
 
   const loadSettings = async () => {
+    // 1. Always populate local DataStore settings first
+    const current = DataStore.getStoreSettings();
+    setSettings(current);
+
+    // 2. Only fetch from Supabase if local storage key has not been customized yet
     if (isSupabaseConfigured && supabase) {
       try {
-        const { data: dbSettings } = await supabase.from('store_settings').select('*').limit(1).single();
-        if (dbSettings) {
-          setSettings({
-            store_name: dbSettings.store_name || 'Kavyasri Pickles',
-            tagline: dbSettings.tagline || 'Traditional Taste • Homemade Love',
-            store_email: dbSettings.store_email || dbSettings.support_email || 'support@kavyasripickles.com',
-            store_phone: dbSettings.store_phone || dbSettings.support_phone || '+91 98765 43210',
-            whatsapp_number: dbSettings.whatsapp_number || '+91 98765 43210',
-            fssai_number: dbSettings.fssai_number || dbSettings.fssai_license || '13624014000189',
-            gst_number: dbSettings.gst_number || '36AAECK1294F1Z3',
-            address: dbSettings.address || dbSettings.kitchen_address || 'Plot 42, Heritage Kitchens, RTC Colony',
-            city: dbSettings.city || 'Hyderabad',
-            state: dbSettings.state || 'Telangana',
-            pincode: dbSettings.pincode || '500035',
-            free_shipping_threshold: Number(dbSettings.free_shipping_threshold || 699),
-            standard_shipping_fee: Number(dbSettings.standard_shipping_fee || dbSettings.default_shipping_fee || 70),
-            razorpay_key_id: dbSettings.razorpay_key_id || '',
-            is_razorpay_live: Boolean(dbSettings.is_razorpay_live ?? dbSettings.razorpay_enabled),
-            enable_cod: Boolean(dbSettings.enable_cod ?? dbSettings.cod_available ?? true),
-          });
-          return;
+        const localStored = typeof window !== 'undefined' ? localStorage.getItem('kp_settings_v1') : null;
+        if (!localStored) {
+          const { data: dbSettings, error } = await supabase
+            .from('store_settings')
+            .select('*')
+            .limit(1)
+            .single();
+
+          if (dbSettings && !error) {
+            const loaded: StoreSettings = {
+              store_name: dbSettings.store_name || current.store_name,
+              tagline: dbSettings.tagline || current.tagline,
+              store_email: dbSettings.store_email || dbSettings.support_email || current.store_email,
+              store_phone: dbSettings.store_phone || dbSettings.support_phone || current.store_phone,
+              whatsapp_number: dbSettings.whatsapp_number || current.whatsapp_number,
+              fssai_number: dbSettings.fssai_number || dbSettings.fssai_license || current.fssai_number,
+              gst_number: dbSettings.gst_number || current.gst_number,
+              address: dbSettings.address || dbSettings.kitchen_address || current.address,
+              city: dbSettings.city || current.city,
+              state: dbSettings.state || current.state,
+              pincode: dbSettings.pincode || current.pincode,
+              free_shipping_threshold: Number(dbSettings.free_shipping_threshold ?? current.free_shipping_threshold),
+              standard_shipping_fee: Number(
+                dbSettings.standard_shipping_fee ?? dbSettings.default_shipping_fee ?? current.standard_shipping_fee
+              ),
+              gst_percentage: Number(dbSettings.gst_percentage ?? current.gst_percentage),
+              gst_enabled: Boolean(dbSettings.gst_enabled ?? current.gst_enabled),
+              razorpay_key_id: dbSettings.razorpay_key_id || current.razorpay_key_id,
+              is_razorpay_live: Boolean(dbSettings.is_razorpay_live ?? dbSettings.razorpay_enabled ?? current.is_razorpay_live),
+              enable_cod: Boolean(dbSettings.enable_cod ?? dbSettings.cod_available ?? current.enable_cod),
+            };
+            setSettings(loaded);
+            DataStore.updateStoreSettings(loaded);
+          }
         }
       } catch (err) {
         console.error('Error fetching settings from Supabase:', err);
       }
     }
-
-    setSettings(DataStore.getStoreSettings());
   };
 
   useEffect(() => {
@@ -60,28 +77,39 @@ export default function AdminSettingsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    DataStore.updateStoreSettings(settings);
+    if (!settings) return;
 
+    // 1. Authoritative local DataStore update & event broadcast
+    const updated = DataStore.updateStoreSettings(settings);
+    setSettings({ ...updated });
+
+    // 2. Async sync to Supabase without overwriting local state
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('store_settings').upsert({
-        id: 1,
-        store_name: settings.store_name,
-        tagline: settings.tagline,
-        store_email: settings.store_email,
-        store_phone: settings.store_phone,
-        whatsapp_number: settings.whatsapp_number,
-        fssai_number: settings.fssai_number,
-        gst_number: settings.gst_number,
-        address: settings.address,
-        city: settings.city,
-        state: settings.state,
-        pincode: settings.pincode,
-        free_shipping_threshold: settings.free_shipping_threshold,
-        standard_shipping_fee: settings.standard_shipping_fee,
-        razorpay_key_id: settings.razorpay_key_id,
-        is_razorpay_live: settings.is_razorpay_live,
-        enable_cod: settings.enable_cod,
-      });
+      try {
+        await supabase.from('store_settings').upsert({
+          id: 1,
+          store_name: settings.store_name,
+          tagline: settings.tagline,
+          store_email: settings.store_email,
+          store_phone: settings.store_phone,
+          whatsapp_number: settings.whatsapp_number,
+          fssai_number: settings.fssai_number,
+          gst_number: settings.gst_number,
+          address: settings.address,
+          city: settings.city,
+          state: settings.state,
+          pincode: settings.pincode,
+          free_shipping_threshold: settings.free_shipping_threshold,
+          standard_shipping_fee: settings.standard_shipping_fee,
+          gst_percentage: settings.gst_percentage,
+          gst_enabled: settings.gst_enabled,
+          razorpay_key_id: settings.razorpay_key_id,
+          is_razorpay_live: settings.is_razorpay_live,
+          enable_cod: settings.enable_cod,
+        });
+      } catch (err) {
+        console.error('Supabase settings sync error:', err);
+      }
     }
 
     showToast('Store settings saved successfully!', 'success');
@@ -114,7 +142,7 @@ export default function AdminSettingsPage() {
             Store Configuration & Settings
           </h1>
           <p className="text-xs text-stone-500 font-medium">
-            Manage business identity, shipping rules, payment gateways, and regulatory FSSAI details.
+            Manage business identity, GST tax percentage, shipping rules, payment gateways, and regulatory details.
           </p>
         </div>
 
@@ -195,13 +223,73 @@ export default function AdminSettingsPage() {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-stone-700 block mb-1.5">GSTIN</label>
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">GSTIN Number</label>
               <input
                 type="text"
                 value={settings.gst_number}
                 onChange={(e) => setSettings({ ...settings, gst_number: e.target.value })}
                 className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-mono text-stone-700 transition-all"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* GST & Tax Configuration Card */}
+        <div className="bg-white/70 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 border border-white/90 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5">
+          <div className="flex items-center gap-2.5 border-b border-stone-200/60 pb-3">
+            <div className="w-8 h-8 rounded-xl bg-amber-100/80 text-amber-900 flex items-center justify-center font-bold text-xs">
+              <Percent className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="font-bold text-base text-stone-900 tracking-tight">
+                GST & Tax Rates Configuration
+              </h3>
+              <p className="text-[11px] text-stone-500 font-medium">Customize Tax Percentage (%) applied at cart, checkout, & invoices</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">
+                GST Tax Status
+              </label>
+              <select
+                value={settings.gst_enabled ? 'true' : 'false'}
+                onChange={(e) => setSettings({ ...settings, gst_enabled: e.target.value === 'true' })}
+                className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-stone-900 transition-all"
+              >
+                <option value="true">Active (Apply GST Tax on Orders)</option>
+                <option value="false">Disabled (Tax Exempt / 0% Tax)</option>
+              </select>
+              <p className="text-[11px] text-stone-400 mt-1.5 font-medium">
+                When active, the configured percentage will be added during cart & checkout calculations.
+              </p>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-stone-700 block mb-1.5">
+                GST Rate Percentage (%)
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="28"
+                  value={settings.gst_percentage}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      gst_percentage: e.target.value === '' ? 0 : Math.max(0, Number(e.target.value)),
+                    })
+                  }
+                  className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-extrabold text-amber-900 pr-8 transition-all"
+                />
+                <span className="absolute right-3.5 top-2.5 text-xs font-bold text-stone-400">%</span>
+              </div>
+              <p className="text-[11px] text-stone-400 mt-1.5 font-medium">
+                Standard GST rate for packaged food in India is 5%. You can edit this anytime (e.g. 0%, 5%, 12%, 18%).
+              </p>
             </div>
           </div>
         </div>
@@ -227,9 +315,13 @@ export default function AdminSettingsPage() {
               </label>
               <input
                 type="number"
+                min="0"
                 value={settings.free_shipping_threshold}
                 onChange={(e) =>
-                  setSettings({ ...settings, free_shipping_threshold: Number(e.target.value) })
+                  setSettings({
+                    ...settings,
+                    free_shipping_threshold: e.target.value === '' ? 0 : Number(e.target.value),
+                  })
                 }
                 className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-emerald-900 transition-all"
               />
@@ -244,9 +336,13 @@ export default function AdminSettingsPage() {
               </label>
               <input
                 type="number"
+                min="0"
                 value={settings.standard_shipping_fee}
                 onChange={(e) =>
-                  setSettings({ ...settings, standard_shipping_fee: Number(e.target.value) })
+                  setSettings({
+                    ...settings,
+                    standard_shipping_fee: e.target.value === '' ? 0 : Number(e.target.value),
+                  })
                 }
                 className="w-full px-4 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-stone-900 transition-all"
               />

@@ -177,6 +177,8 @@ export interface StoreSettings {
   pincode: string;
   free_shipping_threshold: number;
   standard_shipping_fee: number;
+  gst_percentage: number;
+  gst_enabled: boolean;
   razorpay_key_id: string;
   is_razorpay_live: boolean;
   enable_cod: boolean;

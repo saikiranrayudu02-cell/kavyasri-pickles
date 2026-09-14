@@ -2458,6 +2458,8 @@ export const INITIAL_STORE_SETTINGS: StoreSettings = {
   pincode: '500035',
   free_shipping_threshold: 499,
   standard_shipping_fee: 50,
+  gst_percentage: 5,
+  gst_enabled: true,
   razorpay_key_id: 'rzp_test_kavyaPickles2026',
   is_razorpay_live: false,
   enable_cod: true,
