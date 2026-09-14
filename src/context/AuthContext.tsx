@@ -72,7 +72,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (parsed && parsed.id && parsed.email) {
           const assignedRole =
             parsed.email.trim().toLowerCase() === PRIMARY_ADMIN_EMAIL ? 'admin' : 'customer';
-          setUser({ ...parsed, role: assignedRole });
+          const userSession: UserProfile = { ...parsed, role: assignedRole };
+          setUser(userSession);
+
+          // Async refresh profile from live Supabase database
+          if (isSupabaseConfigured && supabase && assignedRole !== 'admin') {
+            supabase
+              .from('profiles')
+              .select('*')
+              .eq('email', parsed.email.trim().toLowerCase())
+              .limit(1)
+              .then(({ data: dbProf, error }) => {
+                if (!error && dbProf && dbProf.length > 0) {
+                  const dbUser: UserProfile = {
+                    id: dbProf[0].id || parsed.id,
+                    name: dbProf[0].full_name || parsed.name,
+                    email: dbProf[0].email || parsed.email,
+                    phone: dbProf[0].phone || parsed.phone || '',
+                    role: 'customer',
+                  };
+                  setUser(dbUser);
+                  localStorage.setItem('kp_current_user', JSON.stringify(dbUser));
+                }
+              });
+          }
         } else {
           setUser(null);
         }
@@ -125,7 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       let dbUserFound = false;
       let matchedProfile: any = null;
 
-      // Query Supabase profiles table
+      // Query live Supabase profiles table
       if (isSupabaseConfigured && supabase) {
         const { data: profiles, error } = await supabase
           .from('profiles')
@@ -152,9 +175,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
       }
 
-      // Verify Password against stored record
-      const expectedPassword = matchedLocal?.password || matchedProfile?.password;
-      if (expectedPassword && expectedPassword !== cleanPassword) {
+      // Verify Password if stored locally
+      if (matchedLocal?.password && matchedLocal.password !== cleanPassword) {
         setIsLoading(false);
         return {
           success: false,
@@ -170,6 +192,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         phone: matchedProfile?.phone || matchedLocal?.phone || '',
         role: 'customer',
       };
+
+      // Ensure user record is cached locally for session password check
+      saveRegisteredUser({
+        id: loggedUser.id,
+        name: loggedUser.name,
+        email: loggedUser.email,
+        phone: loggedUser.phone || '',
+        password: cleanPassword,
+        role: 'customer',
+      });
 
       setUser(loggedUser);
       localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
@@ -260,19 +292,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(loggedUser);
       localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
 
-      // Insert into Supabase database
+      // Insert into Supabase database profiles table (valid columns only)
       if (isSupabaseConfigured && supabase) {
         try {
-          await supabase.from('profiles').insert({
+          await supabase.from('profiles').upsert({
             id: userUuid,
             email: cleanEmail,
             full_name: name.trim(),
             phone: phone.trim(),
-            password: cleanPassword,
             role: 'customer',
           });
         } catch (dbErr) {
-          console.error('Supabase profile insertion warning:', dbErr);
+          console.error('Supabase profile insertion error:', dbErr);
         }
       }
 
