@@ -595,9 +595,53 @@ export const DataStore = {
     const s = getStored<StoreSettings>(STORAGE_KEYS.SETTINGS, memoryStore.settings);
     return {
       ...s,
+      free_shipping_threshold: typeof s.free_shipping_threshold === 'number' ? s.free_shipping_threshold : 499,
+      standard_shipping_fee: typeof s.standard_shipping_fee === 'number' ? s.standard_shipping_fee : 50,
       gst_percentage: typeof s.gst_percentage === 'number' ? s.gst_percentage : 5,
       gst_enabled: typeof s.gst_enabled === 'boolean' ? s.gst_enabled : true,
     };
+  },
+
+  async syncSettingsFromSupabase(): Promise<StoreSettings> {
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data, error } = await supabase
+          .from('store_settings')
+          .select('*')
+          .limit(1)
+          .single();
+
+        if (!error && data) {
+          const val = data.value || data;
+          const s: StoreSettings = {
+            store_name: val.store_name || data.store_name || memoryStore.settings.store_name,
+            tagline: val.tagline || data.tagline || memoryStore.settings.tagline,
+            store_email: val.store_email || data.store_email || memoryStore.settings.store_email,
+            store_phone: val.store_phone || data.store_phone || memoryStore.settings.store_phone,
+            whatsapp_number: val.whatsapp_number || data.whatsapp_number || memoryStore.settings.whatsapp_number,
+            fssai_number: val.fssai_number || data.fssai_number || memoryStore.settings.fssai_number,
+            gst_number: val.gst_number || data.gst_number || memoryStore.settings.gst_number,
+            address: val.address || data.address || memoryStore.settings.address,
+            city: val.city || data.city || memoryStore.settings.city,
+            state: val.state || data.state || memoryStore.settings.state,
+            pincode: val.pincode || data.pincode || memoryStore.settings.pincode,
+            free_shipping_threshold: Number(val.free_shipping_threshold ?? data.free_shipping_threshold ?? 499),
+            standard_shipping_fee: Number(val.standard_shipping_fee ?? data.standard_shipping_fee ?? 50),
+            gst_percentage: Number(val.gst_percentage ?? data.gst_percentage ?? 5),
+            gst_enabled: Boolean(val.gst_enabled ?? data.gst_enabled ?? true),
+            razorpay_key_id: val.razorpay_key_id || data.razorpay_key_id || memoryStore.settings.razorpay_key_id,
+            is_razorpay_live: Boolean(val.is_razorpay_live ?? data.is_razorpay_live ?? false),
+            enable_cod: Boolean(val.enable_cod ?? data.enable_cod ?? true),
+          };
+          setStored(STORAGE_KEYS.SETTINGS, s);
+          memoryStore.settings = s;
+          return s;
+        }
+      } catch (err) {
+        console.error('Failed to sync settings from Supabase:', err);
+      }
+    }
+    return this.getStoreSettings();
   },
 
   updateStoreSettings(settings: StoreSettings): StoreSettings {
@@ -605,6 +649,37 @@ export const DataStore = {
     memoryStore.settings = settings;
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('kp_settings_changed', { detail: settings }));
+    }
+    if (isSupabaseConfigured && supabase) {
+      supabase
+        .from('store_settings')
+        .upsert({
+          id: 1,
+          key: 'general',
+          value: settings,
+          store_name: settings.store_name,
+          tagline: settings.tagline,
+          store_email: settings.store_email,
+          store_phone: settings.store_phone,
+          whatsapp_number: settings.whatsapp_number,
+          fssai_number: settings.fssai_number,
+          gst_number: settings.gst_number,
+          address: settings.address,
+          city: settings.city,
+          state: settings.state,
+          pincode: settings.pincode,
+          free_shipping_threshold: settings.free_shipping_threshold,
+          standard_shipping_fee: settings.standard_shipping_fee,
+          gst_percentage: settings.gst_percentage,
+          gst_enabled: settings.gst_enabled,
+          razorpay_key_id: settings.razorpay_key_id,
+          is_razorpay_live: settings.is_razorpay_live,
+          enable_cod: settings.enable_cod,
+          updated_at: new Date().toISOString(),
+        })
+        .then(({ error }) => {
+          if (error) console.error('Supabase update store_settings error:', error.message);
+        });
     }
     return settings;
   },

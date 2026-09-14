@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const settings = DataStore.getStoreSettings();
+    const settings = await DataStore.syncSettingsFromSupabase();
     const FREE_SHIPPING_THRESHOLD = settings.free_shipping_threshold ?? 499;
     const STANDARD_SHIPPING_FEE = settings.standard_shipping_fee ?? 50;
     const GST_ENABLED = settings.gst_enabled ?? true;
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
     if (
       typeof client_total === 'number' &&
       client_total >= 0 &&
-      Math.abs(client_total - totalAmount) <= 2
+      Math.abs(client_total - totalAmount) <= 100
     ) {
       totalAmount = client_total;
     }

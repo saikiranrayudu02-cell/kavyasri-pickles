@@ -45,6 +45,12 @@ function CheckoutContent() {
   const [storeSettings, setStoreSettings] = useState<StoreSettings>(() => DataStore.getStoreSettings());
 
   useEffect(() => {
+    async function loadLiveSettings() {
+      const live = await DataStore.syncSettingsFromSupabase();
+      setStoreSettings(live);
+    }
+    loadLiveSettings();
+
     const handleSettingsChange = () => {
       setStoreSettings(DataStore.getStoreSettings());
     };

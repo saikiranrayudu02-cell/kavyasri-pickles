@@ -43,6 +43,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [storeSettings, setStoreSettings] = useState<StoreSettings>(() => DataStore.getStoreSettings());
 
   useEffect(() => {
+    async function loadLiveSettings() {
+      const live = await DataStore.syncSettingsFromSupabase();
+      setStoreSettings(live);
+    }
+    loadLiveSettings();
+
     const syncSettings = () => {
       setStoreSettings(DataStore.getStoreSettings());
     };
