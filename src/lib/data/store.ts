@@ -12,8 +12,8 @@ import {
 } from './seed-data';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'kp_products_v9',
-  CATEGORIES: 'kp_categories_v9',
+  PRODUCTS: 'kp_products_v10',
+  CATEGORIES: 'kp_categories_v10',
   ORDERS: 'kp_orders_v1',
   COUPONS: 'kp_coupons_v1',
   REVIEWS: 'kp_reviews_v1',
@@ -61,7 +61,17 @@ let memoryStore = {
 export const DataStore = {
   // PRODUCTS
   getProducts(): Product[] {
-    return getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
+    const stored = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
+    const storedSlugs = new Set(stored.map((p) => p.slug));
+    const missingSeed = INITIAL_PRODUCTS.filter((p) => !storedSlugs.has(p.slug));
+
+    if (missingSeed.length > 0) {
+      const merged = [...stored, ...missingSeed];
+      setStored(STORAGE_KEYS.PRODUCTS, merged);
+      memoryStore.products = merged;
+      return merged;
+    }
+    return stored;
   },
 
   getProductBySlug(slug: string): Product | undefined {
