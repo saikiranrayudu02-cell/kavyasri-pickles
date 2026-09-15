@@ -343,6 +343,7 @@ function CheckoutContent() {
           name: 'Kavyasri Pickles',
           description: 'Authentic Homemade Pickles & Spices',
           order_id: orderData.id,
+          remember_customer: false,
           prefill: {
             name: fullName,
             email: email,
