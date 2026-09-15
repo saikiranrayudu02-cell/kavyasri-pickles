@@ -4,6 +4,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
 import { normalizePhoneNumber } from '@/lib/utils/phone';
+import { toValidUuid } from '@/lib/utils/uuid';
 
 export async function POST(req: Request) {
   try {
@@ -139,7 +140,7 @@ export async function POST(req: Request) {
     }
 
     // 7. CRITICAL DB PERSISTENCE FIRST: Save Pending Order & items in Supabase BEFORE Razorpay call
-    const validUserId = user_id && user_id.length === 36 ? user_id : null;
+    const validUserId = toValidUuid(user_id);
     const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
       {
         id: appOrderId,
@@ -181,14 +182,14 @@ export async function POST(req: Request) {
     if (orderErr) {
       console.error('Supabase pre-payment order insert error:', orderErr.message);
       return NextResponse.json(
-        { error: 'Failed to create internal order before payment initialization' },
+        { error: `Database order save failed: ${orderErr.message}` },
         { status: 500 }
       );
     }
 
     const itemsToInsert = itemsVerified.map((it) => ({
       order_id: appOrderId,
-      product_id: it.product_id && it.product_id.length === 36 ? it.product_id : null,
+      product_id: toValidUuid(it.product_id),
       product_name: it.product_name,
       image: it.image || '/images/pickles/hero.jpg',
       variant_weight: it.weight,
@@ -201,7 +202,7 @@ export async function POST(req: Request) {
     if (itemsErr) {
       console.error('Supabase pre-payment order_items insert error:', itemsErr.message);
       return NextResponse.json(
-        { error: 'Failed to save order items before payment initialization' },
+        { error: `Database order items save failed: ${itemsErr.message}` },
         { status: 500 }
       );
     }

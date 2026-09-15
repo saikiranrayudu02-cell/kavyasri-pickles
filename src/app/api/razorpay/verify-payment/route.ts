@@ -5,6 +5,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
 import { normalizePhoneNumber } from '@/lib/utils/phone';
+import { toValidUuid } from '@/lib/utils/uuid';
 
 export async function POST(req: Request) {
   try {
@@ -235,7 +236,7 @@ export async function POST(req: Request) {
       DataStore.saveOrder(newOrder);
 
       if (supabaseAdmin) {
-        const validUserId = order_details.user_id && order_details.user_id.length === 36 ? order_details.user_id : null;
+        const validUserId = toValidUuid(order_details.user_id);
         const { error: insertErr } = await supabaseAdmin.from('orders').upsert(
           {
             id: newOrder.id,
@@ -264,7 +265,7 @@ export async function POST(req: Request) {
         if (!insertErr) {
           const itemsToInsert = newOrder.items.map((it) => ({
             order_id: newOrder.id,
-            product_id: it.product_id && it.product_id.length === 36 ? it.product_id : null,
+            product_id: toValidUuid(it.product_id),
             product_name: it.product_name,
             image: it.image,
             variant_weight: it.variant_weight,
