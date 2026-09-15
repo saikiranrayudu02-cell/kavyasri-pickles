@@ -53,14 +53,22 @@ export function normalizePhoneNumber(phone: string | null | undefined): string {
   return sanitized ? `+${digitsOnly}` : '';
 }
 
-/**
- * Returns phone contact string formatted specifically for Razorpay prefill.contact.
- * Razorpay expects digits only or e164 without spaces/dashes (e.g. +919876543210 or 9876543210).
- * Strips all whitespace, hyphens, parentheses, and dots.
- */
 export function getRazorpayContact(phone: string | null | undefined): string {
-  const normalized = normalizePhoneNumber(phone);
-  if (!normalized) return '';
-  // Return digits without spaces/dashes
-  return normalized.replace(/\s+/g, '');
+  if (!phone) return '';
+  const digitsOnly = phone.trim().replace(/\D/g, '');
+  if (!digitsOnly) return '';
+
+  // If 12 digits starting with 91 (e.g. 919573445521), return last 10 digits
+  if (digitsOnly.length === 12 && digitsOnly.startsWith('91')) {
+    return digitsOnly.slice(2);
+  }
+  // If 11 digits starting with 0 (e.g. 09573445521), return last 10 digits
+  if (digitsOnly.length === 11 && digitsOnly.startsWith('0')) {
+    return digitsOnly.slice(1);
+  }
+  // Standard 10-digit mobile number
+  if (digitsOnly.length === 10) {
+    return digitsOnly;
+  }
+  return digitsOnly;
 }
