@@ -1562,80 +1562,25 @@ export const INITIAL_PRODUCTS: Product[] = [
     "created_at": "2026-09-01T10:00:00Z"
   },
   {
-    "id": "prod-prawns-boneless",
-    "category_id": "cat-nonveg",
-    "category_name": "Authentic Non-Veg Pickles",
-    "name": "Prawns Boneless Pickle",
-    "slug": "prawns-boneless-pickle",
-    "short_description": "Succulent coastal prawns fried to golden perfection & marinated in traditional royal Andhra spices.",
-    "description": "Authentic Andhra Royyala Pachadi prepared with fresh, deveined coastal prawns, slow-cooked in cold-pressed sesame oil with fried garlic, fresh curry leaves, and hand-ground spicy masala.",
-    "price": 1200,
-    "mrp": 1499,
-    "discount_percent": 20,
-    "weight": "1kg",
-    "stock_quantity": 35,
-    "sku": "KP-PRN-BL-1KG",
-    "spice_level": "Hot",
-    "dietary": "non-veg",
-    "shelf_life": "6 Months",
-    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
-    "ingredients": [
-      "Fresh Coastal Prawns",
-      "Cold-Pressed Oil",
-      "Guntur Red Chilli Powder",
-      "Garlic Cloves",
-      "Lemon Juice",
-      "Mustard Powder",
-      "Fenugreek Powder",
-      "Sea Salt"
-    ],
-    "images": [
-      "/images/pickles/fish_boneless.jpg"
-    ],
-    "is_featured": true,
-    "is_active": true,
-    "rating": 4.9,
-    "reviews_count": 98,
-    "variants": [
-      {
-        "id": "var-prn-bl-1kg",
-        "product_id": "prod-prawns-boneless",
-        "weight": "1kg",
-        "price": 1200,
-        "mrp": 1499,
-        "stock_quantity": 35
-      },
-      {
-        "id": "var-prn-bl-500g",
-        "product_id": "prod-prawns-boneless",
-        "weight": "500g",
-        "price": 650,
-        "mrp": 799,
-        "stock_quantity": 35
-      }
-    ],
-    "created_at": "2026-09-01T10:00:00Z"
-  },
-  {
     "id": "32810da2-382f-469f-b634-3003e1733f04",
     "category_id": "cat-veg",
     "category_name": "Veg Pickles",
-    "name": "testing product",
-    "slug": "testing-product",
-    "short_description": "Custom testing product.",
-    "description": "Custom testing product created for verification.",
+    "name": "Sample Product",
+    "slug": "sample-product",
+    "short_description": "Sample Product created for evaluation and trial orders.",
+    "description": "Authentic Sample Jar created for tasting, trial orders, and checkout verification.",
     "price": 1,
     "mrp": 100,
     "discount_percent": 99,
     "weight": "250g",
     "stock_quantity": 50,
-    "sku": "KP-TST-001",
-    "spice_level": "Hot",
+    "sku": "KP-SMP-001",
+    "spice_level": "Medium",
     "dietary": "veg",
     "shelf_life": "12 Months",
     "storage_instructions": "Store in a cool dry place.",
     "ingredients": [
-      "Testing Ingredient"
+      "Homemade Ingredients"
     ],
     "images": [
       "/images/pickles/hero.jpg"
@@ -1646,7 +1591,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews_count": 1,
     "variants": [
       {
-        "id": "var-tst-250g",
+        "id": "var-smp-250g",
         "product_id": "32810da2-382f-469f-b634-3003e1733f04",
         "weight": "250g",
         "price": 1,
