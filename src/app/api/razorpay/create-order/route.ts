@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const GST_PERCENTAGE = Number(settings.gst_percentage ?? 0);
 
     // 1. Calculate item subtotal from authoritative product database
-    const allProducts = DataStore.getProducts();
+    const allProducts = await DataStore.syncProductsFromSupabase();
     let subtotal = 0;
     const itemsVerified: Array<{
       product_id: string;
