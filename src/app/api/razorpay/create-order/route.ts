@@ -6,8 +6,19 @@ import { Order } from '@/lib/types';
 import { normalizePhoneNumber } from '@/lib/utils/phone';
 import { toValidUuid } from '@/lib/utils/uuid';
 
+import { getAuthSession } from '@/lib/auth/session';
+
 export async function POST(req: Request) {
   try {
+    // 0. SERVER SESSION VALIDATION - Never trust client user_id
+    const session = await getAuthSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Please sign in to complete your purchase' },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const {
       items,
@@ -16,7 +27,6 @@ export async function POST(req: Request) {
       customer_email,
       customer_phone: rawPhone,
       shipping_address,
-      user_id,
     } = body;
 
     const customer_phone = normalizePhoneNumber(rawPhone);
@@ -140,7 +150,7 @@ export async function POST(req: Request) {
     }
 
     // 7. CRITICAL DB PERSISTENCE FIRST: Save Pending Order & items in Supabase BEFORE Razorpay call
-    const validUserId = toValidUuid(user_id);
+    const validUserId = toValidUuid(session.id);
     const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
       {
         id: appOrderId,
@@ -274,7 +284,7 @@ export async function POST(req: Request) {
     // Save to memory store for in-memory sync
     const newOrder: Order = {
       id: appOrderId,
-      user_id: user_id && user_id.length === 36 ? user_id : 'usr-guest',
+      user_id: session.id,
       customer_name: customer_name || 'Valued Customer',
       customer_email: customer_email || 'customer@example.com',
       customer_phone: customer_phone || '',

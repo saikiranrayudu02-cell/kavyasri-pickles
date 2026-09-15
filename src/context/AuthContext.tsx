@@ -65,48 +65,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage for active session
-    const saved = localStorage.getItem('kp_current_user');
-    if (saved) {
+    async function initSession() {
       try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.id && parsed.email) {
-          const assignedRole =
-            parsed.email.trim().toLowerCase() === PRIMARY_ADMIN_EMAIL ? 'admin' : 'customer';
-          const userSession: UserProfile = { ...parsed, role: assignedRole };
-          setUser(userSession);
-
-          // Async refresh profile from live Supabase database
-          if (isSupabaseConfigured && supabase && assignedRole !== 'admin') {
-            supabase
-              .from('profiles')
-              .select('*')
-              .eq('email', parsed.email.trim().toLowerCase())
-              .limit(1)
-              .then(({ data: dbProf, error }) => {
-                if (!error && dbProf && dbProf.length > 0) {
-                  const dbUser: UserProfile = {
-                    id: dbProf[0].id || parsed.id,
-                    name: dbProf[0].full_name || parsed.name,
-                    email: dbProf[0].email || parsed.email,
-                    phone: dbProf[0].phone || parsed.phone || '',
-                    role: 'customer',
-                  };
-                  setUser(dbUser);
-                  localStorage.setItem('kp_current_user', JSON.stringify(dbUser));
-                }
-              });
+        const res = await fetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            setUser(data.user);
+            localStorage.setItem('kp_current_user', JSON.stringify(data.user));
+            setIsLoading(false);
+            return;
           }
-        } else {
+        }
+      } catch (err) {
+        console.error('Error fetching auth session:', err);
+      }
+
+      // Local storage fallback if offline
+      const saved = localStorage.getItem('kp_current_user');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.id && parsed.email) {
+            const assignedRole =
+              parsed.email.trim().toLowerCase() === PRIMARY_ADMIN_EMAIL ? 'admin' : 'customer';
+            const userSession: UserProfile = { ...parsed, role: assignedRole };
+            setUser(userSession);
+          } else {
+            setUser(null);
+          }
+        } catch {
           setUser(null);
         }
-      } catch {
+      } else {
         setUser(null);
       }
-    } else {
-      setUser(null);
+      setIsLoading(false);
     }
-    setIsLoading(false);
+
+    initSession();
   }, []);
 
   const login = async (email: string, password: string): Promise<AuthResult> => {
@@ -119,131 +116,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: false, error: 'Please enter both email address and password.' };
     }
 
-    const isSingleAdmin = cleanEmail === PRIMARY_ADMIN_EMAIL;
-
-    // 1. Strict Primary Admin Verification
-    if (isSingleAdmin) {
-      if (cleanPassword !== PRIMARY_ADMIN_PASSWORD) {
-        setIsLoading(false);
-        return {
-          success: false,
-          error: 'Invalid administrator password. Please check your credentials.',
-        };
-      }
-
-      const adminUser: UserProfile = {
-        id: 'a0000000-0000-0000-0000-000000000001',
-        name: 'Kavyasri Admin',
-        email: PRIMARY_ADMIN_EMAIL,
-        phone: '9876543210',
-        role: 'admin',
-      };
-      setUser(adminUser);
-      localStorage.setItem('kp_current_user', JSON.stringify(adminUser));
-
-      if (isSupabaseConfigured && supabase) {
-        supabase
-          .from('profiles')
-          .update({ last_login_at: new Date().toISOString() })
-          .eq('email', PRIMARY_ADMIN_EMAIL);
-
-        logUserActivity({
-          action: 'LOGIN',
-          user_id: adminUser.id,
-          user_email: PRIMARY_ADMIN_EMAIL,
-          details: { role: 'admin' },
-        });
-      }
-
-      setIsLoading(false);
-      return { success: true };
-    }
-
-    // 2. Customer Database & Registered User Authentication
     try {
-      let dbUserFound = false;
-      let matchedProfile: any = null;
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail, password: cleanPassword }),
+      });
 
-      // Query live Supabase profiles table
-      if (isSupabaseConfigured && supabase) {
-        const { data: profiles, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('email', cleanEmail)
-          .limit(1);
-
-        if (!error && profiles && profiles.length > 0) {
-          dbUserFound = true;
-          matchedProfile = profiles[0];
-        }
+      const data = await res.json();
+      if (!res.ok) {
+        setIsLoading(false);
+        return { success: false, error: data.error || 'Authentication failed.' };
       }
 
-      // Check local registered accounts
-      const localUsers = getRegisteredUsers();
-      const matchedLocal = localUsers.find((u) => u.email.toLowerCase() === cleanEmail);
-
-      // Reject if account does not exist anywhere
-      if (!dbUserFound && !matchedLocal) {
-        setIsLoading(false);
-        return {
-          success: false,
-          error: 'No account found with this email address. Please register first.',
-        };
-      }
-
-      // Verify Password if stored in DB or local
-      const dbPassword = matchedProfile?.password;
-      const localPassword = matchedLocal?.password;
-
-      if (dbPassword && dbPassword !== cleanPassword) {
-        setIsLoading(false);
-        return {
-          success: false,
-          error: 'Incorrect password. Please check your password and try again.',
-        };
-      } else if (!dbPassword && localPassword && localPassword !== cleanPassword) {
-        setIsLoading(false);
-        return {
-          success: false,
-          error: 'Incorrect password. Please check your password and try again.',
-        };
-      }
-
-      // Log in verified user
-      const loggedUser: UserProfile = {
-        id: matchedProfile?.id || matchedLocal?.id || `user-${Date.now()}`,
-        name: matchedProfile?.full_name || matchedLocal?.name || cleanEmail.split('@')[0],
-        email: cleanEmail,
-        phone: matchedProfile?.phone || matchedLocal?.phone || '',
-        role: 'customer',
-      };
-
-      // Ensure user record is cached locally for session password check
+      const loggedUser: UserProfile = data.user;
+      setUser(loggedUser);
+      localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
       saveRegisteredUser({
         id: loggedUser.id,
         name: loggedUser.name,
         email: loggedUser.email,
         phone: loggedUser.phone || '',
         password: cleanPassword,
-        role: 'customer',
+        role: loggedUser.role,
       });
-
-      setUser(loggedUser);
-      localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
-
-      if (isSupabaseConfigured && supabase) {
-        supabase
-          .from('profiles')
-          .update({ last_login_at: new Date().toISOString(), password: cleanPassword })
-          .eq('email', cleanEmail);
-
-        logUserActivity({
-          action: 'LOGIN',
-          user_id: loggedUser.id,
-          user_email: cleanEmail,
-          details: { role: 'customer' },
-        });
-      }
 
       setIsLoading(false);
       return { success: true };
@@ -272,89 +168,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: false, error: 'Please complete all required registration fields.' };
     }
 
-    if (cleanEmail === PRIMARY_ADMIN_EMAIL) {
-      setIsLoading(false);
-      return { success: false, error: 'This email is reserved for system administration.' };
-    }
-
-    // Check if user already exists
-    const localUsers = getRegisteredUsers();
-    if (localUsers.some((u) => u.email.toLowerCase() === cleanEmail)) {
-      setIsLoading(false);
-      return {
-        success: false,
-        error: 'An account with this email address already exists. Please sign in.',
-      };
-    }
-
     try {
-      if (isSupabaseConfigured && supabase) {
-        const { data: existingProfiles } = await supabase
-          .from('profiles')
-          .select('email')
-          .eq('email', cleanEmail)
-          .limit(1);
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: cleanEmail,
+          phone: phone.trim(),
+          password: cleanPassword,
+        }),
+      });
 
-        if (existingProfiles && existingProfiles.length > 0) {
-          setIsLoading(false);
-          return {
-            success: false,
-            error: 'An account with this email address already exists. Please sign in.',
-          };
-        }
+      const data = await res.json();
+      if (!res.ok) {
+        setIsLoading(false);
+        return { success: false, error: data.error || 'Registration failed.' };
       }
 
-      const userUuid =
-        typeof crypto !== 'undefined' && crypto.randomUUID
-          ? crypto.randomUUID()
-          : `90000000-0000-4000-8000-${Date.now().toString().slice(-12)}`;
-
-      const newRecord: RegisteredUserRecord = {
-        id: userUuid,
-        name: name.trim(),
-        email: cleanEmail,
-        phone: phone.trim(),
+      const registeredUser: UserProfile = data.user;
+      setUser(registeredUser);
+      localStorage.setItem('kp_current_user', JSON.stringify(registeredUser));
+      saveRegisteredUser({
+        id: registeredUser.id,
+        name: registeredUser.name,
+        email: registeredUser.email,
+        phone: registeredUser.phone || '',
         password: cleanPassword,
-        role: 'customer',
-      };
-
-      // Store in persistent local registry
-      saveRegisteredUser(newRecord);
-
-      // Activate user session
-      const loggedUser: UserProfile = {
-        id: userUuid,
-        name: name.trim(),
-        email: cleanEmail,
-        phone: phone.trim(),
-        role: 'customer',
-      };
-      setUser(loggedUser);
-      localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
-
-      // Insert into Supabase database profiles table
-      if (isSupabaseConfigured && supabase) {
-        try {
-          await supabase.from('profiles').upsert({
-            id: userUuid,
-            email: cleanEmail,
-            full_name: name.trim(),
-            phone: phone.trim(),
-            role: 'customer',
-            password: cleanPassword,
-            last_login_at: new Date().toISOString(),
-          });
-
-          logUserActivity({
-            action: 'SIGNUP',
-            user_id: userUuid,
-            user_email: cleanEmail,
-            details: { name: name.trim(), phone: phone.trim() },
-          });
-        } catch (dbErr) {
-          console.error('Supabase profile insertion error:', dbErr);
-        }
-      }
+        role: registeredUser.role,
+      });
 
       setIsLoading(false);
       return { success: true };
@@ -401,13 +243,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
-  const logout = () => {
-    if (user && isSupabaseConfigured && supabase) {
-      logUserActivity({
-        action: 'LOGOUT',
-        user_id: user.id,
-        user_email: user.email,
-      });
+  const logout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore
     }
     setUser(null);
     localStorage.removeItem('kp_current_user');

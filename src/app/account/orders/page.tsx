@@ -41,44 +41,18 @@ export default function MyOrdersPage() {
 
     let isMounted = true;
     async function loadUserOrders() {
-      if (isSupabaseConfigured && supabase && user?.id) {
-        try {
-          const { data: dbOrders, error } = await supabase
-            .from('orders')
-            .select('*')
-            .or(`user_id.eq.${user.id},customer_email.ilike.${user.email}`)
-            .order('created_at', { ascending: false });
-
-          if (!error && dbOrders && dbOrders.length > 0 && isMounted) {
-            const orderIds = dbOrders.map((o) => o.id);
-            const { data: dbItems } = await supabase
-              .from('order_items')
-              .select('*')
-              .in('order_id', orderIds);
-
-            const mappedOrders: Order[] = dbOrders.map((o) => ({
-              ...o,
-              items: (dbItems || [])
-                .filter((item) => item.order_id === o.id)
-                .map((it) => ({
-                  id: it.id,
-                  product_id: it.product_id || '',
-                  product_name: it.product_name,
-                  image: it.image || '/images/pickles/hero.jpg',
-                  variant_weight: it.variant_weight,
-                  price: Number(it.price),
-                  quantity: it.quantity,
-                  total: Number(it.total),
-                })),
-            }));
-
-            setOrders(mappedOrders);
+      try {
+        const res = await fetch('/api/orders');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.orders && isMounted) {
+            setOrders(data.orders);
             setLoading(false);
             return;
           }
-        } catch (err) {
-          console.error('Error fetching Supabase user orders:', err);
         }
+      } catch (err) {
+        console.error('Error fetching orders from server:', err);
       }
 
       // Local fallback filtered strictly by authenticated user
