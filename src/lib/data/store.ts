@@ -81,18 +81,33 @@ let memoryStore = {
 
 export const DataStore = {
   // PRODUCTS
+  // PRODUCTS
   getProducts(): Product[] {
     const stored = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
     const storedSlugs = new Set(stored.map((p) => p.slug));
-    const missingSeed = INITIAL_PRODUCTS.filter((p) => !storedSlugs.has(p.slug));
+    const storedIds = new Set(stored.map((p) => p.id));
+    const missingSeed = INITIAL_PRODUCTS.filter((p) => !storedSlugs.has(p.slug) && !storedIds.has(p.id));
 
-    if (missingSeed.length > 0) {
-      const merged = [...stored, ...missingSeed];
-      setStored(STORAGE_KEYS.PRODUCTS, merged);
-      memoryStore.products = merged;
-      return merged;
+    const rawList = missingSeed.length > 0 ? [...stored, ...missingSeed] : stored;
+    
+    // Deduplicate strictly by ID and Slug
+    const seenIds = new Set<string>();
+    const seenSlugs = new Set<string>();
+    const uniqueList: Product[] = [];
+
+    for (const p of rawList) {
+      if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
+        seenIds.add(p.id);
+        seenSlugs.add(p.slug);
+        uniqueList.push(p);
+      }
     }
-    return stored;
+
+    if (uniqueList.length !== stored.length) {
+      setStored(STORAGE_KEYS.PRODUCTS, uniqueList);
+      memoryStore.products = uniqueList;
+    }
+    return uniqueList;
   },
 
   async syncProductsFromSupabase(): Promise<Product[]> {
@@ -140,8 +155,21 @@ export const DataStore = {
 
           const local = this.getProducts();
           const dbSlugs = new Set(mapped.map((p) => p.slug));
-          const missingLocal = local.filter((lp) => !dbSlugs.has(lp.slug));
-          const fullList = [...mapped, ...missingLocal];
+          const dbIds = new Set(mapped.map((p) => p.id));
+          const missingLocal = local.filter((lp) => !dbSlugs.has(lp.slug) && !dbIds.has(lp.id));
+
+          const rawFullList = [...mapped, ...missingLocal];
+          const seenIds = new Set<string>();
+          const seenSlugs = new Set<string>();
+          const fullList: Product[] = [];
+
+          for (const p of rawFullList) {
+            if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
+              seenIds.add(p.id);
+              seenSlugs.add(p.slug);
+              fullList.push(p);
+            }
+          }
 
           setStored(STORAGE_KEYS.PRODUCTS, fullList);
           memoryStore.products = fullList;
