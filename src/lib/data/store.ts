@@ -84,18 +84,12 @@ export const DataStore = {
   // PRODUCTS
   getProducts(): Product[] {
     const stored = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
-    const storedSlugs = new Set(stored.map((p) => p.slug));
-    const storedIds = new Set(stored.map((p) => p.id));
-    const missingSeed = INITIAL_PRODUCTS.filter((p) => !storedSlugs.has(p.slug) && !storedIds.has(p.id));
-
-    const rawList = missingSeed.length > 0 ? [...stored, ...missingSeed] : stored;
-    
     // Deduplicate strictly by ID and Slug
     const seenIds = new Set<string>();
     const seenSlugs = new Set<string>();
     const uniqueList: Product[] = [];
 
-    for (const p of rawList) {
+    for (const p of stored) {
       if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
         seenIds.add(p.id);
         seenSlugs.add(p.slug);
@@ -153,27 +147,22 @@ export const DataStore = {
             };
           });
 
-          const local = this.getProducts();
-          const dbSlugs = new Set(mapped.map((p) => p.slug));
-          const dbIds = new Set(mapped.map((p) => p.id));
-          const missingLocal = local.filter((lp) => !dbSlugs.has(lp.slug) && !dbIds.has(lp.id));
-
-          const rawFullList = [...mapped, ...missingLocal];
+          // Deduplicate strictly by ID and Slug from database
           const seenIds = new Set<string>();
           const seenSlugs = new Set<string>();
-          const fullList: Product[] = [];
+          const dbUniqueList: Product[] = [];
 
-          for (const p of rawFullList) {
+          for (const p of mapped) {
             if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
               seenIds.add(p.id);
               seenSlugs.add(p.slug);
-              fullList.push(p);
+              dbUniqueList.push(p);
             }
           }
 
-          setStored(STORAGE_KEYS.PRODUCTS, fullList);
-          memoryStore.products = fullList;
-          return fullList;
+          setStored(STORAGE_KEYS.PRODUCTS, dbUniqueList);
+          memoryStore.products = dbUniqueList;
+          return dbUniqueList;
         }
       } catch (err) {
         console.error('Failed to sync products from Supabase:', err);
@@ -709,8 +698,8 @@ export const DataStore = {
         const { data, error } = await supabase
           .from('store_settings')
           .select('*')
-          .limit(1)
-          .single();
+          .eq('key', 'general')
+          .maybeSingle();
 
         if (!error && data) {
           const val = data.value || data;

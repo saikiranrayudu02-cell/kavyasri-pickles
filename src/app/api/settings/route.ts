@@ -10,8 +10,8 @@ export async function GET() {
       const { data, error } = await supabase
         .from('store_settings')
         .select('*')
-        .limit(1)
-        .single();
+        .eq('key', 'general')
+        .maybeSingle();
 
       if (!error && data) {
         const val = data.value || data;
