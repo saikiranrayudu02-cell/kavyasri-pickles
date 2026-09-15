@@ -1562,6 +1562,61 @@ export const INITIAL_PRODUCTS: Product[] = [
     "created_at": "2026-09-01T10:00:00Z"
   },
   {
+    "id": "prod-prawns-boneless",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Prawns Boneless Pickle",
+    "slug": "prawns-boneless-pickle",
+    "short_description": "Succulent coastal prawns fried to golden perfection & marinated in traditional royal Andhra spices.",
+    "description": "Authentic Andhra Royyala Pachadi prepared with fresh, deveined coastal prawns, slow-cooked in cold-pressed sesame oil with fried garlic, fresh curry leaves, and hand-ground spicy masala.",
+    "price": 1200,
+    "mrp": 1499,
+    "discount_percent": 20,
+    "weight": "1kg",
+    "stock_quantity": 35,
+    "sku": "KP-PRN-BL-1KG",
+    "spice_level": "Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Fresh Coastal Prawns",
+      "Cold-Pressed Oil",
+      "Guntur Red Chilli Powder",
+      "Garlic Cloves",
+      "Lemon Juice",
+      "Mustard Powder",
+      "Fenugreek Powder",
+      "Sea Salt"
+    ],
+    "images": [
+      "/images/pickles/fish_boneless.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 98,
+    "variants": [
+      {
+        "id": "var-prn-bl-1kg",
+        "product_id": "prod-prawns-boneless",
+        "weight": "1kg",
+        "price": 1200,
+        "mrp": 1499,
+        "stock_quantity": 35
+      },
+      {
+        "id": "var-prn-bl-500g",
+        "product_id": "prod-prawns-boneless",
+        "weight": "500g",
+        "price": 650,
+        "mrp": 799,
+        "stock_quantity": 35
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
     "id": "32810da2-382f-469f-b634-3003e1733f04",
     "category_id": "cat-veg",
     "category_name": "Veg Pickles",
