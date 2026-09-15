@@ -344,11 +344,6 @@ function CheckoutContent() {
           description: 'Authentic Homemade Pickles & Spices',
           order_id: orderData.id,
           remember_customer: false,
-          prefill: {
-            name: fullName,
-            email: email,
-            contact: rzpContact,
-          },
           notes: {
             shipping_address: `${addressLine1}, ${city}, ${state} - ${pincode}`,
           },
