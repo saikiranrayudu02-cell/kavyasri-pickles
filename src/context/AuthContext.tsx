@@ -81,25 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Error fetching auth session:', err);
       }
 
-      // Local storage fallback if offline
-      const saved = localStorage.getItem('kp_current_user');
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          if (parsed && parsed.id && parsed.email) {
-            const assignedRole =
-              parsed.email.trim().toLowerCase() === PRIMARY_ADMIN_EMAIL ? 'admin' : 'customer';
-            const userSession: UserProfile = { ...parsed, role: assignedRole };
-            setUser(userSession);
-          } else {
-            setUser(null);
-          }
-        } catch {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
+      // Server HTTP-only session is authoritative. Clear client state if no server session exists.
+      setUser(null);
+      localStorage.removeItem('kp_current_user');
       setIsLoading(false);
     }
 

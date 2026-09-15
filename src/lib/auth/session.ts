@@ -40,7 +40,14 @@ export function verifySessionToken(token: string): SessionUser | null {
   if (!encoded || !signature) return null;
 
   const expectedSignature = signToken(encoded);
-  if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
+  const sigBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expectedSignature);
+
+  if (sigBuffer.length !== expectedBuffer.length) {
+    return null;
+  }
+
+  if (!crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
     return null;
   }
 
