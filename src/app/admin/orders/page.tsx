@@ -48,43 +48,18 @@ export default function AdminOrdersPage() {
 
   const loadOrders = async () => {
     setLoading(true);
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data: dbOrders, error } = await supabase
-          .from('orders')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (!error && dbOrders) {
-          const orderIds = dbOrders.map((o) => o.id);
-          const { data: dbItems } = await supabase
-            .from('order_items')
-            .select('*')
-            .in('order_id', orderIds);
-
-          const mappedOrders: Order[] = dbOrders.map((o) => ({
-            ...o,
-            items: (dbItems || [])
-              .filter((item) => item.order_id === o.id)
-              .map((it) => ({
-                id: it.id,
-                product_id: it.product_id || '',
-                product_name: it.product_name,
-                image: it.image || '/images/pickles/hero.jpg',
-                variant_weight: it.variant_weight,
-                price: Number(it.price),
-                quantity: it.quantity,
-                total: Number(it.total),
-              })),
-          }));
-
-          setOrders(mappedOrders);
+    try {
+      const res = await fetch('/api/admin/orders', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.orders && Array.isArray(data.orders)) {
+          setOrders(data.orders);
           setLoading(false);
           return;
         }
-      } catch (err) {
-        console.error('Error fetching Supabase admin orders:', err);
       }
+    } catch (err) {
+      console.error('Error fetching admin orders API:', err);
     }
 
     setOrders(DataStore.getOrders());

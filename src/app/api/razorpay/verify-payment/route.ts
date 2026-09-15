@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
 
 export async function POST(req: Request) {
@@ -63,15 +64,16 @@ export async function POST(req: Request) {
 
     // 2. Query Supabase Database for existing pending order
     let targetOrder: Order | undefined = undefined;
+    const supabaseAdmin = getSupabaseAdmin();
 
-    if (isSupabaseConfigured && supabase) {
+    if (supabaseAdmin) {
       const searchOr = [];
       if (order_id) searchOr.push(`id.eq.${order_id}`);
       if (razorpay_order_id) searchOr.push(`razorpay_order_id.eq.${razorpay_order_id}`);
       if (razorpay_payment_id) searchOr.push(`razorpay_payment_id.eq.${razorpay_payment_id}`);
 
       if (searchOr.length > 0) {
-        const { data: dbOrders } = await supabase
+        const { data: dbOrders } = await supabaseAdmin
           .from('orders')
           .select('*')
           .or(searchOr.join(','))
@@ -79,7 +81,7 @@ export async function POST(req: Request) {
 
         if (dbOrders && dbOrders.length > 0) {
           const dbOrder = dbOrders[0];
-          const { data: dbItems } = await supabase
+          const { data: dbItems } = await supabaseAdmin
             .from('order_items')
             .select('*')
             .eq('order_id', dbOrder.id);
@@ -129,8 +131,8 @@ export async function POST(req: Request) {
 
       DataStore.saveOrder(updatedOrder);
 
-      if (isSupabaseConfigured && supabase) {
-        await supabase
+      if (supabaseAdmin) {
+        await supabaseAdmin
           .from('orders')
           .update({
             payment_status: 'Paid',
@@ -191,9 +193,9 @@ export async function POST(req: Request) {
 
       DataStore.saveOrder(newOrder);
 
-      if (isSupabaseConfigured && supabase) {
+      if (supabaseAdmin) {
         const validUserId = order_details.user_id && order_details.user_id.length === 36 ? order_details.user_id : null;
-        const { error: insertErr } = await supabase.from('orders').upsert(
+        const { error: insertErr } = await supabaseAdmin.from('orders').upsert(
           {
             id: newOrder.id,
             user_id: validUserId,
@@ -230,7 +232,7 @@ export async function POST(req: Request) {
             quantity: it.quantity,
             total: it.total,
           }));
-          await supabase.from('order_items').insert(itemsToInsert);
+          await supabaseAdmin.from('order_items').insert(itemsToInsert);
         }
       }
 

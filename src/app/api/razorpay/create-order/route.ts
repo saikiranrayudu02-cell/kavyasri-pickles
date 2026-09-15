@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
 
 export async function POST(req: Request) {
@@ -226,9 +227,10 @@ export async function POST(req: Request) {
     DataStore.saveOrder(newOrder);
 
     // Persist directly to Supabase DB (AWAIT completion)
-    if (isSupabaseConfigured && supabase) {
+    const supabaseAdmin = getSupabaseAdmin();
+    if (supabaseAdmin) {
       const validUserId = user_id && user_id.length === 36 ? user_id : null;
-      const { error: orderErr } = await supabase.from('orders').upsert(
+      const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
         {
           id: newOrder.id,
           user_id: validUserId,
@@ -268,7 +270,7 @@ export async function POST(req: Request) {
           total: it.total,
         }));
 
-        const { error: itemsErr } = await supabase.from('order_items').insert(itemsToInsert);
+        const { error: itemsErr } = await supabaseAdmin.from('order_items').insert(itemsToInsert);
         if (itemsErr) {
           console.error('Supabase pre-payment order_items insert error:', itemsErr.message);
         }

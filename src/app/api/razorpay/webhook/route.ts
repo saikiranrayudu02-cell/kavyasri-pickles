@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { OrderTimelineItem } from '@/lib/types';
 
 // Set runtime configuration to Node.js for crypto & raw body support
@@ -77,7 +78,8 @@ export async function POST(req: Request) {
       minute: '2-digit',
     });
 
-    // 4. Process Webhook Event Types
+    const supabaseAdmin = getSupabaseAdmin();
+
     switch (eventType) {
       case 'payment.captured':
       case 'payment.authorized': {
@@ -94,8 +96,8 @@ export async function POST(req: Request) {
           let existingOrderTimeline: OrderTimelineItem[] = [];
 
           // Query Supabase DB for matching order
-          if (isSupabaseConfigured && supabase) {
-            const { data: dbOrders } = await supabase
+          if (supabaseAdmin) {
+            const { data: dbOrders } = await supabaseAdmin
               .from('orders')
               .select('*')
               .or(`razorpay_order_id.eq.${rzpOrderId},razorpay_payment_id.eq.${rzpPaymentId}`)
@@ -116,7 +118,7 @@ export async function POST(req: Request) {
                   },
                 ];
 
-                await supabase
+                await supabaseAdmin
                   .from('orders')
                   .update({
                     payment_status: 'Paid',
@@ -137,13 +139,13 @@ export async function POST(req: Request) {
           }
 
           // RECONCILIATION SAFETY NET: If no order exists for this captured payment, create one!
-          if (!orderIdToUpdate && isSupabaseConfigured && supabase) {
+          if (!orderIdToUpdate && supabaseAdmin) {
             const recoveredOrderId = notes.app_order_id || `KP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
             // Lookup profile by email or phone if possible
             let matchingUserId: string | null = null;
             if (customerEmail) {
-              const { data: profs } = await supabase
+              const { data: profs } = await supabaseAdmin
                 .from('profiles')
                 .select('id')
                 .eq('email', customerEmail)
@@ -174,7 +176,7 @@ export async function POST(req: Request) {
               },
             ];
 
-            const { error: recErr } = await supabase.from('orders').upsert(
+            const { error: recErr } = await supabaseAdmin.from('orders').upsert(
               {
                 id: recoveredOrderId,
                 user_id: matchingUserId,
@@ -201,7 +203,7 @@ export async function POST(req: Request) {
             );
 
             if (!recErr) {
-              await supabase.from('order_items').insert({
+              await supabaseAdmin.from('order_items').insert({
                 order_id: recoveredOrderId,
                 product_name: 'Homemade Pickles & Spices',
                 image: '/images/pickles/hero.jpg',
@@ -219,9 +221,9 @@ export async function POST(req: Request) {
 
       case 'order.paid': {
         const orderEntity = payload.payload?.order?.entity;
-        if (orderEntity && isSupabaseConfigured && supabase) {
+        if (orderEntity && supabaseAdmin) {
           const rzpOrderId = orderEntity.id;
-          await supabase
+          await supabaseAdmin
             .from('orders')
             .update({ payment_status: 'Paid', order_status: 'Confirmed' })
             .eq('razorpay_order_id', rzpOrderId);
@@ -234,10 +236,10 @@ export async function POST(req: Request) {
 
       case 'payment.failed': {
         const payment = payload.payload?.payment?.entity;
-        if (payment && isSupabaseConfigured && supabase) {
+        if (payment && supabaseAdmin) {
           const rzpOrderId = payment.order_id;
           const rzpPaymentId = payment.id;
-          await supabase
+          await supabaseAdmin
             .from('orders')
             .update({ payment_status: 'Failed', razorpay_payment_id: rzpPaymentId })
             .eq('razorpay_order_id', rzpOrderId)

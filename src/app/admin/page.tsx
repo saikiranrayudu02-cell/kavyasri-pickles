@@ -49,36 +49,41 @@ export default function AdminDashboardPage() {
 
   const refreshData = async () => {
     setLoading(true);
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data: dbOrders } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-        const { data: dbProfiles } = await supabase.from('profiles').select('*');
+    try {
+      const ordersRes = await fetch('/api/admin/orders', { cache: 'no-store' });
+      const ordersData = ordersRes.ok ? await ordersRes.json() : null;
+      const fetchedOrders: Order[] = ordersData?.orders || DataStore.getOrders();
+
+      let fetchedProducts = DataStore.getProducts();
+      let profilesCount = DataStore.getAdminKPIs().totalCustomers;
+
+      if (isSupabaseConfigured && supabase) {
         const { data: dbProducts } = await supabase.from('products').select('*');
-
-        if (dbOrders && dbProducts) {
-          const customerEmails = new Set([
-            ...(dbProfiles || []).map((p) => (p.email ? p.email.toLowerCase() : '')),
-            ...dbOrders.map((o) => (o.customer_email ? o.customer_email.toLowerCase() : '')),
-          ].filter(Boolean));
-
-          setAllOrders(dbOrders);
-          setAllProducts(dbProducts);
-          setAllProfilesCount(customerEmails.size || (dbProfiles ? dbProfiles.length : 0));
-          setLoading(false);
-          return;
+        if (dbProducts && dbProducts.length > 0) {
+          fetchedProducts = dbProducts;
         }
-      } catch (err) {
-        console.error('Error fetching admin dashboard KPIs from Supabase:', err);
+
+        const { data: dbProfiles } = await supabase.from('profiles').select('email');
+        const customerEmails = new Set([
+          ...(dbProfiles || []).map((p) => (p.email ? p.email.toLowerCase() : '')),
+          ...fetchedOrders.map((o) => (o.customer_email ? o.customer_email.toLowerCase() : '')),
+        ].filter(Boolean));
+
+        profilesCount = customerEmails.size || (dbProfiles ? dbProfiles.length : profilesCount);
       }
+
+      setAllOrders(fetchedOrders);
+      setAllProducts(fetchedProducts);
+      setAllProfilesCount(profilesCount);
+      setLoading(false);
+      return;
+    } catch (err) {
+      console.error('Error fetching admin dashboard KPIs:', err);
     }
 
-    const localOrders = DataStore.getOrders();
-    const localProducts = DataStore.getProducts();
-    const localKpis = DataStore.getAdminKPIs();
-
-    setAllOrders(localOrders);
-    setAllProducts(localProducts);
-    setAllProfilesCount(localKpis.totalCustomers);
+    setAllOrders(DataStore.getOrders());
+    setAllProducts(DataStore.getProducts());
+    setAllProfilesCount(DataStore.getAdminKPIs().totalCustomers);
     setLoading(false);
   };
 
