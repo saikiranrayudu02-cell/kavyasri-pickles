@@ -4,6 +4,7 @@ import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
+import { normalizePhoneNumber } from '@/lib/utils/phone';
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +17,7 @@ export async function POST(req: Request) {
       order_details,
     } = body;
 
+    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     const isProductionSecret = keySecret && !keySecret.includes('yourKey');
 
@@ -51,6 +53,25 @@ export async function POST(req: Request) {
           { success: false, message: 'Cryptographic payment signature verification failed.' },
           { status: 400 }
         );
+      }
+    }
+
+    // 1b. Optional Audit: Fetch Razorpay Payment details to verify contact number
+    let rzpPaymentContact: string | null = null;
+    if (isProductionSecret && razorpay_payment_id) {
+      try {
+        const authHeader = 'Basic ' + Buffer.from(`${keyId}:${keySecret}`).toString('base64');
+        const pRes = await fetch(`https://api.razorpay.com/v1/payments/${razorpay_payment_id}`, {
+          headers: { Authorization: authHeader },
+        });
+        if (pRes.ok) {
+          const pData = await pRes.json();
+          if (pData && pData.contact) {
+            rzpPaymentContact = pData.contact;
+          }
+        }
+      } catch (err) {
+        console.warn('Razorpay payment detail fetch exception for audit:', err);
       }
     }
 
@@ -112,6 +133,16 @@ export async function POST(req: Request) {
 
     // 3. Update existing order to Paid / Confirmed if found
     if (targetOrder) {
+      if (targetOrder.customer_phone && rzpPaymentContact) {
+        const normApp = normalizePhoneNumber(targetOrder.customer_phone);
+        const normRzp = normalizePhoneNumber(rzpPaymentContact);
+        if (normApp && normRzp && normApp !== normRzp) {
+          console.warn(
+            `[PHONE_MISMATCH] Order ${targetOrder.id}: Application phone (${normApp}) differs from Razorpay contact (${normRzp}). Retaining application order phone snapshot.`
+          );
+        }
+      }
+
       const updatedTimeline = [
         ...(targetOrder.timeline || []),
         {
@@ -155,13 +186,23 @@ export async function POST(req: Request) {
     if (order_details) {
       const appOrderId = order_id || `KP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
       const nowIso = new Date().toISOString();
+      const normalizedPhone = normalizePhoneNumber(order_details.customer_phone);
+
+      if (normalizedPhone && rzpPaymentContact) {
+        const normRzp = normalizePhoneNumber(rzpPaymentContact);
+        if (normalizedPhone !== normRzp) {
+          console.warn(
+            `[PHONE_MISMATCH] Fallback Order ${appOrderId}: Application phone (${normalizedPhone}) differs from Razorpay contact (${normRzp}). Retaining application order phone snapshot.`
+          );
+        }
+      }
 
       const newOrder: Order = {
         id: appOrderId,
         user_id: order_details.user_id || 'usr-guest',
         customer_name: order_details.customer_name || 'Customer',
         customer_email: order_details.customer_email || '',
-        customer_phone: order_details.customer_phone || '',
+        customer_phone: normalizedPhone || '',
         shipping_address: order_details.shipping_address,
         items: order_details.items,
         subtotal: order_details.subtotal,

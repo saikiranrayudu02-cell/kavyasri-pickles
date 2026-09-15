@@ -21,6 +21,7 @@ import { useToast } from '@/context/ToastContext';
 import { DataStore } from '@/lib/data/store';
 import { StoreSettings } from '@/lib/types';
 import { loadRazorpayScript } from '@/lib/razorpay';
+import { normalizePhoneNumber, getRazorpayContact } from '@/lib/utils/phone';
 import confetti from 'canvas-confetti';
 
 function CheckoutContent() {
@@ -205,15 +206,18 @@ function CheckoutContent() {
     const finalGstPercentage = serverTotals ? serverTotals.gstPercentage : gstPercentage;
     const finalGstEnabled = serverTotals ? serverTotals.gstEnabled : gstEnabled;
 
+    const normalizedPhone = normalizePhoneNumber(phone);
+    const rzpContact = getRazorpayContact(phone);
+
     // 2. Create the order with immutable snapshot of values
     const newOrder = DataStore.createOrder({
       user_id: user?.id || 'usr-guest',
       customer_name: fullName,
       customer_email: email,
-      customer_phone: phone,
+      customer_phone: normalizedPhone,
       shipping_address: {
         fullName,
-        phone,
+        phone: normalizedPhone,
         addressLine1,
         addressLine2,
         city,
@@ -275,6 +279,9 @@ function CheckoutContent() {
       return;
     }
 
+    const normalizedPhone = normalizePhoneNumber(phone);
+    const rzpContact = getRazorpayContact(phone);
+
     setIsProcessing(true);
 
     try {
@@ -286,10 +293,10 @@ function CheckoutContent() {
           user_id: user?.id,
           customer_name: fullName,
           customer_email: email,
-          customer_phone: phone,
+          customer_phone: normalizedPhone,
           shipping_address: {
             fullName,
-            phone,
+            phone: normalizedPhone,
             addressLine1,
             addressLine2,
             city,
@@ -339,7 +346,7 @@ function CheckoutContent() {
           prefill: {
             name: fullName,
             email: email,
-            contact: phone,
+            contact: rzpContact,
           },
           notes: {
             shipping_address: `${addressLine1}, ${city}, ${state} - ${pincode}`,
@@ -363,10 +370,10 @@ function CheckoutContent() {
                     user_id: user?.id || 'usr-guest',
                     customer_name: fullName,
                     customer_email: email,
-                    customer_phone: phone,
+                    customer_phone: normalizedPhone,
                     shipping_address: {
                       fullName,
-                      phone,
+                      phone: normalizedPhone,
                       addressLine1,
                       addressLine2,
                       city,

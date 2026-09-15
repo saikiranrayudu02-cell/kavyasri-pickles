@@ -3,6 +3,7 @@ import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
+import { normalizePhoneNumber } from '@/lib/utils/phone';
 
 export async function POST(req: Request) {
   try {
@@ -12,10 +13,12 @@ export async function POST(req: Request) {
       coupon_code,
       customer_name,
       customer_email,
-      customer_phone,
+      customer_phone: rawPhone,
       shipping_address,
       user_id,
     } = body;
+
+    const customer_phone = normalizePhoneNumber(rawPhone);
 
     // Validate request items
     if (!items || !Array.isArray(items) || items.length === 0) {

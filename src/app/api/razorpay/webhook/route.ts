@@ -4,6 +4,7 @@ import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { OrderTimelineItem } from '@/lib/types';
+import { normalizePhoneNumber } from '@/lib/utils/phone';
 
 // Set runtime configuration to Node.js for crypto & raw body support
 export const runtime = 'nodejs';
@@ -85,12 +86,20 @@ export async function POST(req: Request) {
       case 'payment.authorized': {
         const payment = payload.payload?.payment?.entity;
         if (payment) {
+          const notes = payment.notes || {};
           const rzpOrderId = payment.order_id;
           const rzpPaymentId = payment.id;
           const customerEmail = payment.email || '';
-          const customerPhone = payment.contact || '';
+          const rawRzpPhone = payment.contact || '';
+          const normRzpPhone = normalizePhoneNumber(rawRzpPhone);
+          const appPhone = normalizePhoneNumber(notes.customer_phone) || normRzpPhone;
           const amountInRupees = Number(payment.amount || 0) / 100;
-          const notes = payment.notes || {};
+
+          if (appPhone && normRzpPhone && appPhone !== normRzpPhone) {
+            console.warn(
+              `[PHONE_MISMATCH] Webhook Payment ${rzpPaymentId}: Application Phone (${appPhone}) differs from Razorpay Contact (${normRzpPhone}).`
+            );
+          }
 
           let orderIdToUpdate: string | null = null;
           let existingOrderTimeline: OrderTimelineItem[] = [];
@@ -156,7 +165,7 @@ export async function POST(req: Request) {
             const rawAddress = notes.shipping_address || 'Customer Delivery Address';
             const shippingAddressObj = {
               fullName: notes.customer_name || 'Customer',
-              phone: customerPhone,
+              phone: appPhone,
               addressLine1: rawAddress,
               city: 'City',
               state: 'State',
@@ -182,7 +191,7 @@ export async function POST(req: Request) {
                 user_id: matchingUserId,
                 customer_name: notes.customer_name || 'Valued Customer',
                 customer_email: customerEmail,
-                customer_phone: customerPhone,
+                customer_phone: appPhone,
                 shipping_address: shippingAddressObj,
                 subtotal: amountInRupees,
                 discount: 0,
