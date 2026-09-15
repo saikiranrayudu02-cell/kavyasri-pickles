@@ -22,11 +22,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing webhook signature' }, { status: 400 });
     }
 
-    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_KEY_SECRET;
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
     if (!webhookSecret) {
-      console.error('Razorpay Webhook Error: RAZORPAY_WEBHOOK_SECRET is not configured on server.');
-      return NextResponse.json({ error: 'Webhook secret unconfigured' }, { status: 500 });
+      console.error('Razorpay Webhook Error: RAZORPAY_WEBHOOK_SECRET environment variable is missing.');
+      return NextResponse.json({ error: 'RAZORPAY_WEBHOOK_SECRET unconfigured' }, { status: 500 });
     }
 
     // 2. Cryptographic HMAC Signature Verification
