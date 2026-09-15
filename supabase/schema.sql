@@ -37,7 +37,7 @@ create table if not exists profiles (
 
 -- 4. CATEGORIES
 create table if not exists categories (
-  id uuid default uuid_generate_v4() primary key,
+  id text default uuid_generate_v4()::text primary key,
   name text not null,
   slug text unique not null,
   description text,
@@ -49,8 +49,8 @@ create table if not exists categories (
 
 -- 5. PRODUCTS
 create table if not exists products (
-  id uuid default uuid_generate_v4() primary key,
-  category_id uuid references categories(id) on delete set null,
+  id text default uuid_generate_v4()::text primary key,
+  category_id text references categories(id) on delete set null,
   name text not null,
   slug text unique not null,
   short_description text,
@@ -76,8 +76,8 @@ create table if not exists products (
 
 -- 6. PRODUCT VARIANTS
 create table if not exists product_variants (
-  id uuid default uuid_generate_v4() primary key,
-  product_id uuid references products(id) on delete cascade not null,
+  id text default uuid_generate_v4()::text primary key,
+  product_id text references products(id) on delete cascade not null,
   weight text not null,
   price numeric(10,2) not null,
   mrp numeric(10,2) not null,
@@ -86,7 +86,7 @@ create table if not exists product_variants (
 
 -- 7. ADDRESSES
 create table if not exists addresses (
-  id uuid default uuid_generate_v4() primary key,
+  id text default uuid_generate_v4()::text primary key,
   user_id uuid references auth.users(id) on delete cascade not null,
   full_name text not null,
   phone text not null,
@@ -124,9 +124,9 @@ create table if not exists orders (
 
 -- 9. ORDER ITEMS
 create table if not exists order_items (
-  id uuid default uuid_generate_v4() primary key,
+  id text default uuid_generate_v4()::text primary key,
   order_id text references orders(id) on delete cascade not null,
-  product_id uuid references products(id) on delete set null,
+  product_id text references products(id) on delete set null,
   product_name text not null,
   image text,
   variant_weight text not null,
@@ -137,7 +137,7 @@ create table if not exists order_items (
 
 -- 10. COUPONS
 create table if not exists coupons (
-  id uuid default uuid_generate_v4() primary key,
+  id text default uuid_generate_v4()::text primary key,
   code text unique not null,
   discount_type text check (discount_type in ('percentage', 'fixed')),
   discount_value numeric(10,2) not null,
@@ -152,8 +152,8 @@ create table if not exists coupons (
 
 -- 11. REVIEWS
 create table if not exists reviews (
-  id uuid default uuid_generate_v4() primary key,
-  product_id uuid references products(id) on delete cascade not null,
+  id text default uuid_generate_v4()::text primary key,
+  product_id text references products(id) on delete cascade not null,
   user_id uuid references auth.users(id) on delete set null,
   customer_name text not null,
   rating integer check (rating >= 1 and rating <= 5),
