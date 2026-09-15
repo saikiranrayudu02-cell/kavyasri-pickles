@@ -333,7 +333,6 @@ export const DataStore = {
           coupon_code: newOrder.coupon_code || null,
           shipping_fee: newOrder.shipping_fee,
           tax: newOrder.tax,
-          gst_percentage: newOrder.gst_percentage,
           total_amount: newOrder.total_amount,
           payment_status: newOrder.payment_status,
           payment_method: newOrder.payment_method,

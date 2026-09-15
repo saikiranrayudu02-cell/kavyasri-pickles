@@ -189,7 +189,6 @@ export async function POST(req: Request) {
                 coupon_code: null,
                 shipping_fee: Number(notes.shipping_fee || 0),
                 tax: Number(notes.tax_amount || 0),
-                gst_percentage: Number(notes.gst_percentage || 0),
                 total_amount: amountInRupees,
                 payment_status: 'Paid',
                 payment_method: 'Razorpay Online Payment',

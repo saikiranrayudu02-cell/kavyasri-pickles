@@ -126,6 +126,84 @@ export async function POST(req: Request) {
       minute: '2-digit',
     });
 
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      console.error('Supabase Admin client not configured');
+      return NextResponse.json(
+        { error: 'Database service unavailable' },
+        { status: 500 }
+      );
+    }
+
+    // 7. CRITICAL DB PERSISTENCE FIRST: Save Pending Order & items in Supabase BEFORE Razorpay call
+    const validUserId = user_id && user_id.length === 36 ? user_id : null;
+    const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
+      {
+        id: appOrderId,
+        user_id: validUserId,
+        customer_name: customer_name || 'Valued Customer',
+        customer_email: customer_email || 'customer@example.com',
+        customer_phone: customer_phone || '',
+        shipping_address: shipping_address || {
+          fullName: customer_name || 'Customer',
+          phone: customer_phone || '',
+          addressLine1: 'Address',
+          city: 'City',
+          state: 'State',
+          pincode: '000000',
+        },
+        subtotal,
+        discount,
+        coupon_code: coupon_code || null,
+        shipping_fee: shipping,
+        tax,
+        total_amount: totalAmount,
+        payment_status: 'Pending',
+        payment_method: 'Razorpay Online Payment',
+        razorpay_order_id: null,
+        razorpay_payment_id: null,
+        order_status: 'Pending',
+        timeline: [
+          {
+            status: 'Pending',
+            timestamp: formattedNow,
+            note: 'Order initiated via Checkout',
+          },
+        ],
+        created_at: nowIso,
+      },
+      { onConflict: 'id' }
+    );
+
+    if (orderErr) {
+      console.error('Supabase pre-payment order insert error:', orderErr.message);
+      return NextResponse.json(
+        { error: 'Failed to create internal order before payment initialization' },
+        { status: 500 }
+      );
+    }
+
+    const itemsToInsert = itemsVerified.map((it) => ({
+      order_id: appOrderId,
+      product_id: it.product_id && it.product_id.length === 36 ? it.product_id : null,
+      product_name: it.product_name,
+      image: it.image || '/images/pickles/hero.jpg',
+      variant_weight: it.weight,
+      price: it.price,
+      quantity: it.quantity,
+      total: it.price * it.quantity,
+    }));
+
+    const { error: itemsErr } = await supabaseAdmin.from('order_items').insert(itemsToInsert);
+    if (itemsErr) {
+      console.error('Supabase pre-payment order_items insert error:', itemsErr.message);
+      return NextResponse.json(
+        { error: 'Failed to save order items before payment initialization' },
+        { status: 500 }
+      );
+    }
+
+    // 8. ONLY AFTER DB PERSISTENCE SUCCEEDS: Create Razorpay Order
     const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     const hasLiveCredentials = keyId && keySecret && !keyId.includes('yourKey') && !keySecret.includes('yourKey');
@@ -175,7 +253,21 @@ export async function POST(req: Request) {
       rzpOrderId = rzpOrder.id;
     }
 
-    // 7. CRITICAL DB PERSISTENCE: Save Pending Order directly into Supabase orders & order_items tables
+    // 9. LINK RAZORPAY ORDER ID TO INTERNAL ORDER
+    const { error: linkErr } = await supabaseAdmin
+      .from('orders')
+      .update({ razorpay_order_id: rzpOrderId })
+      .eq('id', appOrderId);
+
+    if (linkErr) {
+      console.error('Failed to link Razorpay order ID to DB order:', linkErr.message);
+      return NextResponse.json(
+        { error: 'Failed to link payment details to internal order' },
+        { status: 500 }
+      );
+    }
+
+    // Save to memory store for in-memory sync
     const newOrder: Order = {
       id: appOrderId,
       user_id: user_id && user_id.length === 36 ? user_id : 'usr-guest',
@@ -222,64 +314,11 @@ export async function POST(req: Request) {
       ],
       created_at: nowIso,
     };
-
-    // Save to memory store
     DataStore.saveOrder(newOrder);
-
-    // Persist directly to Supabase DB (AWAIT completion)
-    const supabaseAdmin = getSupabaseAdmin();
-    if (supabaseAdmin) {
-      const validUserId = user_id && user_id.length === 36 ? user_id : null;
-      const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
-        {
-          id: newOrder.id,
-          user_id: validUserId,
-          customer_name: newOrder.customer_name,
-          customer_email: newOrder.customer_email,
-          customer_phone: newOrder.customer_phone,
-          shipping_address: newOrder.shipping_address,
-          subtotal: newOrder.subtotal,
-          discount: newOrder.discount,
-          coupon_code: newOrder.coupon_code || null,
-          shipping_fee: newOrder.shipping_fee,
-          tax: newOrder.tax,
-          gst_percentage: newOrder.gst_percentage,
-          total_amount: newOrder.total_amount,
-          payment_status: newOrder.payment_status,
-          payment_method: newOrder.payment_method,
-          razorpay_order_id: rzpOrderId,
-          razorpay_payment_id: null,
-          order_status: newOrder.order_status,
-          timeline: newOrder.timeline,
-          created_at: nowIso,
-        },
-        { onConflict: 'id' }
-      );
-
-      if (orderErr) {
-        console.error('Supabase pre-payment order insert error:', orderErr.message);
-      } else {
-        const itemsToInsert = newOrder.items.map((it) => ({
-          order_id: newOrder.id,
-          product_id: it.product_id && it.product_id.length === 36 ? it.product_id : null,
-          product_name: it.product_name,
-          image: it.image,
-          variant_weight: it.variant_weight,
-          price: it.price,
-          quantity: it.quantity,
-          total: it.total,
-        }));
-
-        const { error: itemsErr } = await supabaseAdmin.from('order_items').insert(itemsToInsert);
-        if (itemsErr) {
-          console.error('Supabase pre-payment order_items insert error:', itemsErr.message);
-        }
-      }
-    }
 
     return NextResponse.json({
       id: rzpOrderId,
-      order_id: newOrder.id,
+      order_id: appOrderId,
       amount: amountInPaise,
       currency: 'INR',
       key: keyId || 'rzp_test_fallback',
