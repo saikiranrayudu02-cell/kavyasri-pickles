@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { logUserActivity } from '@/lib/supabase/activity';
 
 export const PRIMARY_ADMIN_EMAIL = 'kavya123@gmail.com';
 export const PRIMARY_ADMIN_PASSWORD = 'kavya1234';
@@ -131,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const adminUser: UserProfile = {
-        id: 'admin-001',
+        id: 'a0000000-0000-0000-0000-000000000001',
         name: 'Kavyasri Admin',
         email: PRIMARY_ADMIN_EMAIL,
         phone: '9876543210',
@@ -139,6 +140,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
       setUser(adminUser);
       localStorage.setItem('kp_current_user', JSON.stringify(adminUser));
+
+      if (isSupabaseConfigured && supabase) {
+        supabase
+          .from('profiles')
+          .update({ last_login_at: new Date().toISOString() })
+          .eq('email', PRIMARY_ADMIN_EMAIL);
+
+        logUserActivity({
+          action: 'LOGIN',
+          user_id: adminUser.id,
+          user_email: PRIMARY_ADMIN_EMAIL,
+          details: { role: 'admin' },
+        });
+      }
+
       setIsLoading(false);
       return { success: true };
     }
@@ -175,8 +191,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
       }
 
-      // Verify Password if stored locally
-      if (matchedLocal?.password && matchedLocal.password !== cleanPassword) {
+      // Verify Password if stored in DB or local
+      const dbPassword = matchedProfile?.password;
+      const localPassword = matchedLocal?.password;
+
+      if (dbPassword && dbPassword !== cleanPassword) {
+        setIsLoading(false);
+        return {
+          success: false,
+          error: 'Incorrect password. Please check your password and try again.',
+        };
+      } else if (!dbPassword && localPassword && localPassword !== cleanPassword) {
         setIsLoading(false);
         return {
           success: false,
@@ -205,6 +230,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(loggedUser);
       localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
+
+      if (isSupabaseConfigured && supabase) {
+        supabase
+          .from('profiles')
+          .update({ last_login_at: new Date().toISOString(), password: cleanPassword })
+          .eq('email', cleanEmail);
+
+        logUserActivity({
+          action: 'LOGIN',
+          user_id: loggedUser.id,
+          user_email: cleanEmail,
+          details: { role: 'customer' },
+        });
+      }
+
       setIsLoading(false);
       return { success: true };
     } catch (err) {
@@ -292,7 +332,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(loggedUser);
       localStorage.setItem('kp_current_user', JSON.stringify(loggedUser));
 
-      // Insert into Supabase database profiles table (valid columns only)
+      // Insert into Supabase database profiles table
       if (isSupabaseConfigured && supabase) {
         try {
           await supabase.from('profiles').upsert({
@@ -301,6 +341,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             full_name: name.trim(),
             phone: phone.trim(),
             role: 'customer',
+            password: cleanPassword,
+            last_login_at: new Date().toISOString(),
+          });
+
+          logUserActivity({
+            action: 'SIGNUP',
+            user_id: userUuid,
+            user_email: cleanEmail,
+            details: { name: name.trim(), phone: phone.trim() },
           });
         } catch (dbErr) {
           console.error('Supabase profile insertion error:', dbErr);
@@ -337,6 +386,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             phone: updatedUser.phone,
           })
           .eq('id', user.id);
+
+        logUserActivity({
+          action: 'PROFILE_UPDATE',
+          user_id: user.id,
+          user_email: user.email,
+          details: data,
+        });
       } catch (err) {
         console.error('Supabase profile update error:', err);
       }
@@ -346,6 +402,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
+    if (user && isSupabaseConfigured && supabase) {
+      logUserActivity({
+        action: 'LOGOUT',
+        user_id: user.id,
+        user_email: user.email,
+      });
+    }
     setUser(null);
     localStorage.removeItem('kp_current_user');
   };

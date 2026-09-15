@@ -207,6 +207,58 @@ export const DataStore = {
 
     setStored(STORAGE_KEYS.PRODUCTS, updated);
     memoryStore.products = updated;
+
+    // Async sync product and its variants to live Supabase DB
+    if (isSupabaseConfigured && supabase) {
+      const validCatId = product.category_id && product.category_id.length === 36 ? product.category_id : null;
+      supabase
+        .from('products')
+        .upsert({
+          id: product.id,
+          category_id: validCatId,
+          name: product.name,
+          slug: product.slug,
+          short_description: product.short_description || '',
+          description: product.description || '',
+          price: product.price,
+          mrp: product.mrp,
+          discount_percent: product.discount_percent || 0,
+          weight: product.weight || '250g',
+          stock_quantity: product.stock_quantity || 0,
+          sku: product.sku || null,
+          spice_level: product.spice_level || 'Hot',
+          dietary: product.dietary || 'veg',
+          shelf_life: product.shelf_life || '12 Months',
+          storage_instructions: product.storage_instructions || '',
+          ingredients: product.ingredients || [],
+          images: product.images || [],
+          is_featured: product.is_featured || false,
+          is_active: product.is_active !== undefined ? product.is_active : true,
+          rating: product.rating || 4.8,
+          reviews_count: product.reviews_count || 0,
+        })
+        .then(({ error }) => {
+          if (error) console.error('Supabase saveProduct error:', error.message);
+        });
+
+      if (product.variants && product.variants.length > 0) {
+        const variantPayload = product.variants.map((v) => ({
+          id: v.id || `var-${product.id}-${v.weight}`,
+          product_id: product.id,
+          weight: v.weight,
+          price: v.price,
+          mrp: v.mrp,
+          stock_quantity: v.stock_quantity || 0,
+        }));
+        supabase
+          .from('product_variants')
+          .upsert(variantPayload)
+          .then(({ error: vErr }) => {
+            if (vErr) console.error('Supabase saveProduct variants error:', vErr.message);
+          });
+      }
+    }
+
     return product;
   },
 
@@ -214,6 +266,24 @@ export const DataStore = {
     const products = this.getProducts().filter((p) => p.id !== id);
     setStored(STORAGE_KEYS.PRODUCTS, products);
     memoryStore.products = products;
+
+    if (isSupabaseConfigured && supabase) {
+      const client = supabase;
+      client
+        .from('product_variants')
+        .delete()
+        .eq('product_id', id)
+        .then(() => {
+          client
+            .from('products')
+            .delete()
+            .eq('id', id)
+            .then(({ error }) => {
+              if (error) console.error('Supabase deleteProduct error:', error.message);
+            });
+        });
+    }
+
     return true;
   },
 

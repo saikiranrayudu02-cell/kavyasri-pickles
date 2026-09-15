@@ -9,6 +9,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { DataStore } from '@/lib/data/store';
 import { Product, SpiceLevel, DietaryType } from '@/lib/types';
 import { useToast } from '@/context/ToastContext';
+import { logUserActivity } from '@/lib/supabase/activity';
 
 export default function EditProductPage() {
   const params = useParams();
@@ -215,6 +216,12 @@ export default function EditProductPage() {
         console.error('Error updating product in Supabase:', err);
       }
     }
+
+    logUserActivity({
+      action: 'PRODUCT_UPDATE',
+      user_email: 'kavya123@gmail.com',
+      details: { product_id: product.id, name, price, stock_quantity: stockQuantity, is_active: isActive },
+    });
 
     showToast(`Updated ${name} successfully!`, 'success');
     router.push('/admin/products');

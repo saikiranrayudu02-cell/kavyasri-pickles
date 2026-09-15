@@ -20,6 +20,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { DataStore } from '@/lib/data/store';
 import { Product } from '@/lib/types';
 import { useToast } from '@/context/ToastContext';
+import { logUserActivity } from '@/lib/supabase/activity';
 
 export default function AdminProductsPage() {
   const { showToast } = useToast();
@@ -47,6 +48,12 @@ export default function AdminProductsPage() {
       await supabase.from('products').update({ is_active: updated.is_active }).eq('id', product.id);
     }
 
+    logUserActivity({
+      action: 'PRODUCT_TOGGLE_ACTIVE',
+      user_email: 'kavya123@gmail.com',
+      details: { product_id: product.id, name: product.name, is_active: updated.is_active },
+    });
+
     await loadProducts();
     showToast(
       `${product.name} is now ${updated.is_active ? 'Active on store' : 'Hidden from store'}.`,
@@ -59,8 +66,15 @@ export default function AdminProductsPage() {
       DataStore.deleteProduct(id);
 
       if (isSupabaseConfigured && supabase) {
+        await supabase.from('product_variants').delete().eq('product_id', id);
         await supabase.from('products').delete().eq('id', id);
       }
+
+      logUserActivity({
+        action: 'PRODUCT_DELETE',
+        user_email: 'kavya123@gmail.com',
+        details: { product_id: id, name },
+      });
 
       await loadProducts();
       showToast(`Deleted ${name}.`, 'info');

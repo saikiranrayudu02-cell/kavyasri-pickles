@@ -16,6 +16,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { DataStore } from '@/lib/data/store';
 import { Product, SpiceLevel, DietaryType, ProductVariant } from '@/lib/types';
 import { useToast } from '@/context/ToastContext';
+import { logUserActivity } from '@/lib/supabase/activity';
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -159,6 +160,12 @@ export default function AddProductPage() {
         console.error('Error saving product to Supabase:', err);
       }
     }
+
+    logUserActivity({
+      action: 'PRODUCT_ADD',
+      user_email: 'kavya123@gmail.com',
+      details: { product_id: newProdId, name, price, stock_quantity: stockQuantity },
+    });
 
     setIsSaving(false);
     showToast(`Successfully created ${name}!`, 'success');
