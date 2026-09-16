@@ -5,8 +5,13 @@ import { StoreSettings } from '@/lib/types';
 
 import { getAuthSession } from '@/lib/auth/session';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const session = await getAuthSession(req);
+    if (!session || session.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized. Admin authorization required.' }, { status: 401 });
+    }
+
     const settings = await DataStore.syncSettingsFromSupabase();
     return NextResponse.json(settings, {
       headers: {

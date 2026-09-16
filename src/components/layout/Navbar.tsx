@@ -106,8 +106,8 @@ export default function Navbar() {
   const categoryLinks = [
     { name: 'Traditional Veg Pickles', href: '/veg-pickles' },
     { name: 'Authentic Non-Veg Pickles', href: '/shop?category=cat-nonveg' },
-    { name: 'Spices & Karam Powders', href: '/shop?category=cat-spices' },
-    { name: 'Papads & Odiyalu', href: '/shop?category=cat-papads' },
+    { name: 'Spices & Karam Powders', href: '/spices' },
+    { name: 'Papads & Odiyalu', href: '/papads' },
     { name: 'Spicy Andhra Delights', href: '/shop?category=cat-andhra' },
     { name: 'Seasonal Specials', href: '/shop?category=cat-seasonal' },
     { name: 'Handcrafted Combo Packs', href: '/shop?category=cat-combos' },

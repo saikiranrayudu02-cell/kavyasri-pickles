@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -22,15 +22,59 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
+  ShieldAlert,
+  Loader2,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, isLoading, logout } = useAuth();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && (!user || !isAdmin)) {
+      const redirectUrl = `/login?redirect=${encodeURIComponent(pathname)}`;
+      router.replace(redirectUrl);
+    }
+  }, [isLoading, user, isAdmin, pathname, router]);
+
+  // Loading State Guard - prevent flickering before session is verified
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-stone-100 p-6 font-sans">
+        <div className="relative flex items-center justify-center mb-6">
+          <div className="w-16 h-16 rounded-full border-4 border-emerald-500/20 border-t-emerald-500 animate-spin" />
+          <Loader2 className="w-6 h-6 text-emerald-400 absolute animate-pulse" />
+        </div>
+        <h2 className="text-xl font-bold tracking-tight text-white mb-2">Verifying Admin Credentials</h2>
+        <p className="text-xs text-stone-400 text-center max-w-sm">
+          Securing control center connection for Kavya Sri Pickles...
+        </p>
+      </div>
+    );
+  }
+
+  // Access Denied / Non-Admin Guard - strictly block rendering admin portal
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-white p-6 font-sans">
+        <div className="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center mb-6 text-rose-500 shadow-xl animate-bounce">
+          <ShieldAlert className="w-8 h-8" />
+        </div>
+        <h1 className="text-2xl font-black text-white mb-2 tracking-tight">Access Restricted</h1>
+        <p className="text-sm text-stone-400 text-center max-w-md mb-6 leading-relaxed">
+          The Admin Control Center is restricted exclusively to authorized administrator accounts. You are being redirected to the login portal.
+        </p>
+        <div className="flex items-center gap-3 bg-stone-900 border border-stone-800 px-4 py-2.5 rounded-xl">
+          <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
+          <span className="text-xs font-semibold text-stone-300">Redirecting to Secure Login...</span>
+        </div>
+      </div>
+    );
+  }
 
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },

@@ -43,8 +43,12 @@ function LoginForm() {
       );
 
       if (isAdminUser) {
-        router.push('/admin');
-      } else if (redirectParam && redirectParam.startsWith('/')) {
+        if (redirectParam && redirectParam.startsWith('/admin')) {
+          router.push(redirectParam);
+        } else {
+          router.push('/admin');
+        }
+      } else if (redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('/admin')) {
         router.push(redirectParam);
       } else {
         router.push('/account');
