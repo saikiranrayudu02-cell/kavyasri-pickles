@@ -15,6 +15,10 @@ export async function GET(
     }
 
     const session = await getAuthSession(req);
+    if (!session) {
+      return NextResponse.json({ error: 'Authentication required to access order details' }, { status: 401 });
+    }
+
     const supabaseClient = getSupabaseAdmin() || supabase;
 
     // 1. Check Supabase DB first if configured
@@ -26,8 +30,8 @@ export async function GET(
         .maybeSingle();
 
       if (dbOrder && !error) {
-        // Enforce ownership / admin check if user is authenticated
-        if (session && session.role !== 'admin') {
+        // Enforce ownership / admin check for authenticated session
+        if (session.role !== 'admin') {
           const isOwnerUser = dbOrder.user_id && dbOrder.user_id === session.id;
           const isOwnerEmail = dbOrder.customer_email && dbOrder.customer_email.toLowerCase() === session.email.toLowerCase();
           if (!isOwnerUser && !isOwnerEmail) {
