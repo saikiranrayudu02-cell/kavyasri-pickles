@@ -12,8 +12,8 @@ import {
 } from './seed-data';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'kp_products_v13',
-  CATEGORIES: 'kp_categories_v13',
+  PRODUCTS: 'kp_products_v14',
+  CATEGORIES: 'kp_categories_v14',
   ORDERS: 'kp_orders_v1',
   COUPONS: 'kp_coupons_v1',
   REVIEWS: 'kp_reviews_v1',
@@ -29,17 +29,20 @@ const UUID_TO_CATEGORY_MAP: Record<string, { id: string; name: string }> = {
   '10000000-0000-0000-0000-000000000004': { id: 'cat-seasonal', name: 'Seasonal & Gourmet Specials' },
   '10000000-0000-0000-0000-000000000005': { id: 'cat-combos', name: 'Handcrafted Combo Jars' },
   '10000000-0000-0000-0000-000000000006': { id: 'cat-spices', name: 'Spices' },
+  '10000000-0000-0000-0000-000000000007': { id: 'cat-papads', name: 'Papads' },
 };
 
 function normalizeCategoryId(rawCatId: string | null | undefined): string {
   if (!rawCatId) return 'cat-veg';
   if (UUID_TO_CATEGORY_MAP[rawCatId]) return UUID_TO_CATEGORY_MAP[rawCatId].id;
+  if (rawCatId === 'papads' || rawCatId === 'cat-papads') return 'cat-papads';
   if (rawCatId.startsWith('cat-')) return rawCatId;
   return 'cat-veg';
 }
 
 function normalizeCategoryName(rawCatId: string | null | undefined, rawName?: string): string {
   if (rawCatId && UUID_TO_CATEGORY_MAP[rawCatId]) return UUID_TO_CATEGORY_MAP[rawCatId].name;
+  if (rawCatId === 'cat-papads' || rawCatId === 'papads') return 'Papads';
   return rawName || 'Veg Pickles';
 }
 
@@ -279,6 +282,36 @@ export const DataStore = {
   // CATEGORIES
   getCategories(): Category[] {
     return getStored<Category[]>(STORAGE_KEYS.CATEGORIES, memoryStore.categories);
+  },
+
+  async syncCategoriesFromSupabase(): Promise<Category[]> {
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data: dbCats, error } = await supabase
+          .from('categories')
+          .select('*')
+          .order('display_order', { ascending: true });
+
+        if (!error && dbCats && dbCats.length > 0) {
+          const mapped: Category[] = dbCats.map((c) => ({
+            id: c.id,
+            name: c.name,
+            slug: c.slug,
+            description: c.description || '',
+            image_url: c.image_url || '/images/pickles/hero.jpg',
+            is_active: Boolean(c.is_active),
+            display_order: Number(c.display_order || 0),
+          }));
+
+          setStored(STORAGE_KEYS.CATEGORIES, mapped);
+          memoryStore.categories = mapped;
+          return mapped;
+        }
+      } catch (err) {
+        console.error('Failed to sync categories from Supabase:', err);
+      }
+    }
+    return this.getCategories();
   },
 
   saveCategory(category: Category): Category {

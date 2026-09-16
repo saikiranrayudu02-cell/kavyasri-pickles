@@ -104,9 +104,10 @@ export default function Navbar() {
   ];
 
   const categoryLinks = [
-    { name: 'Traditional Veg Pickles (20)', href: '/veg-pickles' },
-    { name: 'Authentic Non-Veg Pickles (6)', href: '/shop?category=cat-nonveg' },
-    { name: 'Spices & Karam Powders (13)', href: '/shop?category=cat-spices' },
+    { name: 'Traditional Veg Pickles', href: '/veg-pickles' },
+    { name: 'Authentic Non-Veg Pickles', href: '/shop?category=cat-nonveg' },
+    { name: 'Spices & Karam Powders', href: '/shop?category=cat-spices' },
+    { name: 'Papads & Odiyalu', href: '/shop?category=cat-papads' },
     { name: 'Spicy Andhra Delights', href: '/shop?category=cat-andhra' },
     { name: 'Seasonal Specials', href: '/shop?category=cat-seasonal' },
     { name: 'Handcrafted Combo Packs', href: '/shop?category=cat-combos' },

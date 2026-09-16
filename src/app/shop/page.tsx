@@ -37,8 +37,9 @@ function ShopContent() {
   useEffect(() => {
     async function loadShopData() {
       const syncedProducts = await DataStore.syncProductsFromSupabase();
+      const syncedCategories = await DataStore.syncCategoriesFromSupabase();
       setProducts(syncedProducts.filter((p) => p.is_active));
-      setCategories(DataStore.getCategories().filter((c) => c.is_active));
+      setCategories(syncedCategories.filter((c) => c.is_active));
       setIsLoading(false);
     }
     loadShopData();
