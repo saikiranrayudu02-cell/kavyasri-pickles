@@ -102,18 +102,21 @@ export default function HomePage() {
                 </div>
 
                 {/* Trust Highlights */}
-                <div className="animate-fade-in-up stagger-4 grid grid-cols-3 gap-2 sm:gap-3 pt-6 border-t border-stone-200/80 max-w-md mx-auto lg:mx-0 text-left">
-                  <div>
-                    <div className="text-base xs:text-lg font-bold text-[#9e1b1e]">70+ Yrs</div>
-                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Heirloom Recipe</div>
+                <div className="animate-fade-in-up stagger-4 grid grid-cols-3 gap-2 sm:gap-4 pt-6 border-t border-stone-200/80 max-w-md mx-auto lg:mx-0">
+                  <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <div className="text-base xs:text-lg sm:text-xl font-extrabold text-[#9e1b1e]">70+ Yrs</div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight mt-0.5">Heirloom Recipe</div>
                   </div>
-                  <div>
-                    <div className="text-base xs:text-lg font-bold text-[#d97706]">10,000+</div>
-                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Jars Shipped</div>
+                  <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <div className="text-base xs:text-lg sm:text-xl font-extrabold text-[#d97706]">10,000+</div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight mt-0.5">Jars Shipped</div>
                   </div>
-                  <div>
-                    <div className="text-base xs:text-lg font-bold text-emerald-700">4.9 ★</div>
-                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight">Customer Rating</div>
+                  <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <div className="text-base xs:text-lg sm:text-xl font-extrabold text-emerald-700 flex items-center justify-center lg:justify-start gap-1">
+                      <span>4.9</span>
+                      <span className="text-emerald-600 text-sm sm:text-base">★</span>
+                    </div>
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-medium leading-tight mt-0.5">Customer Rating</div>
                   </div>
                 </div>
               </div>
