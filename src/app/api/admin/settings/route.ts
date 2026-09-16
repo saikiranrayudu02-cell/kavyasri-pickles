@@ -3,6 +3,8 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { DataStore } from '@/lib/data/store';
 import { StoreSettings } from '@/lib/types';
 
+import { getAuthSession } from '@/lib/auth/session';
+
 export async function GET() {
   try {
     const settings = await DataStore.syncSettingsFromSupabase();
@@ -19,6 +21,11 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
+    const session = await getAuthSession(req);
+    if (!session || session.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized. Admin authorization required.' }, { status: 401 });
+    }
+
     const body = await req.json();
 
     const free_shipping_threshold = Number(body.free_shipping_threshold);

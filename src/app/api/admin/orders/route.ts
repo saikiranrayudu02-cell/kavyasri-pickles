@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
+import { getAuthSession } from '@/lib/auth/session';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
+    const session = await getAuthSession(req);
+    if (!session || session.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized. Admin authorization required.' }, { status: 401 });
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
 
     if (!supabaseAdmin) {

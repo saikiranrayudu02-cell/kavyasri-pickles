@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { DataStore } from '@/lib/data/store';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getAuthSession } from '@/lib/auth/session';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 
 export async function GET(
   req: Request,
@@ -12,21 +14,26 @@ export async function GET(
       return NextResponse.json({ error: 'Order ID is required' }, { status: 400 });
     }
 
-    // 1. Check server memory / DataStore
-    const foundLocal = DataStore.getOrderById(id);
-    if (foundLocal) {
-      return NextResponse.json({ order: foundLocal });
-    }
+    const session = await getAuthSession(req);
+    const supabaseClient = getSupabaseAdmin() || supabase;
 
-    // 2. Check Supabase DB if configured
-    if (isSupabaseConfigured && supabase) {
-      const { data: dbOrder, error } = await supabase
+    // 1. Check Supabase DB first if configured
+    if (isSupabaseConfigured && supabaseClient) {
+      const { data: dbOrder, error } = await supabaseClient
         .from('orders')
         .select('*, order_items(*)')
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (dbOrder && !error) {
+        // Enforce ownership / admin check if user is authenticated
+        if (session && session.role !== 'admin') {
+          const isOwnerUser = dbOrder.user_id && dbOrder.user_id === session.id;
+          const isOwnerEmail = dbOrder.customer_email && dbOrder.customer_email.toLowerCase() === session.email.toLowerCase();
+          if (!isOwnerUser && !isOwnerEmail) {
+            return NextResponse.json({ error: 'Unauthorized access to order' }, { status: 403 });
+          }
+        }
         const formatted = {
           id: dbOrder.id,
           user_id: dbOrder.user_id || 'usr-guest',
