@@ -227,9 +227,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           />
           <div className="relative w-72 max-w-[82vw] bg-white/95 backdrop-blur-2xl text-stone-700 flex flex-col h-full z-10 border-r border-stone-200/80 shadow-2xl">
             <div className="p-4 border-b border-stone-200/60 flex items-center justify-between">
-              <div className="relative w-40 h-8">
-                <Image src="/images/logo.svg" alt="Kavyasri Admin" fill className="object-contain object-left" />
-              </div>
+              <Link href="/admin" className="flex items-center gap-2 group">
+                <div className="relative w-8 h-8 rounded-full overflow-hidden border border-stone-200 bg-stone-50 shrink-0">
+                  <Image src="/images/logo.png" alt="Kavyasri Admin" fill className="object-cover" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-stone-900 text-xs tracking-tight leading-tight">
+                    Kavyasri <span className="text-[#166534]">Admin</span>
+                  </span>
+                  <span className="text-[8px] font-semibold text-stone-500 uppercase tracking-wider">Control Center</span>
+                </div>
+              </Link>
               <button
                 onClick={() => setIsMobileDrawerOpen(false)}
                 className="p-2 text-stone-400 hover:text-stone-800 rounded-xl active:scale-90 transition-all"
