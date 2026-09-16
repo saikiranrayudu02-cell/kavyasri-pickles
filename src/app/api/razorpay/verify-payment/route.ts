@@ -57,8 +57,9 @@ export async function POST(req: Request) {
       }
     }
 
-    // 1b. Optional Audit: Fetch Razorpay Payment details to verify contact number
+    // 1b. Fetch Razorpay Payment details to verify contact number & exact captured amount
     let rzpPaymentContact: string | null = null;
+    let rzpPaymentAmountInPaise: number | null = null;
     if (isProductionSecret && razorpay_payment_id) {
       try {
         const authHeader = 'Basic ' + Buffer.from(`${keyId}:${keySecret}`).toString('base64');
@@ -67,8 +68,9 @@ export async function POST(req: Request) {
         });
         if (pRes.ok) {
           const pData = await pRes.json();
-          if (pData && pData.contact) {
-            rzpPaymentContact = pData.contact;
+          if (pData) {
+            if (pData.contact) rzpPaymentContact = pData.contact;
+            if (typeof pData.amount === 'number') rzpPaymentAmountInPaise = pData.amount;
           }
         }
       } catch (err) {
@@ -134,6 +136,19 @@ export async function POST(req: Request) {
 
     // 3. Update existing order to Paid / Confirmed if found
     if (targetOrder) {
+      // Exact Paise Amount Verification
+      if (rzpPaymentAmountInPaise !== null) {
+        const expectedAmountInPaise = Math.round(Number(targetOrder.total_amount || 0) * 100);
+        if (expectedAmountInPaise !== rzpPaymentAmountInPaise) {
+          console.error(
+            `[VERIFY_PAYMENT_AMOUNT_MISMATCH] Order ${targetOrder.id}: Expected ${expectedAmountInPaise} paise, but Razorpay API returned ${rzpPaymentAmountInPaise} paise.`
+          );
+          return NextResponse.json(
+            { success: false, message: 'Payment amount mismatch detected. Order cannot be verified as Paid.' },
+            { status: 400 }
+          );
+        }
+      }
       if (targetOrder.customer_phone && rzpPaymentContact) {
         const normApp = normalizePhoneNumber(targetOrder.customer_phone);
         const normRzp = normalizePhoneNumber(rzpPaymentContact);
@@ -183,106 +198,13 @@ export async function POST(req: Request) {
       });
     }
 
-    // 4. Fallback: Create new order if order_details provided and order didn't exist
-    if (order_details) {
-      const appOrderId = order_id || `KP-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-      const nowIso = new Date().toISOString();
-      const normalizedPhone = normalizePhoneNumber(order_details.customer_phone);
-
-      if (normalizedPhone && rzpPaymentContact) {
-        const normRzp = normalizePhoneNumber(rzpPaymentContact);
-        if (normalizedPhone !== normRzp) {
-          console.warn(
-            `[PHONE_MISMATCH] Fallback Order ${appOrderId}: Application phone (${normalizedPhone}) differs from Razorpay contact (${normRzp}). Retaining application order phone snapshot.`
-          );
-        }
-      }
-
-      const newOrder: Order = {
-        id: appOrderId,
-        user_id: order_details.user_id || 'usr-guest',
-        customer_name: order_details.customer_name || 'Customer',
-        customer_email: order_details.customer_email || '',
-        customer_phone: normalizedPhone || '',
-        shipping_address: order_details.shipping_address,
-        items: order_details.items,
-        subtotal: order_details.subtotal,
-        discount: order_details.discount || 0,
-        coupon_code: order_details.coupon_code,
-        shipping_fee: order_details.shipping_fee,
-        tax: order_details.tax,
-        gst_percentage: order_details.gst_percentage || 0,
-        total_amount: order_details.total_amount,
-        payment_status: 'Paid',
-        payment_method: 'Razorpay Online Payment',
-        razorpay_order_id: razorpay_order_id,
-        razorpay_payment_id: razorpay_payment_id,
-        order_status: 'Confirmed',
-        timeline: [
-          {
-            status: 'Pending',
-            timestamp: formattedNow,
-            note: 'Order created',
-          },
-          {
-            status: 'Confirmed',
-            timestamp: formattedNow,
-            note: `Payment verified via Razorpay (ID: ${razorpay_payment_id})`,
-          },
-        ],
-        created_at: nowIso,
-      };
-
-      DataStore.saveOrder(newOrder);
-
-      if (supabaseAdmin) {
-        const validUserId = toValidUuid(order_details.user_id);
-        const { error: insertErr } = await supabaseAdmin.from('orders').upsert(
-          {
-            id: newOrder.id,
-            user_id: validUserId,
-            customer_name: newOrder.customer_name,
-            customer_email: newOrder.customer_email,
-            customer_phone: newOrder.customer_phone,
-            shipping_address: newOrder.shipping_address,
-            subtotal: newOrder.subtotal,
-            discount: newOrder.discount,
-            coupon_code: newOrder.coupon_code || null,
-            shipping_fee: newOrder.shipping_fee,
-            tax: newOrder.tax,
-            total_amount: newOrder.total_amount,
-            payment_status: 'Paid',
-            payment_method: 'Razorpay Online Payment',
-            razorpay_order_id: razorpay_order_id,
-            razorpay_payment_id: razorpay_payment_id,
-            order_status: 'Confirmed',
-            timeline: newOrder.timeline,
-            created_at: nowIso,
-          },
-          { onConflict: 'id' }
-        );
-
-        if (!insertErr) {
-          const itemsToInsert = newOrder.items.map((it) => ({
-            order_id: newOrder.id,
-            product_id: toValidUuid(it.product_id),
-            product_name: it.product_name,
-            image: it.image,
-            variant_weight: it.variant_weight,
-            price: it.price,
-            quantity: it.quantity,
-            total: it.total,
-          }));
-          await supabaseAdmin.from('order_items').insert(itemsToInsert);
-        }
-      }
-
-      return NextResponse.json({
-        success: true,
-        orderId: newOrder.id,
-        order: newOrder,
-        message: 'Payment verified and order created successfully.',
-      });
+    // 4. Reject if no valid pre-created server order is found
+    if (!targetOrder) {
+      console.error(`Verify Payment Error: No server-persisted order found for order_id: ${order_id}, rzp_order: ${razorpay_order_id}`);
+      return NextResponse.json(
+        { success: false, message: 'Order reference not found. Payment verification failed.' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({

@@ -58,7 +58,16 @@ export async function POST(req: Request) {
     }> = [];
 
     for (const item of items) {
-      // Robust lookup by ID, Name, or Slug
+      // 1. Strict Quantity Validation: must be integer between 1 and 100
+      const qty = Number(item.quantity);
+      if (isNaN(qty) || !Number.isInteger(qty) || qty <= 0 || qty > 100) {
+        return NextResponse.json(
+          { error: `Invalid quantity (${item.quantity}) for item.` },
+          { status: 400 }
+        );
+      }
+
+      // 2. Strict Product Database Lookup using DB as authoritative source
       const prod = allProducts.find(
         (p) =>
           p.id === item.product_id ||
@@ -66,46 +75,54 @@ export async function POST(req: Request) {
           (item.slug && p.slug === item.slug)
       );
 
-      let unitPrice = item.price || 0;
-      let productImage = item.image || prod?.images[0] || '/images/pickles/hero.jpg';
-
-      if (prod) {
-        // Stock Check
-        if (prod.stock_quantity > 0 && prod.stock_quantity < item.quantity) {
-          return NextResponse.json(
-            { error: `Insufficient stock for ${prod.name}. Available: ${prod.stock_quantity}` },
-            { status: 400 }
-          );
-        }
-
-        // Determine price from variant or base price
-        if (item.weight && prod.variants) {
-          const variant = prod.variants.find((v) => v.weight === item.weight);
-          if (variant) {
-            unitPrice = variant.price;
-          } else {
-            unitPrice = prod.price;
-          }
-        } else {
-          unitPrice = prod.price;
-        }
-      } else if (!unitPrice || unitPrice <= 0) {
+      if (!prod) {
         return NextResponse.json(
-          { error: `Product "${item.product_name || item.product_id}" details invalid.` },
+          { error: `Product "${item.product_name || item.product_id}" not found in store catalog.` },
           { status: 400 }
         );
       }
 
-      const itemTotal = unitPrice * item.quantity;
+      if (!prod.is_active) {
+        return NextResponse.json(
+          { error: `Product "${prod.name}" is currently unavailable.` },
+          { status: 400 }
+        );
+      }
+
+      // Stock Check
+      if (prod.stock_quantity > 0 && prod.stock_quantity < qty) {
+        return NextResponse.json(
+          { error: `Insufficient stock for ${prod.name}. Available: ${prod.stock_quantity}` },
+          { status: 400 }
+        );
+      }
+
+      // 3. Authoritative Unit Price Determination from DB ONLY (client price strictly ignored)
+      let unitPrice = prod.price;
+      const weight = item.weight || item.variant_weight;
+
+      if (weight && prod.variants && prod.variants.length > 0) {
+        const variant = prod.variants.find((v) => v.weight === weight);
+        if (variant) {
+          unitPrice = variant.price;
+        } else {
+          return NextResponse.json(
+            { error: `Invalid variant weight "${weight}" for product "${prod.name}".` },
+            { status: 400 }
+          );
+        }
+      }
+
+      const itemTotal = unitPrice * qty;
       subtotal += itemTotal;
 
       itemsVerified.push({
-        product_id: prod?.id || item.product_id || 'prod-custom',
-        product_name: prod?.name || item.product_name || 'Homemade Pickle',
-        image: productImage,
-        weight: item.weight || prod?.weight || '250g',
+        product_id: prod.id,
+        product_name: prod.name,
+        image: prod.images[0] || item.image || '/images/pickles/hero.jpg',
+        weight: weight || prod.weight || '250g',
         price: unitPrice,
-        quantity: item.quantity,
+        quantity: qty,
       });
     }
 
