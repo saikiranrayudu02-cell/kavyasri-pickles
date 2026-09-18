@@ -168,6 +168,7 @@ export async function POST(req: Request) {
 
     // 7. CRITICAL DB PERSISTENCE FIRST: Save Pending Order & items in Supabase BEFORE Razorpay call
     const validUserId = toValidUuid(session.id);
+    console.log(`[PAYMENT_INITIATED] Initiating order placement: appOrderId=${appOrderId}, user=${validUserId}, total=₹${totalAmount}`);
     const { error: orderErr } = await supabaseAdmin.from('orders').upsert(
       {
         id: appOrderId,

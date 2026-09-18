@@ -58,6 +58,8 @@ export async function POST(req: Request) {
     const eventId = payload.event_id || `${payload.event}_${payload.created_at}`;
     const eventType = payload.event;
 
+    console.log(`[RAZORPAY_WEBHOOK_RECEIVED] Event: ${eventType}, EventID: ${eventId}`);
+
     // Idempotency check: Skip if event was already processed
     if (processedEvents.has(eventId)) {
       return NextResponse.json({ status: 'ok', note: 'Event already processed' });
@@ -89,6 +91,7 @@ export async function POST(req: Request) {
           const notes = payment.notes || {};
           const rzpOrderId = payment.order_id;
           const rzpPaymentId = payment.id;
+          const appOrderIdFromNotes = notes.app_order_id || notes.order_id;
           const customerEmail = payment.email || '';
           const rawRzpPhone = payment.contact || '';
           const normRzpPhone = normalizePhoneNumber(rawRzpPhone);
@@ -104,12 +107,17 @@ export async function POST(req: Request) {
           let orderIdToUpdate: string | null = null;
           let existingOrderTimeline: OrderTimelineItem[] = [];
 
-          // Query Supabase DB for matching order
+          // Query Supabase DB for matching order using razorpay_order_id, razorpay_payment_id, OR app_order_id notes
           if (supabaseAdmin) {
+            const searchConditions: string[] = [];
+            if (rzpOrderId) searchConditions.push(`razorpay_order_id.eq.${rzpOrderId}`);
+            if (rzpPaymentId) searchConditions.push(`razorpay_payment_id.eq.${rzpPaymentId}`);
+            if (appOrderIdFromNotes) searchConditions.push(`id.eq.${appOrderIdFromNotes}`);
+
             const { data: dbOrders } = await supabaseAdmin
               .from('orders')
               .select('*')
-              .or(`razorpay_order_id.eq.${rzpOrderId},razorpay_payment_id.eq.${rzpPaymentId}`)
+              .or(searchConditions.join(','))
               .limit(1);
 
             if (dbOrders && dbOrders.length > 0) {
@@ -156,15 +164,22 @@ export async function POST(req: Request) {
                   },
                 ];
 
-                await supabaseAdmin
+                const { error: updateErr } = await supabaseAdmin
                   .from('orders')
                   .update({
                     payment_status: 'Paid',
                     order_status: 'Confirmed',
+                    razorpay_order_id: dbOrder.razorpay_order_id || rzpOrderId,
                     razorpay_payment_id: rzpPaymentId,
                     timeline: updatedTimeline,
                   })
                   .eq('id', dbOrder.id);
+
+                if (updateErr) {
+                  console.error(`[PAYMENT_DATABASE_UPDATE_FAILED] Webhook update failed for order ${dbOrder.id}:`, updateErr.message);
+                } else {
+                  console.log(`[PAYMENT_DATABASE_UPDATE_SUCCESS] Webhook updated order ${dbOrder.id} to Paid & Confirmed`);
+                }
               }
             }
           }

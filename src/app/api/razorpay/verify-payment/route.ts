@@ -22,9 +22,12 @@ export async function POST(req: Request) {
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     const isProductionSecret = keySecret && !keySecret.includes('yourKey');
 
+    console.log(`[PAYMENT_VERIFICATION_STARTED] Verifying payment for order_id: ${order_id || 'N/A'}, rzp_order: ${razorpay_order_id}, rzp_payment: ${razorpay_payment_id}`);
+
     // 1. Cryptographic HMAC Signature Verification (Timing-Safe)
     if (isProductionSecret) {
       if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+        console.error(`[PAYMENT_VERIFICATION_FAILED] Missing required tokens for order: ${order_id}`);
         return NextResponse.json(
           { success: false, message: 'Missing required Razorpay payment response tokens.' },
           { status: 400 }
@@ -49,7 +52,7 @@ export async function POST(req: Request) {
       }
 
       if (!isValid) {
-        console.error(`Razorpay Signature Verification Failed! Order: ${razorpay_order_id}`);
+        console.error(`[PAYMENT_VERIFICATION_FAILED] Razorpay Signature Verification Failed! Order: ${razorpay_order_id}`);
         return NextResponse.json(
           { success: false, message: 'Cryptographic payment signature verification failed.' },
           { status: 400 }
@@ -172,6 +175,7 @@ export async function POST(req: Request) {
         ...targetOrder,
         payment_status: 'Paid',
         order_status: 'Confirmed',
+        razorpay_order_id: razorpay_order_id || targetOrder.razorpay_order_id,
         razorpay_payment_id: razorpay_payment_id || targetOrder.razorpay_payment_id,
         timeline: updatedTimeline,
       };
@@ -179,16 +183,28 @@ export async function POST(req: Request) {
       DataStore.saveOrder(updatedOrder);
 
       if (supabaseAdmin) {
-        await supabaseAdmin
+        const { error: dbUpdateErr } = await supabaseAdmin
           .from('orders')
           .update({
             payment_status: 'Paid',
             order_status: 'Confirmed',
+            razorpay_order_id: razorpay_order_id || targetOrder.razorpay_order_id,
             razorpay_payment_id: razorpay_payment_id || targetOrder.razorpay_payment_id,
             timeline: updatedTimeline,
           })
           .eq('id', targetOrder.id);
+
+        if (dbUpdateErr) {
+          console.error(`[PAYMENT_DATABASE_UPDATE_FAILED] Failed to update DB order ${targetOrder.id}:`, dbUpdateErr.message);
+          return NextResponse.json(
+            { success: false, message: `Database update failed: ${dbUpdateErr.message}` },
+            { status: 500 }
+          );
+        }
+        console.log(`[PAYMENT_DATABASE_UPDATE_SUCCESS] Supabase order ${targetOrder.id} marked as Paid & Confirmed`);
       }
+
+      console.log(`[PAYMENT_VERIFICATION_SUCCESS] Payment verified successfully for order ${targetOrder.id}`);
 
       return NextResponse.json({
         success: true,

@@ -45,6 +45,7 @@ export default function AdminOrdersPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [expandedOrders, setExpandedOrders] = useState<Record<string, boolean>>({});
   const [copiedOrderId, setCopiedOrderId] = useState<string | null>(null);
+  const [reconciling, setReconciling] = useState(false);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -64,6 +65,25 @@ export default function AdminOrdersPage() {
 
     setOrders(DataStore.getOrders());
     setLoading(false);
+  };
+
+  const handleReconcile = async () => {
+    setReconciling(true);
+    try {
+      const res = await fetch('/api/admin/orders/reconcile', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        showToast(data.message || 'Reconciliation completed', data.reconciled > 0 ? 'success' : 'info');
+        await loadOrders();
+      } else {
+        showToast(data.error || 'Reconciliation failed', 'error');
+      }
+    } catch (err) {
+      console.error('Reconciliation error:', err);
+      showToast('An error occurred during payment reconciliation.', 'error');
+    } finally {
+      setReconciling(false);
+    }
   };
 
   useEffect(() => {
@@ -270,6 +290,16 @@ Total Amount: ₹${order.total_amount}`;
               <span className="hidden sm:inline">Table</span>
             </button>
           </div>
+
+          <button
+            onClick={handleReconcile}
+            disabled={reconciling}
+            className="p-2.5 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 rounded-2xl text-amber-900 flex items-center gap-1.5 text-xs font-extrabold shadow-2xs active:scale-95 transition-all backdrop-blur-md disabled:opacity-50"
+            title="Reconcile pending orders against Razorpay API"
+          >
+            <RefreshCw className={`w-4 h-4 ${reconciling ? 'animate-spin' : ''}`} />
+            <span>{reconciling ? 'Reconciling...' : 'Reconcile Payments'}</span>
+          </button>
 
           <button
             onClick={loadOrders}
