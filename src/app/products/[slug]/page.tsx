@@ -24,6 +24,7 @@ import DietaryBadge from '@/components/product/DietaryBadge';
 import ProductCard from '@/components/product/ProductCard';
 import { DataStore } from '@/lib/data/store';
 import { Product, Review } from '@/lib/types';
+import { calculatePriceForWeight, calculateMrpForWeight, normalizeWeightLabel } from '@/lib/utils/pricing';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useAuth } from '@/context/AuthContext';
@@ -63,7 +64,7 @@ export default function ProductDetailPage() {
       if (found) {
         setProduct(found);
         setSelectedImage(found.images[0] || '/images/pickles/hero.jpg');
-        setSelectedWeight(found.variants?.[0]?.weight || found.weight || '250g');
+        setSelectedWeight('250g');
         setReviews(DataStore.getReviews(found.id));
       }
     }
@@ -85,9 +86,10 @@ export default function ProductDetailPage() {
     );
   }
 
-  const currentVariant = product.variants?.find((v) => v.weight === selectedWeight);
-  const currentPrice = currentVariant ? currentVariant.price : product.price;
-  const currentMrp = currentVariant ? currentVariant.mrp : product.mrp;
+  const activeWeight = normalizeWeightLabel(selectedWeight || '250g');
+  const currentVariant = product.variants?.find((v) => normalizeWeightLabel(v.weight) === activeWeight);
+  const currentPrice = calculatePriceForWeight(product.price, activeWeight);
+  const currentMrp = calculateMrpForWeight(product.mrp, activeWeight);
   const currentStock = currentVariant ? currentVariant.stock_quantity : product.stock_quantity;
   const isOutOfStock = currentStock <= 0;
   const isLowStock = currentStock > 0 && currentStock <= 15;

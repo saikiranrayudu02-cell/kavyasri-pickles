@@ -10,6 +10,7 @@ import { DataStore } from '@/lib/data/store';
 import { Product, SpiceLevel, DietaryType } from '@/lib/types';
 import { useToast } from '@/context/ToastContext';
 import { logUserActivity } from '@/lib/supabase/activity';
+import { ensureThreeVariants, calculateVariantPrices } from '@/lib/utils/pricing';
 
 export default function EditProductPage() {
   const params = useParams();
@@ -168,6 +169,7 @@ export default function EditProductPage() {
     const cat = categories.find((c) => c.id === categoryId);
 
     const discountPercent = mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0;
+    const variants = ensureThreeVariants(product.id, price, mrp, stockQuantity);
 
     const updated: Product = {
       ...product,
@@ -187,6 +189,7 @@ export default function EditProductPage() {
       images: [imageUrl, ...(product.images.slice(1) || [])],
       is_featured: isFeatured,
       is_active: isActive,
+      variants,
     };
 
     DataStore.saveProduct(updated);
@@ -411,7 +414,7 @@ export default function EditProductPage() {
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1.5">Price (₹)</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">1 KG Base Price (₹) *</label>
                 <input
                   type="number"
                   value={price}
@@ -421,7 +424,7 @@ export default function EditProductPage() {
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-stone-700 block mb-1.5">MRP (₹)</label>
+                <label className="text-xs font-semibold text-stone-700 block mb-1.5">1 KG Base MRP (₹)</label>
                 <input
                   type="number"
                   value={mrp}
@@ -438,6 +441,30 @@ export default function EditProductPage() {
                   onChange={(e) => setStockQuantity(Number(e.target.value))}
                   className="w-full px-3.5 py-2.5 text-xs rounded-2xl border border-stone-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#166534]/30 font-bold text-stone-900"
                 />
+              </div>
+            </div>
+
+            {/* Auto-Calculated Weight Variants Preview */}
+            <div className="bg-stone-50/80 p-4 rounded-2xl border border-stone-200/60 space-y-2.5">
+              <span className="text-xs font-bold text-stone-900 block border-b border-stone-200/50 pb-1.5">
+                ⚖️ Auto-Calculated Weight Variant Pricing
+              </span>
+              <div className="grid grid-cols-3 gap-3 text-xs">
+                <div className="bg-white p-3 rounded-xl border border-stone-200 text-center">
+                  <span className="text-[10px] uppercase font-bold text-stone-400 block">250g Jar (25%)</span>
+                  <span className="font-extrabold text-[#166534] text-sm">₹{calculateVariantPrices(price, mrp).price250g}</span>
+                  <span className="text-[10px] text-stone-400 block line-through">MRP: ₹{calculateVariantPrices(price, mrp).mrp250g}</span>
+                </div>
+                <div className="bg-white p-3 rounded-xl border border-stone-200 text-center">
+                  <span className="text-[10px] uppercase font-bold text-stone-400 block">500g Jar (50%)</span>
+                  <span className="font-extrabold text-[#166534] text-sm">₹{calculateVariantPrices(price, mrp).price500g}</span>
+                  <span className="text-[10px] text-stone-400 block line-through">MRP: ₹{calculateVariantPrices(price, mrp).mrp500g}</span>
+                </div>
+                <div className="bg-white p-3 rounded-xl border-2 border-[#166534] text-center shadow-2xs">
+                  <span className="text-[10px] uppercase font-bold text-[#166534] block">1 KG Jar (Base)</span>
+                  <span className="font-extrabold text-[#166534] text-sm">₹{calculateVariantPrices(price, mrp).price1kg}</span>
+                  <span className="text-[10px] text-stone-400 block line-through">MRP: ₹{calculateVariantPrices(price, mrp).mrp1kg}</span>
+                </div>
               </div>
             </div>
 

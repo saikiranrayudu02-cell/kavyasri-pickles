@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, CartItem, Coupon, StoreSettings } from '@/lib/types';
 import { DataStore } from '@/lib/data/store';
+import { calculatePriceForWeight, calculateMrpForWeight, normalizeWeightLabel } from '@/lib/utils/pricing';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
 
@@ -201,11 +202,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const selectedWeight = variantWeight || product.weight || '250g';
-    const variant = product.variants?.find((v) => v.weight === selectedWeight);
-    const price = variant ? variant.price : product.price;
-    const mrp = variant ? variant.mrp : product.mrp;
-    const maxStock = variant ? variant.stock_quantity : product.stock_quantity;
+    const selectedWeight = normalizeWeightLabel(variantWeight || product.weight || '250g');
+    const variant = product.variants?.find((v) => normalizeWeightLabel(v.weight) === selectedWeight);
+
+    // Calculate variant price from 1 KG base price
+    const basePrice = Number(product.price || 0);
+    const baseMrp = Number(product.mrp || basePrice);
+    const price = calculatePriceForWeight(basePrice, selectedWeight);
+    const mrp = calculateMrpForWeight(baseMrp, selectedWeight);
+    const maxStock = Number(product.stock_quantity || 50);
 
     if (maxStock <= 0) {
       showToast(`${product.name} is currently out of stock!`, 'error');
@@ -231,7 +236,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const newItem: CartItem = {
           id: cartItemId,
           product_id: product.id,
-          variant_id: variant?.id,
+          variant_id: variant?.id || `var-${product.id}-${selectedWeight}`,
           product_name: product.name,
           slug: product.slug,
           image: product.images[0] || '/images/pickles/hero.jpg',
@@ -260,11 +265,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return null;
     }
 
-    const selectedWeight = variantWeight || product.weight || '250g';
-    const variant = product.variants?.find((v) => v.weight === selectedWeight);
-    const price = variant ? variant.price : product.price;
-    const mrp = variant ? variant.mrp : product.mrp;
-    const maxStock = variant ? variant.stock_quantity : product.stock_quantity;
+    const selectedWeight = normalizeWeightLabel(variantWeight || product.weight || '250g');
+    const variant = product.variants?.find((v) => normalizeWeightLabel(v.weight) === selectedWeight);
+
+    const basePrice = Number(product.price || 0);
+    const baseMrp = Number(product.mrp || basePrice);
+    const price = calculatePriceForWeight(basePrice, selectedWeight);
+    const mrp = calculateMrpForWeight(baseMrp, selectedWeight);
+    const maxStock = Number(product.stock_quantity || 50);
 
     if (maxStock <= 0) {
       showToast(`${product.name} is currently out of stock!`, 'error');
@@ -274,7 +282,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const buyItem: CartItem = {
       id: `buynow-${product.id}-${selectedWeight}`,
       product_id: product.id,
-      variant_id: variant?.id,
+      variant_id: variant?.id || `var-${product.id}-${selectedWeight}`,
       product_name: product.name,
       slug: product.slug,
       image: product.images[0] || '/images/pickles/hero.jpg',

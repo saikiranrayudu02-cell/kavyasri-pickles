@@ -82,12 +82,13 @@ let memoryStore = {
   flashUpdates: [...INITIAL_FLASH_UPDATES],
 };
 
+import { ensureThreeVariants } from '../utils/pricing';
+
 export const DataStore = {
-  // PRODUCTS
   // PRODUCTS
   getProducts(): Product[] {
     const stored = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
-    // Deduplicate strictly by ID and Slug
+    // Deduplicate strictly by ID and Slug, and ensure all 3 variants exist
     const seenIds = new Set<string>();
     const seenSlugs = new Set<string>();
     const uniqueList: Product[] = [];
@@ -96,7 +97,18 @@ export const DataStore = {
       if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
         seenIds.add(p.id);
         seenSlugs.add(p.slug);
-        uniqueList.push(p);
+
+        const basePrice = Number(p.price || 0);
+        const baseMrp = Number(p.mrp || basePrice);
+        const stockQty = Number(p.stock_quantity || 50);
+        const variants = ensureThreeVariants(p.id, basePrice, baseMrp, stockQty);
+
+        uniqueList.push({
+          ...p,
+          price: basePrice,
+          mrp: baseMrp,
+          variants,
+        });
       }
     }
 
@@ -119,6 +131,10 @@ export const DataStore = {
           const mapped: Product[] = dbProducts.map((p) => {
             const catId = normalizeCategoryId(p.category_id);
             const catName = normalizeCategoryName(p.category_id, p.category_name);
+            const basePrice = Number(p.price || 0);
+            const baseMrp = Number(p.mrp || basePrice);
+            const stockQty = Number(p.stock_quantity || 0);
+
             return {
               id: p.id,
               category_id: catId,
@@ -127,11 +143,11 @@ export const DataStore = {
               slug: p.slug,
               short_description: p.short_description || '',
               description: p.description || '',
-              price: Number(p.price),
-              mrp: Number(p.mrp),
+              price: basePrice,
+              mrp: baseMrp,
               discount_percent: Number(p.discount_percent || 0),
-              weight: p.weight || '250g',
-              stock_quantity: Number(p.stock_quantity || 0),
+              weight: '1 KG',
+              stock_quantity: stockQty,
               sku: p.sku || '',
               spice_level: p.spice_level || 'Hot',
               dietary: p.dietary || 'veg',
@@ -143,9 +159,7 @@ export const DataStore = {
               is_active: Boolean(p.is_active),
               rating: Number(p.rating || 4.8),
               reviews_count: Number(p.reviews_count || 0),
-              variants: [
-                { id: `var-${p.id}-250`, product_id: p.id, weight: '250g', price: Number(p.price), mrp: Number(p.mrp), stock_quantity: Number(p.stock_quantity || 0) },
-              ],
+              variants: ensureThreeVariants(p.id, basePrice, baseMrp, stockQty),
               created_at: p.created_at,
             };
           });

@@ -14,6 +14,8 @@ import SpiceMeter from './SpiceMeter';
 import DietaryBadge from './DietaryBadge';
 import { ShineBorder } from '@/components/ui/shine-border';
 
+import { calculatePriceForWeight, calculateMrpForWeight, normalizeWeightLabel } from '@/lib/utils/pricing';
+
 interface ProductCardProps {
   product: Product;
 }
@@ -25,14 +27,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart, startBuyNow } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  // Selected weight state (defaults to first variant or product weight)
-  const [selectedWeight, setSelectedWeight] = useState<string>(
-    product.variants?.[0]?.weight || product.weight || '250g'
-  );
+  // Selected weight state (defaults to 250g)
+  const [selectedWeight, setSelectedWeight] = useState<string>('250g');
 
-  const currentVariant = product.variants?.find((v) => v.weight === selectedWeight);
-  const currentPrice = currentVariant ? currentVariant.price : product.price;
-  const currentMrp = currentVariant ? currentVariant.mrp : product.mrp;
+  const activeWeight = normalizeWeightLabel(selectedWeight);
+  const currentVariant = product.variants?.find((v) => normalizeWeightLabel(v.weight) === activeWeight);
+  const currentPrice = calculatePriceForWeight(product.price, activeWeight);
+  const currentMrp = calculateMrpForWeight(product.mrp, activeWeight);
   const currentStock = currentVariant ? currentVariant.stock_quantity : product.stock_quantity;
   const isOutOfStock = currentStock <= 0;
   const isLowStock = currentStock > 0 && currentStock <= 15;

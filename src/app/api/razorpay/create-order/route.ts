@@ -5,7 +5,7 @@ import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { Order } from '@/lib/types';
 import { normalizePhoneNumber } from '@/lib/utils/phone';
 import { toValidUuid } from '@/lib/utils/uuid';
-
+import { calculatePriceForWeight, normalizeWeightLabel } from '@/lib/utils/pricing';
 import { getAuthSession } from '@/lib/auth/session';
 
 export async function POST(req: Request) {
@@ -98,20 +98,12 @@ export async function POST(req: Request) {
       }
 
       // 3. Authoritative Unit Price Determination from DB ONLY (client price strictly ignored)
-      let unitPrice = prod.price;
-      const weight = item.weight || item.variant_weight;
+      const rawWeight = item.weight || item.variant_weight || '250g';
+      const normalizedWeight = normalizeWeightLabel(rawWeight);
 
-      if (weight && prod.variants && prod.variants.length > 0) {
-        const variant = prod.variants.find((v) => v.weight === weight);
-        if (variant) {
-          unitPrice = variant.price;
-        } else {
-          return NextResponse.json(
-            { error: `Invalid variant weight "${weight}" for product "${prod.name}".` },
-            { status: 400 }
-          );
-        }
-      }
+      // prod.price is authoritative 1 KG base price from database
+      const base1KgPrice = Number(prod.price || 0);
+      const unitPrice = calculatePriceForWeight(base1KgPrice, normalizedWeight);
 
       const itemTotal = unitPrice * qty;
       subtotal += itemTotal;
@@ -120,7 +112,7 @@ export async function POST(req: Request) {
         product_id: prod.id,
         product_name: prod.name,
         image: prod.images[0] || item.image || '/images/pickles/hero.jpg',
-        weight: weight || prod.weight || '250g',
+        weight: normalizedWeight,
         price: unitPrice,
         quantity: qty,
       });
