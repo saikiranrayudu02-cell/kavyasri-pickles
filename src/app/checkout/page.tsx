@@ -324,6 +324,12 @@ function CheckoutContent() {
       }
 
       if (paymentMethod === 'cod') {
+        if (!storeSettings.enable_cod) {
+          showToast('Cash on Delivery is disabled by admin. Please select Online Payment.', 'error');
+          setPaymentMethod('razorpay');
+          setIsProcessing(false);
+          return;
+        }
         finalizeOrder('COD_PENDING', 'order_cod_' + Date.now(), orderData.totals);
         return;
       }
@@ -609,30 +615,39 @@ function CheckoutContent() {
                     <CreditCard className="w-5 h-5 text-[#9e1b1e]" />
                   </label>
 
-                  <label
-                    className={`flex items-center justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                      paymentMethod === 'cod'
-                        ? 'border-[#9e1b1e] bg-red-50/50 shadow-2xs'
-                        : 'border-stone-200 hover:border-stone-300'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="payment"
-                        checked={paymentMethod === 'cod'}
-                        onChange={() => setPaymentMethod('cod')}
-                        className="accent-[#9e1b1e] w-4 h-4"
-                      />
-                      <div>
-                        <div className="font-bold text-xs text-stone-900">Cash on Delivery (COD)</div>
-                        <p className="text-[11px] text-stone-500 mt-0.5">
-                          Pay cash or UPI directly to courier delivery executive at doorstep.
-                        </p>
+                  {storeSettings.enable_cod ? (
+                    <label
+                      className={`flex items-center justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                        paymentMethod === 'cod'
+                          ? 'border-[#9e1b1e] bg-red-50/50 shadow-2xs'
+                          : 'border-stone-200 hover:border-stone-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="payment"
+                          checked={paymentMethod === 'cod'}
+                          onChange={() => setPaymentMethod('cod')}
+                          className="accent-[#9e1b1e] w-4 h-4"
+                        />
+                        <div>
+                          <div className="font-bold text-xs text-stone-900">Cash on Delivery (COD)</div>
+                          <p className="text-[11px] text-stone-500 mt-0.5">
+                            Pay cash or UPI directly to courier delivery executive at doorstep.
+                          </p>
+                        </div>
                       </div>
+                      <Truck className="w-5 h-5 text-stone-400" />
+                    </label>
+                  ) : (
+                    <div className="p-3.5 rounded-2xl bg-stone-100/80 border border-stone-200 text-xs text-stone-500 flex items-center justify-between">
+                      <span className="font-medium">Cash on Delivery (COD) is currently unavailable.</span>
+                      <span className="text-[10px] font-extrabold bg-stone-200 text-stone-600 px-2 py-0.5 rounded-md">
+                        Prepaid Only
+                      </span>
                     </div>
-                    <Truck className="w-5 h-5 text-stone-400" />
-                  </label>
+                  )}
                 </div>
               </div>
             </div>

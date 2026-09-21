@@ -33,13 +33,29 @@ export async function GET(req: Request) {
       return NextResponse.json({ orders: [] });
     }
 
-    const orderIds = dbOrders.map((o) => o.id);
+    // Filter out abandoned/uncompleted online payment attempts:
+    // Only return orders that are Paid, COD, or have progressed beyond 'Pending' order status
+    const validDbOrders = dbOrders.filter((o) => {
+      const isPaid = o.payment_status === 'Paid';
+      const isCod =
+        o.payment_method === 'COD' ||
+        o.payment_method === 'cod' ||
+        (o.payment_method && o.payment_method.toLowerCase().includes('cod'));
+      const isProcessed = o.order_status && o.order_status !== 'Pending';
+      return isPaid || isCod || isProcessed;
+    });
+
+    if (validDbOrders.length === 0) {
+      return NextResponse.json({ orders: [] });
+    }
+
+    const orderIds = validDbOrders.map((o) => o.id);
     const { data: dbItems } = await supabaseAdmin
       .from('order_items')
       .select('*')
       .in('order_id', orderIds);
 
-    const mappedOrders: Order[] = dbOrders.map((o) => ({
+    const mappedOrders: Order[] = validDbOrders.map((o) => ({
       ...o,
       items: (dbItems || [])
         .filter((item) => item.order_id === o.id)

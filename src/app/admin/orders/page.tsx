@@ -63,7 +63,16 @@ export default function AdminOrdersPage() {
       console.error('Error fetching admin orders API:', err);
     }
 
-    setOrders(DataStore.getOrders());
+    const fallbackOrders = DataStore.getOrders().filter((o) => {
+      const isPaid = o.payment_status === 'Paid';
+      const isCod =
+        o.payment_method === 'COD' ||
+        o.payment_method === 'cod' ||
+        (o.payment_method && o.payment_method.toLowerCase().includes('cod'));
+      const isProcessed = o.order_status && o.order_status !== 'Pending';
+      return isPaid || isCod || isProcessed;
+    });
+    setOrders(fallbackOrders);
     setLoading(false);
   };
 
