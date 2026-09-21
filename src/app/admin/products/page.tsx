@@ -25,12 +25,15 @@ import { logUserActivity } from '@/lib/supabase/activity';
 export default function AdminProductsPage() {
   const { showToast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   const loadProducts = async () => {
     setLoading(true);
+    const syncedCats = await DataStore.syncCategoriesFromSupabase();
+    setCategories(syncedCats || []);
     const synced = await DataStore.syncProductsFromSupabase();
     setProducts(synced);
     setLoading(false);
@@ -39,6 +42,34 @@ export default function AdminProductsPage() {
   useEffect(() => {
     loadProducts();
   }, []);
+
+  const categoryOptions = React.useMemo(() => {
+    const list: { key: string; name: string }[] = [];
+    const addedNames = new Set<string>();
+
+    const addCategory = (key: string, name: string) => {
+      if (!name) return;
+      const normalizedName = name.trim().toLowerCase();
+      if (!addedNames.has(normalizedName)) {
+        addedNames.add(normalizedName);
+        list.push({ key, name: name.trim() });
+      }
+    };
+
+    categories.forEach((c) => {
+      if (c && c.name) addCategory(c.id || c.slug, c.name);
+    });
+
+    products.forEach((p) => {
+      if (p.category_name) {
+        addCategory(p.category_id || p.category_name, p.category_name);
+      } else if (p.category_id) {
+        addCategory(p.category_id, p.category_id);
+      }
+    });
+
+    return list;
+  }, [categories, products]);
 
   const handleToggleActive = async (product: Product) => {
     const updated = { ...product, is_active: !product.is_active };
@@ -82,10 +113,30 @@ export default function AdminProductsPage() {
   };
 
   const filtered = products.filter((p) => {
-    if (categoryFilter !== 'all' && p.category_id !== categoryFilter) return false;
+    if (categoryFilter !== 'all') {
+      const selectedOption = categoryOptions.find((opt) => opt.key === categoryFilter);
+      const filterName = selectedOption ? selectedOption.name.toLowerCase() : categoryFilter.toLowerCase();
+      const filterKey = categoryFilter.toLowerCase();
+
+      const prodCatId = (p.category_id || '').toLowerCase();
+      const prodCatName = (p.category_name || '').toLowerCase();
+
+      const matches =
+        prodCatId === filterKey ||
+        prodCatName === filterKey ||
+        prodCatName === filterName ||
+        (filterKey.includes('papad') && (prodCatId.includes('papad') || prodCatName.includes('papad'))) ||
+        (filterName.includes('papad') && (prodCatId.includes('papad') || prodCatName.includes('papad')));
+
+      if (!matches) return false;
+    }
     if (search.trim()) {
       const q = search.toLowerCase();
-      return p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q);
+      return (
+        p.name.toLowerCase().includes(q) ||
+        p.sku.toLowerCase().includes(q) ||
+        (p.category_name && p.category_name.toLowerCase().includes(q))
+      );
     }
     return true;
   });
@@ -130,14 +181,14 @@ export default function AdminProductsPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-white/90 border border-stone-200 rounded-xl px-3.5 py-2 text-xs font-extrabold text-stone-800 focus:outline-none shadow-2xs"
+            className="bg-white/90 border border-stone-200 rounded-xl px-3.5 py-2 text-xs font-extrabold text-stone-800 focus:outline-none shadow-2xs cursor-pointer hover:border-stone-300"
           >
-            <option value="all">All Categories</option>
-            <option value="cat-veg">Traditional Veg</option>
-            <option value="cat-nonveg">Authentic Non-Veg</option>
-            <option value="cat-andhra">Spicy Andhra</option>
-            <option value="cat-seasonal">Seasonal Specials</option>
-            <option value="cat-combos">Combo Packs</option>
+            <option value="all">All Categories ({products.length})</option>
+            {categoryOptions.map((cat) => (
+              <option key={cat.key} value={cat.key}>
+                {cat.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
