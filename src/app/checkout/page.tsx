@@ -349,8 +349,16 @@ function CheckoutContent() {
           name: 'Kavyasri Pickles',
           description: 'Authentic Homemade Pickles & Spices',
           order_id: orderData.id,
+          prefill: {
+            name: fullName,
+            email: email,
+            contact: rzpContact || normalizedPhone,
+          },
           remember_customer: false,
           notes: {
+            customer_name: fullName,
+            customer_email: email,
+            customer_phone: normalizedPhone,
             shipping_address: `${addressLine1}, ${city}, ${state} - ${pincode}`,
           },
           theme: { color: '#9e1b1e' },
