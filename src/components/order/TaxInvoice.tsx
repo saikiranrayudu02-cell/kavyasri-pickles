@@ -38,10 +38,10 @@ export default function TaxInvoice({ order, showAdminActions, onStatusUpdate }: 
   const storeInfo = {
     name: 'Kavyasri Pickles',
     tagline: 'TRADITIONAL TASTE • HOMEMADE LOVE',
-    address: 'Plot 42, Heritage Kitchens, Near RTC Colony, Kothapet',
+    address: 'Kavya Sri Pickles, Near Bustand, Pedavegi, Pedavegi Mandal',
     city: 'ELURU',
-    state: 'ANDHRAPRADESH',
-    pincode: '534001',
+    state: 'ANDHRA PRADESH',
+    pincode: '534435',
     phone: '+91 91234 56789',
     email: 'kavyasripickles@gmail.com',
     fssai: '13624014000189',
