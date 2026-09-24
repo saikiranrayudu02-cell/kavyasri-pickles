@@ -42,7 +42,7 @@ export default function TaxInvoice({ order, showAdminActions, onStatusUpdate }: 
     city: 'ELURU',
     state: 'ANDHRA PRADESH',
     pincode: '534435',
-    phone: '+91 91234 56789',
+    phone: '+91 97052 22744',
     email: 'kavyasripickles@gmail.com',
     fssai: '13624014000189',
     gstin: '36AAECK1294F1Z3',
