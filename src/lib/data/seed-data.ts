@@ -1571,6 +1571,69 @@ export const INITIAL_PRODUCTS: Product[] = [
     "created_at": "2026-09-01T10:00:00Z"
   },
   {
+    "id": "prod-prawns-boneless",
+    "category_id": "cat-nonveg",
+    "category_name": "Authentic Non-Veg Pickles",
+    "name": "Prawns Boneless Pickle",
+    "slug": "prawns-boneless-pickle",
+    "short_description": "Fresh succulent ocean prawns crisp-fried and simmered in spicy Andhra aromatic masala oil.",
+    "description": "Hand-cleaned fresh ocean prawns crisp-fried in cold-pressed oil, infused with roasted garlic, Guntur red chilli, lemon juice, fenugreek, and traditional secret spices for a heavenly seafood delicacy.",
+    "price": 1200,
+    "mrp": 1499,
+    "discount_percent": 20,
+    "weight": "1kg",
+    "stock_quantity": 45,
+    "sku": "KP-PRW-BL-1KG",
+    "spice_level": "Hot",
+    "dietary": "non-veg",
+    "shelf_life": "6 Months",
+    "storage_instructions": "Refrigeration recommended after opening. Always use a dry spoon.",
+    "ingredients": [
+      "Fresh Ocean Prawns",
+      "Cold-Pressed Sesame Oil",
+      "Red Chilli Powder",
+      "Roasted Garlic",
+      "Ginger",
+      "Lemon Juice",
+      "Garam Masala",
+      "Sea Salt"
+    ],
+    "images": [
+      "/images/pickles/prawns_boneless.jpg"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "rating": 4.9,
+    "reviews_count": 112,
+    "variants": [
+      {
+        "id": "var-prw-bl-1kg",
+        "product_id": "prod-prawns-boneless",
+        "weight": "1kg",
+        "price": 1200,
+        "mrp": 1499,
+        "stock_quantity": 45
+      },
+      {
+        "id": "var-prw-bl-500g",
+        "product_id": "prod-prawns-boneless",
+        "weight": "500g",
+        "price": 600,
+        "mrp": 750,
+        "stock_quantity": 30
+      },
+      {
+        "id": "var-prw-bl-250g",
+        "product_id": "prod-prawns-boneless",
+        "weight": "250g",
+        "price": 300,
+        "mrp": 375,
+        "stock_quantity": 15
+      }
+    ],
+    "created_at": "2026-09-01T10:00:00Z"
+  },
+  {
     "id": "32810da2-382f-469f-b634-3003e1733f04",
     "category_id": "cat-veg",
     "category_name": "Veg Pickles",
