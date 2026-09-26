@@ -12,7 +12,7 @@ import {
 } from './seed-data';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'kp_products_v14',
+  PRODUCTS: 'kp_products_v15',
   CATEGORIES: 'kp_categories_v14',
   ORDERS: 'kp_orders_v1',
   COUPONS: 'kp_coupons_v1',
@@ -88,12 +88,20 @@ export const DataStore = {
   // PRODUCTS
   getProducts(): Product[] {
     const stored = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, memoryStore.products);
+    // Combine stored items with INITIAL_PRODUCTS to guarantee new seed items are never missing
+    const combined = [...stored];
+    for (const initP of INITIAL_PRODUCTS) {
+      if (!combined.some((p) => p.id === initP.id || p.slug === initP.slug)) {
+        combined.push(initP);
+      }
+    }
+
     // Deduplicate strictly by ID and Slug, and ensure all 3 variants exist
     const seenIds = new Set<string>();
     const seenSlugs = new Set<string>();
     const uniqueList: Product[] = [];
 
-    for (const p of stored) {
+    for (const p of combined) {
       if (!seenIds.has(p.id) && !seenSlugs.has(p.slug)) {
         seenIds.add(p.id);
         seenSlugs.add(p.slug);
