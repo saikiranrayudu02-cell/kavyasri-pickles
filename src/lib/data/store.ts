@@ -185,6 +185,15 @@ export const DataStore = {
             }
           }
 
+          // Auto-merge any INITIAL_PRODUCTS (like Prawns Boneless Pickle) missing from database
+          for (const initP of INITIAL_PRODUCTS) {
+            if (!seenIds.has(initP.id) && !seenSlugs.has(initP.slug)) {
+              seenIds.add(initP.id);
+              seenSlugs.add(initP.slug);
+              dbUniqueList.push(initP);
+            }
+          }
+
           setStored(STORAGE_KEYS.PRODUCTS, dbUniqueList);
           memoryStore.products = dbUniqueList;
           return dbUniqueList;
