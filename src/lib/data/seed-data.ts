@@ -1633,46 +1633,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     ],
     "created_at": "2026-09-01T10:00:00Z"
   },
-  {
-    "id": "32810da2-382f-469f-b634-3003e1733f04",
-    "category_id": "cat-veg",
-    "category_name": "Veg Pickles",
-    "name": "Sample Product",
-    "slug": "sample-product",
-    "short_description": "Sample Product created for evaluation and trial orders.",
-    "description": "Authentic Sample Jar created for tasting, trial orders, and checkout verification.",
-    "price": 1,
-    "mrp": 100,
-    "discount_percent": 99,
-    "weight": "250g",
-    "stock_quantity": 50,
-    "sku": "KP-SMP-001",
-    "spice_level": "Medium",
-    "dietary": "veg",
-    "shelf_life": "12 Months",
-    "storage_instructions": "Store in a cool dry place.",
-    "ingredients": [
-      "Homemade Ingredients"
-    ],
-    "images": [
-      "/images/pickles/hero.jpg"
-    ],
-    "is_featured": true,
-    "is_active": true,
-    "rating": 5.0,
-    "reviews_count": 1,
-    "variants": [
-      {
-        "id": "var-smp-250g",
-        "product_id": "32810da2-382f-469f-b634-3003e1733f04",
-        "weight": "250g",
-        "price": 1,
-        "mrp": 100,
-        "stock_quantity": 50
-      }
-    ],
-    "created_at": "2026-09-14T10:00:00Z"
-  },
 {
   "id": "prod-idly-karam",
   "category_id": "cat-spices",
